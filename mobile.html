@@ -15,6 +15,7 @@
     body{margin:0;font-family:var(--font);color:var(--text);background:var(--bg)}
     a{color:inherit}
     .wrap{max-width:1180px;margin:0 auto;padding:24px}
+
     header{
       position:sticky;top:0;z-index:20;
       background:rgba(255,255,255,.92);
@@ -35,15 +36,38 @@
     h1{margin:0;font-size:22px;letter-spacing:.2px}
     .sub{margin:6px 0 0;color:var(--muted);line-height:1.4}
 
-    .controls{margin-top:14px;display:grid;grid-template-columns: 1.1fr .8fr .8fr .8fr 1fr;gap:10px}
-    .field label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}
-    select,input{
+    /* Controls */
+    .controls{margin-top:14px;display:grid;grid-template-columns: 1.1fr 1fr;gap:12px}
+    @media (max-width: 980px){ .controls{grid-template-columns:1fr} }
+
+    .field label{display:flex;justify-content:space-between;gap:12px;align-items:baseline;font-size:12px;color:var(--muted);margin-bottom:8px}
+    .field .val{color:#334155;font-weight:800}
+    select{
       width:100%;padding:10px 12px;border-radius:12px;border:1px solid var(--line);
       background:#fff;color:var(--text);outline:none;
     }
-    select:focus,input:focus{border-color:#c4b5fd;box-shadow:0 0 0 4px rgba(124,58,237,.12)}
+    select:focus{border-color:#c4b5fd;box-shadow:0 0 0 4px rgba(124,58,237,.12)}
 
-    .pillRow{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+    .slider{
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:12px;
+      background:#fff;
+    }
+    .slider .row{
+      display:flex;justify-content:space-between;align-items:center;gap:10px;
+      margin-bottom:8px;
+      color:var(--muted);
+      font-size:12px;
+    }
+    .slider .row strong{color:#334155}
+    input[type="range"]{
+      width:100%;
+      accent-color: var(--accent);
+    }
+    .hint{margin-top:6px;font-size:12px;color:var(--muted);line-height:1.3}
+
+    .pillRow{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
     .pill{font-size:12px;padding:7px 10px;border-radius:999px;border:1px solid var(--line);background:#fff;color:#334155;cursor:pointer;user-select:none}
     .pill[data-active="true"]{border-color:rgba(124,58,237,.35);background:rgba(124,58,237,.08);color:#4c1d95}
 
@@ -51,16 +75,19 @@
     .stat{border:1px solid var(--line);border-radius:14px;padding:12px;background:#fff}
     .stat .k{font-size:12px;color:var(--muted)}
     .stat .v{font-size:18px;font-weight:700;margin-top:4px}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;}
 
+    /* Cards grid */
     .grid{display:grid;grid-template-columns: repeat(3, 1fr);gap:14px;margin:18px 0 26px}
-    @media (max-width: 980px){
-      .hero{grid-template-columns:1fr}
-      .controls{grid-template-columns:1fr}
-      .grid{grid-template-columns:1fr}
-    }
+    @media (max-width: 980px){ .hero{grid-template-columns:1fr} .grid{grid-template-columns:1fr} }
 
     .card{border:1px solid var(--line);border-radius:var(--radius);background:#fff;box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column;min-height: 250px}
-    .cardHead{padding:14px 14px 10px;display:flex;align-items:flex-start;justify-content:space-between;gap:10px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#ffffff, #fbfdff)}
+    .cardHead{
+      padding:14px 14px 10px;
+      display:flex;align-items:flex-start;justify-content:space-between;gap:10px;
+      border-bottom:1px solid var(--line);
+      background:linear-gradient(180deg,#ffffff, #fbfdff);
+    }
     .op{display:flex;gap:10px;align-items:center}
     .opBadge{width:40px;height:40px;border-radius:14px;display:grid;place-items:center;background:#0b1220;color:#fff;font-weight:800;letter-spacing:.6px}
     .opMeta .name{font-weight:800}
@@ -70,20 +97,34 @@
     .price .pm{font-size:12px;color:var(--muted);margin-top:2px}
 
     .cardBody{padding:12px 14px 0;display:grid;gap:10px}
-    .features{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-    @media (max-width: 980px){
-      .features{grid-template-columns:repeat(2,1fr)}
-    }
+    .row3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+    @media (max-width: 980px){ .row3{grid-template-columns:1fr} }
+
     .feat{border:1px solid var(--line);border-radius:14px;padding:10px;background:#fff}
     .feat .k{font-size:11px;color:var(--muted)}
     .feat .v{font-size:14px;font-weight:800;margin-top:4px}
 
-    .badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:2px}
+    .metaLine{
+      display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;
+      gap:10px;
+      margin-top:2px;
+    }
+    .badges{display:flex;flex-wrap:wrap;gap:8px}
     .b{font-size:12px;padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:#fff;color:#334155}
     .b.operatorattack{border-color:rgba(245,158,11,.35);background:rgba(245,158,11,.10);color:#92400e}
     .b.nuovonumero{border-color:rgba(6,182,212,.35);background:rgba(6,182,212,.10);color:#155e75}
     .b.prezzo{border-color:rgba(22,163,74,.35);background:rgba(22,163,74,.10);color:#166534}
     .b.notvalid{border-color:rgba(239,68,68,.35);background:rgba(239,68,68,.08);color:#991b1b}
+    .net{
+      font-size:12px;
+      color:var(--muted);
+      border:1px solid var(--line);
+      background:#fff;
+      padding:6px 10px;
+      border-radius:999px;
+      white-space:nowrap;
+    }
+    .net strong{color:#334155}
 
     .elig{margin-top:2px;font-size:12px;color:#334155;padding:10px 12px;border-radius:14px;border:1px dashed rgba(124,58,237,.35);background:rgba(124,58,237,.06);line-height:1.35}
 
@@ -117,49 +158,66 @@
 <main class="wrap">
   <section class="hero">
     <div class="heroCard">
-      <h1>Trova l’offerta giusta in base alla provenienza</h1>
-      <p class="sub">
-        Filtra per provenienza (Operator Attack), poi applica i filtri su prezzo, Giga e velocità.
-      </p>
+      <h1>Comparatore con slider (prezzo, data, velocità)</h1>
+      <p class="sub">Seleziona la provenienza e regola gli slider. Filtri “range” = più semplice e più “wow”.</p>
 
       <div class="controls">
         <div class="field">
-          <label>Provenienza</label>
+          <label><span>Provenienza</span><span class="val" id="fromLabel">—</span></label>
           <select id="fromOperator"></select>
+
+          <div class="pillRow">
+            <div class="pill" data-pill="show_ineligible" data-active="false">Mostra non valide</div>
+            <div class="pill" data-pill="include_nd" data-active="true">Includi ND (velocità)</div>
+            <div class="pill" data-pill="reset" data-active="false">Reset</div>
+          </div>
         </div>
 
         <div class="field">
-          <label>Prezzo max (€/mese)</label>
-          <input id="maxPrice" type="number" step="0.01" min="0" placeholder="es. 7.99"/>
-        </div>
+          <div class="slider">
+            <div class="row">
+              <span>Prezzo max</span>
+              <strong id="priceMaxLabel">—</strong>
+            </div>
+            <input id="priceMax" type="range" min="0" max="20" step="0.5" value="10">
+            <div class="hint">Mostra solo offerte con prezzo ≤ valore selezionato.</div>
+          </div>
 
-        <div class="field">
-          <label>Data min (GB Italia)</label>
-          <input id="minData" type="number" step="1" min="0" placeholder="es. 150"/>
-        </div>
+          <div style="height:10px"></div>
 
-        <div class="field">
-          <label>Vitesse min (Mbps ↓)</label>
-          <input id="minSpeed" type="number" step="1" min="0" placeholder="es. 100"/>
-        </div>
+          <div class="slider">
+            <div class="row">
+              <span>Data min (Italia)</span>
+              <strong id="dataMinLabel">—</strong>
+            </div>
+            <input id="dataMin" type="range" min="0" max="500" step="10" value="0">
+            <div class="hint">Mostra solo offerte con Giga Italia ≥ valore selezionato.</div>
+          </div>
 
-        <div class="field">
-          <label>Ordina per</label>
-          <select id="sortBy">
-            <option value="best">Consigliati</option>
-            <option value="price_asc">Prezzo (crescente)</option>
-            <option value="data_desc">Giga Italia (decrescente)</option>
-            <option value="speed_down_desc">Velocità down (decrescente)</option>
-            <option value="speed_up_desc">Velocità up (decrescente)</option>
-          </select>
-        </div>
-      </div>
+          <div style="height:10px"></div>
 
-      <div class="pillRow">
-        <div class="pill" data-pill="show_ineligible" data-active="false">Mostra non valide (grigio)</div>
-        <div class="pill" data-pill="only_operator_attack" data-active="false">Solo Operator Attack</div>
-        <div class="pill" data-pill="only_nuovo_numero" data-active="false">Solo Nuovo Numero</div>
-        <div class="pill" data-pill="reset" data-active="false">Reset</div>
+          <div class="slider">
+            <div class="row">
+              <span>Velocità min (download)</span>
+              <strong id="speedMinLabel">—</strong>
+            </div>
+            <input id="speedMin" type="range" min="0" max="1000" step="10" value="0">
+            <div class="hint">Mostra solo offerte con velocità down ≥ valore selezionato. Se “Includi ND” è ON, le offerte senza velocità passano comunque.</div>
+          </div>
+
+          <div style="height:10px"></div>
+
+          <div class="field" style="margin-top:0">
+            <label><span>Ordina per</span><span class="val" id="sortLabel">—</span></label>
+            <select id="sortBy">
+              <option value="best">Consigliati</option>
+              <option value="price_asc">Prezzo (crescente)</option>
+              <option value="data_desc">Giga Italia (decrescente)</option>
+              <option value="speed_down_desc">Velocità down (decrescente)</option>
+              <option value="speed_up_desc">Velocità up (decrescente)</option>
+            </select>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -188,13 +246,12 @@
   const state = {
     data: null,
     fromOperator: "nuovo_numero",
-    maxPrice: null,
-    minData: null,
-    minSpeed: null,
-    sortBy: "best",
     showIneligible: false,
-    onlyOperatorAttack: false,
-    onlyNuovoNumero: false
+    includeND: true,
+    priceMax: 10,
+    dataMin: 0,
+    speedMin: 0,
+    sortBy: "best"
   };
 
   const $ = (id) => document.getElementById(id);
@@ -203,14 +260,19 @@
     const n = Number(x);
     return Number.isFinite(n) ? n : null;
   }
-  function fmtEUR(x){
-    const n = normNum(x);
-    return n === null ? "ND" : n.toFixed(2).replace(".", ",") + "€";
+  function escapeHtml(s){
+    return String(s ?? "")
+      .replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;")
+      .replaceAll("\"","&quot;").replaceAll("'","&#039;");
   }
-  function fmtGB(x){
-    const n = normNum(x);
-    if (n === null) return "ND";
-    return (n % 1 === 0 ? n.toFixed(0) : String(n).replace(".", ",")) + " GB";
+  function fmtEUR(n){
+    const x = normNum(n);
+    return x === null ? "ND" : x.toFixed(2).replace(".", ",") + "€";
+  }
+  function fmtGB(n){
+    const x = normNum(n);
+    if (x === null) return "ND";
+    return (x % 1 === 0 ? x.toFixed(0) : String(x).replace(".", ",")) + " GB";
   }
   function fmtMbps(down, up){
     const dn = normNum(down);
@@ -219,11 +281,6 @@
     if (dn !== null && upn !== null) return `${dn}/${upn} Mbps`;
     if (dn !== null) return `${dn} Mbps ↓`;
     return `${upn} Mbps ↑`;
-  }
-  function escapeHtml(s){
-    return String(s ?? "")
-      .replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;")
-      .replaceAll("\"","&quot;").replaceAll("'","&#039;");
   }
   function getOperatorLabel(id){
     const op = state.data.operators.find(o => o.id === id);
@@ -247,22 +304,29 @@
   }
 
   function scorePlan(plan){
-    // score simple: éligible > prix bas > data > activation basse > vitesse
     const eligible = isEligible(plan, state.fromOperator);
     const p = normNum(plan.priceMonthlyEUR);
     const d = normNum(plan.dataItalyGB) ?? 0;
-    const act = computeActivation(plan, state.fromOperator) ?? 999;
     const sp = normNum(plan.speedDownMbps) ?? 0;
+    const act = computeActivation(plan, state.fromOperator) ?? 999;
 
     let s = 0;
     if (eligible) s += 1000;
     if (p != null) s += Math.max(0, 280 - (p * 30));
     s += Math.min(220, d);
+    s += Math.min(140, sp / 10);
     s += Math.max(0, 70 - act);
-    s += Math.min(160, sp / 10);
 
     if ((plan.badges || []).some(b => (b||"").toLowerCase().includes("operator"))) s += 40;
     return s;
+  }
+
+  function badgeHtml(plan){
+    return (plan.badges || []).map(b => {
+      const txt = (b||"").toLowerCase();
+      const cls = txt.includes("operator") ? "operatorattack" : txt.includes("nuovo") ? "nuovonumero" : txt.includes("prezzo") ? "prezzo" : "";
+      return `<span class="b ${cls}">${escapeHtml(b)}</span>`;
+    }).join("");
   }
 
   function applyFilters(plans){
@@ -277,79 +341,65 @@
       .filter(x => {
         if (!state.showIneligible && !x.eligible) return false;
 
-        if (state.onlyOperatorAttack){
-          const isOA = (x.plan.badges || []).some(b => (b||"").toLowerCase().includes("operator"));
-          if (!isOA) return false;
-        }
-        if (state.onlyNuovoNumero){
-          const el = x.plan.eligibility || {};
-          const isNN = (el.mode === "include_only" && (el.fromOperators||[]).length === 1 && (el.fromOperators||[])[0] === "nuovo_numero")
-                    || (x.plan.badges || []).some(b => (b||"").toLowerCase().includes("nuovo"));
-          if (!isNN) return false;
-        }
+        // Prix max
+        const pm = normNum(x.plan.priceMonthlyEUR);
+        if (pm == null || pm > state.priceMax) return false;
 
-        if (state.maxPrice != null){
-          const pm = normNum(x.plan.priceMonthlyEUR);
-          if (pm == null || pm > state.maxPrice) return false;
-        }
+        // Data min
+        const d = normNum(x.plan.dataItalyGB);
+        if (d == null || d < state.dataMin) return false;
 
-        if (state.minData != null){
-          const d = normNum(x.plan.dataItalyGB);
-          if (d == null || d < state.minData) return false;
+        // Speed min
+        const sp = normNum(x.plan.speedDownMbps);
+        if (state.speedMin > 0){
+          if (sp == null){
+            if (!state.includeND) return false;
+          }else{
+            if (sp < state.speedMin) return false;
+          }
         }
-
-        if (state.minSpeed != null){
-          const sp = normNum(x.plan.speedDownMbps);
-          // si ND, on exclut dès qu’un filtre vitesse est demandé
-          if (sp == null || sp < state.minSpeed) return false;
-        }
-
         return true;
       })
       .sort((a,b) => {
         const A = a.plan, B = b.plan;
         switch(state.sortBy){
-          case "price_asc":
-            return (normNum(A.priceMonthlyEUR) ?? 9999) - (normNum(B.priceMonthlyEUR) ?? 9999);
-          case "data_desc":
-            return (normNum(B.dataItalyGB) ?? 0) - (normNum(A.dataItalyGB) ?? 0);
-          case "speed_down_desc":
-            return (normNum(B.speedDownMbps) ?? -1) - (normNum(A.speedDownMbps) ?? -1);
-          case "speed_up_desc":
-            return (normNum(B.speedUpMbps) ?? -1) - (normNum(A.speedUpMbps) ?? -1);
+          case "price_asc": return (normNum(A.priceMonthlyEUR) ?? 9999) - (normNum(B.priceMonthlyEUR) ?? 9999);
+          case "data_desc": return (normNum(B.dataItalyGB) ?? 0) - (normNum(A.dataItalyGB) ?? 0);
+          case "speed_down_desc": return (normNum(B.speedDownMbps) ?? -1) - (normNum(A.speedDownMbps) ?? -1);
+          case "speed_up_desc": return (normNum(B.speedUpMbps) ?? -1) - (normNum(A.speedUpMbps) ?? -1);
           case "best":
-          default:
-            return scorePlan(B) - scorePlan(A);
+          default: return scorePlan(B) - scorePlan(A);
         }
       });
   }
 
-  function badgeHtml(plan){
-    return (plan.badges || []).map(b => {
-      const txt = (b||"").toLowerCase();
-      const cls = txt.includes("operator") ? "operatorattack" : txt.includes("nuovo") ? "nuovonumero" : txt.includes("prezzo") ? "prezzo" : "";
-      return `<span class="b ${cls}">${escapeHtml(b)}</span>`;
-    }).join("");
+  function refreshLabels(){
+    $("priceMaxLabel").textContent = fmtEUR(state.priceMax).replace(",00€","€");
+    $("dataMinLabel").textContent = fmtGB(state.dataMin);
+    $("speedMinLabel").textContent = state.speedMin === 0 ? "0 Mbps" : (state.speedMin + " Mbps");
+    $("fromLabel").textContent = getOperatorLabel(state.fromOperator);
+    $("sortLabel").textContent = $("sortBy").selectedOptions[0]?.textContent || "—";
   }
 
   function render(){
-    const cards = $("cards");
-    cards.innerHTML = "";
-
     const list = applyFilters(state.data.plans);
-
     $("statCount").textContent = String(list.length);
     $("statFrom").textContent = getOperatorLabel(state.fromOperator);
     $("statUpdated").textContent = state.data.meta.updatedAtUTC || "ND";
+    refreshLabels();
+
+    const cards = $("cards");
+    cards.innerHTML = "";
 
     list.forEach(({plan, eligible, activationEffective}) => {
       const opLabel = getOperatorLabel(plan.targetOperator);
       const opInitials = (opLabel || "?").replace(/[^A-Za-z0-9]/g,"").slice(0,2).toUpperCase() || "OP";
 
+      const roam = (plan.dataEuRoamingGB == null) ? "ND" : fmtGB(plan.dataEuRoamingGB);
+      const speed = fmtMbps(plan.speedDownMbps, plan.speedUpMbps);
+
       const act = (activationEffective == null) ? "ND" : fmtEUR(activationEffective);
       const sim = fmtEUR(plan.simEUR);
-      const speed = fmtMbps(plan.speedDownMbps, plan.speedUpMbps);
-      const roam = (plan.dataEuRoamingGB == null) ? "ND" : fmtGB(plan.dataEuRoamingGB);
 
       const el = plan.eligibility || {mode:"any"};
       let eligText = "Valida per tutti";
@@ -366,10 +416,12 @@
 
       const dim = eligible ? "" : "opacity:.45; filter:grayscale(40%);";
       const warn = eligible ? "" : `<span class="b notvalid">Non valida per ${escapeHtml(getOperatorLabel(state.fromOperator))}</span>`;
+      const net = plan.network ? `Rete: <strong>${escapeHtml(plan.network)}</strong>` : `Rete: <strong>ND</strong>`;
 
       const node = document.createElement("div");
       node.className = "card";
       node.style = dim;
+
       node.innerHTML = `
         <div class="cardHead">
           <div class="op">
@@ -386,21 +438,28 @@
         </div>
 
         <div class="cardBody">
-          <div class="features">
+          <!-- Ligne 1 demandée: 3 colonnes -->
+          <div class="row3">
             <div class="feat"><div class="k">Giga Italia</div><div class="v">${escapeHtml(fmtGB(plan.dataItalyGB))}</div></div>
             <div class="feat"><div class="k">Roaming UE</div><div class="v">${escapeHtml(roam)}</div></div>
             <div class="feat"><div class="k">Vitesse</div><div class="v">${escapeHtml(speed)}</div></div>
+          </div>
+
+          <!-- Ligne 2 demandée: 3 colonnes -->
+          <div class="row3">
+            <div class="feat"><div class="k">Minuti</div><div class="v">${escapeHtml(plan.calls || "ND")}</div></div>
+            <div class="feat"><div class="k">SMS</div><div class="v">${escapeHtml(plan.sms || "ND")}</div></div>
             <div class="feat"><div class="k">Attivazione / SIM</div><div class="v">${escapeHtml(act)} / ${escapeHtml(sim)}</div></div>
           </div>
 
-          <div class="features">
-            <div class="feat"><div class="k">Minuti</div><div class="v">${escapeHtml(plan.calls || "ND")}</div></div>
-            <div class="feat"><div class="k">SMS</div><div class="v">${escapeHtml(plan.sms || "ND")}</div></div>
-            <div class="feat"><div class="k">Rete</div><div class="v">${escapeHtml(plan.network || "ND")}</div></div>
-            <div class="feat"><div class="k">Note</div><div class="v">${escapeHtml(plan.paymentNotes || "—")}</div></div>
+          <!-- Badges + Réseau sur la même ligne -->
+          <div class="metaLine">
+            <div class="badges">
+              ${badgeHtml(plan)} ${warn}
+            </div>
+            <div class="net">${net}</div>
           </div>
 
-          <div class="badges">${badgeHtml(plan)} ${warn}</div>
           <div class="elig">${eligText}</div>
         </div>
 
@@ -408,11 +467,13 @@
           <a class="btn" href="${plan.ctaUrl}" target="_blank" rel="noopener">Vai all’offerta →</a>
         </div>
       `;
+
       cards.appendChild(node);
     });
   }
 
   function setupControls(){
+    // Populate provenance
     const sel = $("fromOperator");
     sel.innerHTML = "";
     state.data.operators.forEach(op => {
@@ -425,43 +486,48 @@
 
     sel.addEventListener("change", (e) => { state.fromOperator = e.target.value; render(); });
 
-    $("maxPrice").addEventListener("input", (e) => {
-      state.maxPrice = e.target.value === "" ? null : Number(e.target.value);
-      render();
-    });
+    // Sliders
+    const priceMax = $("priceMax");
+    const dataMin = $("dataMin");
+    const speedMin = $("speedMin");
 
-    $("minData").addEventListener("input", (e) => {
-      state.minData = e.target.value === "" ? null : Number(e.target.value);
-      render();
-    });
+    priceMax.value = String(state.priceMax);
+    dataMin.value = String(state.dataMin);
+    speedMin.value = String(state.speedMin);
 
-    $("minSpeed").addEventListener("input", (e) => {
-      state.minSpeed = e.target.value === "" ? null : Number(e.target.value);
-      render();
-    });
+    priceMax.addEventListener("input", () => { state.priceMax = Number(priceMax.value); render(); });
+    dataMin.addEventListener("input", () => { state.dataMin = Number(dataMin.value); render(); });
+    speedMin.addEventListener("input", () => { state.speedMin = Number(speedMin.value); render(); });
 
+    // Sort
+    $("sortBy").value = state.sortBy;
     $("sortBy").addEventListener("change", (e) => { state.sortBy = e.target.value; render(); });
 
+    // Pills
     document.querySelectorAll(".pill").forEach(p => {
       p.addEventListener("click", () => {
         const key = p.dataset.pill;
+
         if (key === "reset"){
           state.fromOperator = "nuovo_numero";
-          state.maxPrice = null;
-          state.minData = null;
-          state.minSpeed = null;
-          state.sortBy = "best";
           state.showIneligible = false;
-          state.onlyOperatorAttack = false;
-          state.onlyNuovoNumero = false;
+          state.includeND = true;
+
+          state.priceMax = 10;
+          state.dataMin = 0;
+          state.speedMin = 0;
+          state.sortBy = "best";
 
           $("fromOperator").value = state.fromOperator;
-          $("maxPrice").value = "";
-          $("minData").value = "";
-          $("minSpeed").value = "";
+          $("priceMax").value = String(state.priceMax);
+          $("dataMin").value = String(state.dataMin);
+          $("speedMin").value = String(state.speedMin);
           $("sortBy").value = state.sortBy;
 
-          document.querySelectorAll(".pill").forEach(x => x.dataset.active = "false");
+          document.querySelectorAll(".pill").forEach(x => {
+            if (x.dataset.pill === "include_nd") x.dataset.active = "true";
+            else x.dataset.active = "false";
+          });
           render();
           return;
         }
@@ -470,17 +536,18 @@
           state.showIneligible = !state.showIneligible;
           p.dataset.active = String(state.showIneligible);
         }
-        if (key === "only_operator_attack"){
-          state.onlyOperatorAttack = !state.onlyOperatorAttack;
-          p.dataset.active = String(state.onlyOperatorAttack);
+
+        if (key === "include_nd"){
+          state.includeND = !state.includeND;
+          p.dataset.active = String(state.includeND);
         }
-        if (key === "only_nuovo_numero"){
-          state.onlyNuovoNumero = !state.onlyNuovoNumero;
-          p.dataset.active = String(state.onlyNuovoNumero);
-        }
+
         render();
       });
     });
+
+    // init labels
+    refreshLabels();
   }
 
   async function init(){
@@ -500,6 +567,7 @@
       `;
     }
   }
+
   init();
 </script>
 </body>
