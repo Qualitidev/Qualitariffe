@@ -1,182 +1,809 @@
-<!doctype html><html lang="fr"><head>
+<!doctype html>
+<html lang="fr">
+<head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Admin — Qualitariffe</title>
   <style>
-    :root { --accent: #7c3aed; --bg: #f8fafc; --text: #1e293b; }
-    body { font-family: system-ui, -apple-system, sans-serif; max-width: 1100px; margin: 24px auto; padding: 0 16px; background: var(--bg); color: var(--text); }
-    header { display:flex; align-items:center; justify-content:space-between; margin-bottom: 30px; }
-    .card { background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
-    label { display: block; font-size: 13px; font-weight: 600; margin-top: 12px; color: #64748b; }
-    input, select { width: 100%; padding: 10px; border:1px solid #cbd5e1; border-radius: 8px; margin-top: 4px; box-sizing: border-box; font-size: 14px; }
-    button { padding: 10px 18px; border:0; border-radius: 8px; cursor:pointer; font-weight: 600; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; }
-    button.primary { background: var(--accent); color:white; }
-    button.ghost { background:#f1f5f9; color: #475569; }
+    :root {
+      --accent: #7c3aed;
+      --bg: #f8fafc;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --card: #ffffff;
+      --danger-bg: #fee2e2;
+      --danger-tx: #991b1b;
+      --ok-bg: #dcfce7;
+      --ok-tx: #166534;
+      --shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      max-width: 1180px;
+      margin: 24px auto;
+      padding: 0 16px;
+    }
+
+    header {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .brand h1 { margin:0; font-size: 20px; }
+    .brand .sub { color: var(--muted); font-size: 12px; margin-top: 4px; }
+
+    .pill {
+      display:inline-flex;
+      align-items:center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--muted);
+      max-width: 360px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .toolbar { display:flex; align-items:center; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
+    button {
+      padding: 10px 14px;
+      border: 0;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 650;
+      transition: transform 0.12s ease, opacity 0.12s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #f1f5f9;
+      color: #334155;
+    }
+    button:hover { opacity: .92; transform: translateY(-1px); }
+    button.primary { background: var(--accent); color: white; }
     button.outline { background: transparent; border: 1px solid #cbd5e1; color: var(--text); }
-    table { width:100%; border-collapse: collapse; margin-top: 15px; }
-    th, td { border-bottom: 1px solid #f1f5f9; padding: 14px; text-align:left; }
-    .pill { padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; }
-    .pill.on { background:#dcfce7; color:#166534; }
-    .pill.off { background:#fee2e2; color:#991b1b; }
-    #drawer { position: fixed; top: 0; right: -450px; width: 400px; height: 100%; background: white; box-shadow: -5px 0 15px rgba(0,0,0,0.1); transition: 0.3s; z-index: 1000; padding: 30px; overflow-y: auto; }
-    #drawer.open { right: 0; }
-    #overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.3); display:none; z-index: 999; backdrop-filter: blur(2px); }
+    button.ghost { background: #f1f5f9; }
+    button.danger { background: var(--danger-bg); color: var(--danger-tx); }
+    button.small { padding: 6px 10px; border-radius: 8px; font-size: 12px; font-weight: 700; }
+
+    .tabs {
+      display: inline-flex;
+      border: 1px solid var(--border);
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .tab {
+      border: 0;
+      background: transparent;
+      padding: 10px 12px;
+      cursor: pointer;
+      font-weight: 750;
+      color: #334155;
+    }
+    .tab.active { background: #f1f5f9; color: #0f172a; }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    label {
+      display:block;
+      margin-top: 12px;
+      font-size: 12px;
+      font-weight: 750;
+      color: var(--muted);
+    }
+
+    input, select {
+      width: 100%;
+      margin-top: 6px;
+      padding: 10px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      font-size: 14px;
+      background: white;
+    }
+
+    .grid2 { display:grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .grid3 { display:grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+    .muted { color: var(--muted); font-size: 12px; }
+    .hr { height: 1px; background: #eef2f7; margin: 16px 0; }
+
+    table { width:100%; border-collapse: collapse; margin-top: 12px; }
+    th, td { padding: 12px; border-bottom: 1px solid #f1f5f9; text-align:left; vertical-align: top; }
+    th {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #94a3b8;
+    }
+
+    .status {
+      display:inline-block;
+      font-size: 11px;
+      font-weight: 850;
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+    .on { background: var(--ok-bg); color: var(--ok-tx); }
+    .off { background: var(--danger-bg); color: var(--danger-tx); }
+
+    /* Overlay + Drawers */
+    #overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 6, 23, 0.38);
+      backdrop-filter: blur(2px);
+      display: none;
+      z-index: 999;
+    }
+
+    .drawer {
+      position: fixed;
+      top: 0;
+      right: -480px;
+      width: 440px;
+      height: 100%;
+      background: white;
+      box-shadow: -8px 0 22px rgba(15, 23, 42, 0.18);
+      transition: right 0.25s ease;
+      z-index: 1000;
+      padding: 22px;
+      overflow-y: auto;
+      border-left: 1px solid var(--border);
+    }
+    .drawer.open { right: 0; }
+    .drawer h2 { margin: 0; font-size: 16px; }
+    .drawer .sub { margin-top: 6px; color: var(--muted); font-size: 12px; }
+
+    .drawer .actions { display:flex; gap: 10px; margin-top: 16px; }
+    .drawer .actions button { flex: 1; justify-content: center; }
+
+    /* Auth card center */
+    #authCard { max-width: 420px; margin: 60px auto; }
+
+    @media (max-width: 980px) {
+      .grid2, .grid3 { grid-template-columns: 1fr; }
+      .drawer { width: 92vw; }
+      .pill { max-width: 260px; }
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    pre {
+      background: #0b1220;
+      color: #e5e7eb;
+      padding: 12px;
+      border-radius: 12px;
+      overflow: auto;
+      font-size: 12px;
+    }
   </style>
 </head>
+
 <body>
+  <div id="overlay"></div>
 
-<div id="overlay"></div>
+  <!-- Drawer OFFRE -->
+  <div id="drawerOffer" class="drawer">
+    <h2 id="drawerOfferTitle">Nouvelle offre</h2>
+    <div class="sub">Créer / modifier une offre (table <b>offers</b>)</div>
 
-<div id="drawer">
-  <h2 id="drawerTitle">Édition Offre</h2>
-  <form id="offerForm">
-    <input type="hidden" id="f_id">
-    
-    <label>Titre (SEO)</label>
-    <input type="text" id="f_title" required>
+    <form id="offerForm">
+      <input type="hidden" id="offer_id" />
 
-    <label>Opérateur</label>
-    <select id="f_operator" required>
-        <option value="">Chargement...</option>
-    </select>
+      <label>Active</label>
+      <select id="offer_active">
+        <option value="true">true</option>
+        <option value="false">false</option>
+      </select>
 
-    <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-      <div>
-        <label>Prix (€/mois)</label>
-        <input type="number" step="0.01" id="f_price" required>
+      <label>Titre</label>
+      <input id="offer_title" placeholder="Ex: Giga 150 5G" required />
+
+      <div class="grid2">
+        <div>
+          <label>Opérateur</label>
+          <select id="offer_operator_id" required></select>
+          <div class="muted">Liste chargée depuis <b>operators</b></div>
+        </div>
+        <div>
+          <label>Prix (EUR / mois)</label>
+          <input id="offer_price_eur" type="number" step="0.01" placeholder="7.99" required />
+        </div>
       </div>
-      <div>
-        <label>Data IT (GB)</label>
-        <input type="number" id="f_giga_it">
+
+      <div class="grid3">
+        <div>
+          <label>Giga IT</label>
+          <input id="offer_giga_it" type="number" placeholder="150" />
+        </div>
+        <div>
+          <label>Roaming UE (GB)</label>
+          <input id="offer_giga_eu" type="number" placeholder="10" />
+        </div>
+        <div>
+          <label>Vitesse (Mbps)</label>
+          <input id="offer_speed_mbps" type="number" placeholder="300" />
+        </div>
       </div>
-    </div>
 
-    <label>Lien CTA (cta_url)</label>
-    <input type="url" id="f_link" placeholder="https://..." required>
+      <div class="grid3">
+        <div>
+          <label>Minutes</label>
+          <input id="offer_minutes" type="number" placeholder="1000" />
+        </div>
+        <div>
+          <label>SMS</label>
+          <input id="offer_sms" type="number" placeholder="200" />
+        </div>
+        <div>
+          <label>Attivazione (EUR)</label>
+          <input id="offer_activation_fee_eur" type="number" step="0.01" placeholder="0.00" />
+        </div>
+      </div>
 
-    <div style="margin-top: 30px; display: flex; gap: 10px;">
-      <button type="submit" class="primary" style="flex:1">Sauvegarder</button>
-      <button type="button" class="outline" onclick="closeDrawer()">Annuler</button>
-    </div>
-  </form>
-</div>
+      <div class="grid2">
+        <div>
+          <label>SIM (EUR)</label>
+          <input id="offer_sim_fee_eur" type="number" step="0.01" placeholder="0.00" />
+        </div>
+        <div>
+          <label>Eligibility mode</label>
+          <select id="offer_eligibility_mode">
+            <option value="any">any</option>
+            <option value="include_only">include_only</option>
+            <option value="exclude">exclude</option>
+          </select>
+        </div>
+      </div>
 
-<header>
-  <h1>Admin Qualitariffe</h1>
-  <div style="display:flex; gap:10px;">
-    <button id="btnNew" class="primary" style="display:none;">+ Nouvelle Offre</button>
-    <button id="btnLogout" class="ghost" style="display:none;">Logout</button>
+      <label>from_operators (IDs séparés par |) — ex: iliad|postemobile|nuovo_numero</label>
+      <input id="offer_from_operators" placeholder="iliad|postemobile|nuovo_numero" />
+
+      <div class="hr"></div>
+
+      <label>CTA URL (bouton “Vai all’offerta”)</label>
+      <input id="offer_cta_url" type="url" placeholder="https://..." required />
+
+      <label>Analysis URL (optionnel)</label>
+      <input id="offer_analysis_url" type="url" placeholder="https://...pdf" />
+
+      <div class="actions">
+        <button class="primary" type="submit">Enregistrer</button>
+        <button class="outline" type="button" id="btnOfferCancel">Annuler</button>
+      </div>
+
+      <div class="actions" style="margin-top:10px;">
+        <button class="danger" type="button" id="btnOfferDelete" style="display:none;">Supprimer</button>
+      </div>
+
+      <p id="offerMsg" class="muted"></p>
+    </form>
   </div>
-</header>
 
-<div id="authCard" class="card" style="max-width: 400px; margin: auto;">
-  <h2>Login</h2>
-  <input id="email" type="email" placeholder="Email">
-  <input id="password" type="password" placeholder="Pass">
-  <button id="btnLogin" class="primary" style="width:100%; margin-top:10px;">Entrer</button>
-  <p id="authMsg" style="color:red;"></p>
-</div>
+  <!-- Drawer OPERATEUR -->
+  <div id="drawerOperator" class="drawer">
+    <h2 id="drawerOperatorTitle">Nouvel opérateur</h2>
+    <div class="sub">Créer / modifier un opérateur (table <b>operators</b>)</div>
 
-<div id="appCard" style="display:none;">
-  <div class="card"><div id="tableWrap"></div></div>
-</div>
+    <form id="operatorForm">
+      <label>Operator ID (slug) — clé primaire</label>
+      <input id="operator_id" placeholder="ex: iliad, very, ho, kena" required />
 
-<script type="module">
-  import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+      <label>Nom affiché</label>
+      <input id="operator_name" placeholder="ex: iliad" required />
 
-  const supabaseUrl = "https://ytlpotajswovxwzxrmvu.supabase.co";
-  const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl0bHBvdGFqc3dvdnh3enhybXZ1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA4MTU3MDgsImV4cCI6MjA4NjM5MTcwOH0.k02CzC7bj_NlXVZs-jV69djujHqrFm5sCDKWDN-EExA"; 
-  const _supabase = createClient(supabaseUrl, supabaseKey);
+      <label>Réseau hôte (network_id)</label>
+      <select id="operator_network_id" required></select>
 
-  const $ = (id) => document.getElementById(id);
+      <label>Logo URL (temporaire)</label>
+      <input id="operator_logo_url" placeholder="https://...svg (ou vide)" />
 
-  // Charger les opérateurs pour le Select
-  async function loadOperators() {
-    const { data } = await _supabase.from("operators").select("id, name");
-    if (data) {
-        $("f_operator").innerHTML = data.map(op => `<option value="${op.id}">${op.name}</option>`).join("");
+      <label>Actif</label>
+      <select id="operator_is_active">
+        <option value="true">true</option>
+        <option value="false">false</option>
+      </select>
+
+      <div class="actions">
+        <button class="primary" type="submit">Enregistrer</button>
+        <button class="outline" type="button" id="btnOperatorCancel">Annuler</button>
+      </div>
+
+      <div class="actions" style="margin-top:10px;">
+        <button class="danger" type="button" id="btnOperatorDelete" style="display:none;">Supprimer</button>
+      </div>
+
+      <p id="operatorMsg" class="muted"></p>
+      <p class="muted">
+        Note: si des offres référencent cet opérateur, la suppression peut échouer (FK).
+      </p>
+    </form>
+  </div>
+
+  <header>
+    <div class="brand">
+      <h1>Console Admin</h1>
+      <div class="sub">CRUD Offres + Opérateurs (Supabase)</div>
+    </div>
+
+    <div class="toolbar">
+      <div class="tabs" id="tabs" style="display:none;">
+        <button class="tab active" id="tabOffers" type="button">Offres</button>
+        <button class="tab" id="tabOperators" type="button">Opérateurs</button>
+      </div>
+
+      <span id="userEmail" class="pill" style="display:none;"></span>
+
+      <button id="btnNewOffer" class="primary" style="display:none;">+ Nouvelle offre</button>
+      <button id="btnNewOperator" class="primary" style="display:none;">+ Nouvel opérateur</button>
+      <button id="btnLogout" class="ghost" style="display:none;">Déconnexion</button>
+    </div>
+  </header>
+
+  <!-- LOGIN -->
+  <div id="authCard" class="card">
+    <h2 style="margin:0 0 6px 0;">Connexion</h2>
+    <div class="muted">Email + mot de passe (Supabase Auth)</div>
+
+    <label>Email</label>
+    <input id="email" type="email" placeholder="Email" />
+
+    <label>Mot de passe</label>
+    <input id="password" type="password" placeholder="Mot de passe" />
+
+    <div class="hr"></div>
+
+    <button id="btnLogin" class="primary" style="width:100%; justify-content:center;">Se connecter</button>
+    <p id="authMsg" class="muted" style="margin-top:10px; color:#b91c1c;"></p>
+  </div>
+
+  <!-- APP -->
+  <div id="appCard" style="display:none;">
+    <div class="card">
+      <div id="offersView">
+        <div class="grid2" style="align-items:end;">
+          <div>
+            <div class="muted">Astuce: clique ✏️ pour éditer. Utilise ACTIVE/OFF pour publier.</div>
+          </div>
+          <div style="text-align:right;">
+            <button class="outline" id="btnRefreshOffers" type="button">Rafraîchir</button>
+          </div>
+        </div>
+        <div id="offersWrap" style="overflow-x:auto;"></div>
+      </div>
+
+      <div id="operatorsView" style="display:none;">
+        <div class="grid2" style="align-items:end;">
+          <div>
+            <div class="muted">Gère les opérateurs + réseau hôte. Le select des offres se mettra à jour.</div>
+          </div>
+          <div style="text-align:right;">
+            <button class="outline" id="btnRefreshOperators" type="button">Rafraîchir</button>
+          </div>
+        </div>
+        <div id="operatorsWrap" style="overflow-x:auto;"></div>
+      </div>
+
+      <div class="hr"></div>
+      <details>
+        <summary class="muted" style="cursor:pointer; font-weight:700;">Debug</summary>
+        <pre id="debug"></pre>
+      </details>
+    </div>
+  </div>
+
+  <script type="module">
+    import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+    const SUPABASE_URL = "https://ytlpotajswovxwzxrmvu.supabase.co";
+    const SUPABASE_PUBLISHABLE_KEY = "SUPABASE_PUBLISHABLE_KEY_HERE"; // <-- remplace par sb_publishable_...
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+
+    const $ = (id) => document.getElementById(id);
+    const setDebug = (obj) => { $("debug").textContent = JSON.stringify(obj, null, 2); };
+
+    const numOrNull = (v) => (v === "" || v === null || v === undefined) ? null : Number(v);
+    const textOrNull = (v) => (v && v.trim() !== "") ? v.trim() : null;
+
+    // Overlay + drawers
+    function openOverlay() { $("overlay").style.display = "block"; }
+    function closeOverlay() { $("overlay").style.display = "none"; }
+
+    function openDrawer(drawerId) { openOverlay(); $(drawerId).classList.add("open"); }
+    function closeDrawer(drawerId) { $(drawerId).classList.remove("open"); closeOverlay(); }
+
+    $("overlay").addEventListener("click", () => {
+      closeDrawer("drawerOffer");
+      closeDrawer("drawerOperator");
+    });
+
+    // Tabs
+    function setTab(tab) {
+      const isOffers = tab === "offers";
+      $("offersView").style.display = isOffers ? "block" : "none";
+      $("operatorsView").style.display = isOffers ? "none" : "block";
+
+      $("tabOffers").classList.toggle("active", isOffers);
+      $("tabOperators").classList.toggle("active", !isOffers);
+
+      $("btnNewOffer").style.display = isOffers ? "inline-flex" : "none";
+      $("btnNewOperator").style.display = isOffers ? "none" : "inline-flex";
     }
-  }
 
-  function openDrawer(offer = null) {
-    $("drawer").classList.add("open");
-    $("overlay").style.display = "block";
-    if (offer) {
-      $("f_id").value = offer.id;
-      $("f_title").value = offer.title;
-      $("f_operator").value = offer.operator_id;
-      $("f_price").value = offer.price_eur;
-      $("f_giga_it").value = offer.giga_it;
-      $("f_link").value = offer.cta_url; // Aligné sur ton SQL
-    } else {
-      $("offerForm").reset();
-      $("f_id").value = "";
+    $("tabOffers").addEventListener("click", () => setTab("offers"));
+    $("tabOperators").addEventListener("click", () => setTab("operators"));
+
+    // Load networks (for operator form)
+    async function loadNetworksSelect() {
+      const { data, error } = await supabase
+        .from("networks")
+        .select("id,name")
+        .order("name", { ascending: true });
+
+      if (error) throw error;
+
+      $("operator_network_id").innerHTML = data
+        .map(n => `<option value="${n.id}">${n.name} (${n.id})</option>`)
+        .join("");
     }
-  }
 
-  window.closeDrawer = () => { $("drawer").classList.remove("open"); $("overlay").style.display = "none"; };
-  $("overlay").onclick = closeDrawer;
-  $("btnNew").onclick = () => openDrawer();
+    // Load operators (for offer form)
+    async function loadOperatorsSelect() {
+      // on charge même inactifs, sinon tu peux plus éditer une offre liée à un opérateur inactif
+      const { data, error } = await supabase
+        .from("operators")
+        .select("id,name,is_active")
+        .order("name", { ascending: true });
 
-  async function refreshOffers() {
-    const { data } = await _supabase.from("offers").select("*").order("created_at", { ascending: false });
-    window.currentData = data;
-    $("tableWrap").innerHTML = `<table><thead><tr><th>Offre</th><th>Prix</th><th>Statut</th><th>Actions</th></tr></thead>
-      <tbody>${data.map(o => `<tr>
-        <td><strong>${o.title}</strong><br><small>${o.operator_id}</small></td>
-        <td>${o.price_eur}€</td>
-        <td>${o.active ? '<span class="pill on">ON</span>' : '<span class="pill off">OFF</span>'}</td>
-        <td>
-            <button class="outline" onclick="window.editOffer('${o.id}')">✏️</button>
-            <button class="ghost" onclick="window.deleteOffer('${o.id}')">🗑️</button>
-        </td>
-      </tr>`).join("")}</tbody></table>`;
-  }
+      if (error) throw error;
 
-  window.editOffer = (id) => openDrawer(window.currentData.find(x => x.id === id));
-  
-  window.deleteOffer = async (id) => {
-      if(confirm("Supprimer ?")) {
-          await _supabase.from("offers").delete().eq("id", id);
-          refreshOffers();
-      }
-  };
+      $("offer_operator_id").innerHTML = data
+        .map(op => `<option value="${op.id}">${op.name} (${op.id})${op.is_active ? "" : " — OFF"}</option>`)
+        .join("");
+    }
 
-  $("offerForm").onsubmit = async (e) => {
-    e.preventDefault();
-    const id = $("f_id").value;
-    const payload = {
-      title: $("f_title").value,
-      operator_id: $("f_operator").value,
-      price_eur: parseFloat($("f_price").value),
-      giga_it: parseInt($("f_giga_it").value) || 0,
-      cta_url: $("f_link").value, // Sync avec SQL
-      active: true
+    // OFFERS CRUD
+    async function refreshOffers() {
+      const { data, error } = await supabase
+        .from("offers")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) throw error;
+
+      window.__offers = data;
+
+      const rows = data.map(o => `
+        <tr>
+          <td>
+            <div style="font-weight:800">${o.title ?? ""}</div>
+            <div class="muted">${o.operator_id ?? ""} • <span style="font-family:ui-monospace;">${o.id}</span></div>
+          </td>
+          <td>€ ${Number(o.price_eur).toFixed(2)}</td>
+          <td>${o.giga_it ?? 0} GB</td>
+          <td>${o.speed_mbps ?? "ND"} Mbps</td>
+          <td>${o.active ? `<span class="status on">ACTIVE</span>` : `<span class="status off">OFF</span>`}</td>
+          <td style="display:flex; gap:8px;">
+            <button class="small outline" onclick="window.__editOffer('${o.id}')">✏️</button>
+            <button class="small ghost" onclick="window.__toggleOffer('${o.id}', ${o.active})">${o.active ? "Désactiver" : "Activer"}</button>
+          </td>
+        </tr>
+      `).join("");
+
+      $("offersWrap").innerHTML = `
+        <table>
+          <thead>
+            <tr>
+              <th>Offre</th><th>Prix</th><th>Giga</th><th>Vitesse</th><th>Statut</th><th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>${rows || `<tr><td colspan="6" class="muted">Aucune offre</td></tr>`}</tbody>
+        </table>
+      `;
+    }
+
+    window.__editOffer = (id) => {
+      const o = (window.__offers || []).find(x => x.id === id);
+      if (!o) return;
+
+      $("drawerOfferTitle").textContent = "Modifier l’offre";
+      $("offer_id").value = o.id;
+
+      $("offer_active").value = String(!!o.active);
+      $("offer_title").value = o.title ?? "";
+      $("offer_operator_id").value = o.operator_id ?? "";
+      $("offer_price_eur").value = o.price_eur ?? "";
+
+      $("offer_giga_it").value = o.giga_it ?? "";
+      $("offer_giga_eu").value = o.giga_eu ?? "";
+      $("offer_speed_mbps").value = o.speed_mbps ?? "";
+
+      $("offer_minutes").value = o.minutes ?? "";
+      $("offer_sms").value = o.sms ?? "";
+      $("offer_activation_fee_eur").value = o.activation_fee_eur ?? "";
+      $("offer_sim_fee_eur").value = o.sim_fee_eur ?? "";
+
+      $("offer_eligibility_mode").value = o.eligibility_mode ?? "any";
+      $("offer_from_operators").value = o.from_operators ?? "";
+
+      $("offer_cta_url").value = o.cta_url ?? "";
+      $("offer_analysis_url").value = o.analysis_url ?? "";
+
+      $("offerMsg").textContent = "";
+      $("btnOfferDelete").style.display = "inline-flex";
+      $("btnOfferDelete").onclick = () => deleteOffer(o.id);
+
+      openDrawer("drawerOffer");
     };
 
-    const res = id ? await _supabase.from("offers").update(payload).eq("id", id) 
-                   : await _supabase.from("offers").insert([payload]);
+    window.__toggleOffer = async (id, current) => {
+      const { error } = await supabase.from("offers").update({ active: !current }).eq("id", id);
+      if (error) return alert(error.message);
+      await refreshOffers();
+    };
 
-    if (res.error) alert(res.error.message);
-    else { closeDrawer(); refreshOffers(); }
-  };
+    async function deleteOffer(id) {
+      const ok = confirm("Supprimer définitivement cette offre ?\n" + id);
+      if (!ok) return;
+      const { error } = await supabase.from("offers").delete().eq("id", id);
+      if (error) return alert(error.message);
+      closeDrawer("drawerOffer");
+      await refreshOffers();
+    }
 
-  async function setUi(session) {
-    const isLogged = !!session;
-    $("authCard").style.display = isLogged ? "none" : "block";
-    $("appCard").style.display = isLogged ? "block" : "none";
-    $("btnLogout").style.display = $("btnNew").style.display = isLogged ? "inline-flex" : "none";
-    if (isLogged) { loadOperators(); refreshOffers(); }
-  }
+    $("btnNewOffer").addEventListener("click", () => {
+      $("drawerOfferTitle").textContent = "Nouvelle offre";
+      $("offerForm").reset();
+      $("offer_id").value = "";
+      $("offer_active").value = "true";
+      $("offer_eligibility_mode").value = "any";
+      $("offerMsg").textContent = "";
+      $("btnOfferDelete").style.display = "none";
+      openDrawer("drawerOffer");
+    });
 
-  $("btnLogin").onclick = async () => {
-    const { error } = await _supabase.auth.signInWithPassword({ email: $("email").value, password: $("password").value });
-    if (error) $("authMsg").textContent = error.message;
-  };
+    $("btnOfferCancel").addEventListener("click", () => closeDrawer("drawerOffer"));
 
-  $("btnLogout").onclick = async () => await _supabase.auth.signOut();
-  _supabase.auth.onAuthStateChange((_event, session) => setUi(session));
-  const { data: { session } } = await _supabase.auth.getSession();
-  setUi(session);
-</script>
-</body></html>
+    $("offerForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      $("offerMsg").textContent = "Enregistrement…";
+
+      const id = textOrNull($("offer_id").value);
+
+      const payload = {
+        active: $("offer_active").value === "true",
+        title: $("offer_title").value.trim(),
+        operator_id: $("offer_operator_id").value,
+        price_eur: numOrNull($("offer_price_eur").value),
+
+        giga_it: numOrNull($("offer_giga_it").value),
+        giga_eu: numOrNull($("offer_giga_eu").value),
+        speed_mbps: numOrNull($("offer_speed_mbps").value),
+
+        minutes: numOrNull($("offer_minutes").value),
+        sms: numOrNull($("offer_sms").value),
+        activation_fee_eur: numOrNull($("offer_activation_fee_eur").value),
+        sim_fee_eur: numOrNull($("offer_sim_fee_eur").value),
+
+        eligibility_mode: $("offer_eligibility_mode").value,
+        from_operators: textOrNull($("offer_from_operators").value),
+
+        cta_url: $("offer_cta_url").value.trim(),
+        analysis_url: textOrNull($("offer_analysis_url").value),
+      };
+
+      // validations minimales
+      if (!payload.operator_id) return $("offerMsg").textContent = "Erreur: operator_id obligatoire";
+      if (!payload.title) return $("offerMsg").textContent = "Erreur: title obligatoire";
+      if (payload.price_eur === null || Number.isNaN(payload.price_eur)) return $("offerMsg").textContent = "Erreur: price_eur obligatoire";
+      if (!payload.cta_url) return $("offerMsg").textContent = "Erreur: cta_url obligatoire";
+
+      let res;
+      if (id) res = await supabase.from("offers").update(payload).eq("id", id).select().single();
+      else res = await supabase.from("offers").insert([payload]).select().single();
+
+      if (res.error) return $("offerMsg").textContent = res.error.message;
+
+      $("offerMsg").textContent = "OK ✅";
+      closeDrawer("drawerOffer");
+      await refreshOffers();
+    });
+
+    // OPERATORS CRUD
+    async function refreshOperators() {
+      const { data, error } = await supabase
+        .from("operators")
+        .select("*")
+        .order("name", { ascending: true });
+
+      if (error) throw error;
+
+      window.__operators = data;
+
+      const rows = data.map(op => `
+        <tr>
+          <td>
+            <div style="font-weight:800">${op.name ?? ""}</div>
+            <div class="muted">${op.id} • réseau: ${op.network_id ?? "—"}</div>
+          </td>
+          <td>${op.logo_url ? `<a href="${op.logo_url}" target="_blank">logo</a>` : `<span class="muted">—</span>`}</td>
+          <td>${op.is_active ? `<span class="status on">ACTIVE</span>` : `<span class="status off">OFF</span>`}</td>
+          <td><button class="small outline" onclick="window.__editOperator('${op.id}')">✏️</button></td>
+        </tr>
+      `).join("");
+
+      $("operatorsWrap").innerHTML = `
+        <table>
+          <thead>
+            <tr><th>Opérateur</th><th>Logo</th><th>Statut</th><th>Action</th></tr>
+          </thead>
+          <tbody>${rows || `<tr><td colspan="4" class="muted">Aucun opérateur</td></tr>`}</tbody>
+        </table>
+      `;
+    }
+
+    window.__editOperator = (id) => {
+      const op = (window.__operators || []).find(x => x.id === id);
+      if (!op) return;
+
+      $("drawerOperatorTitle").textContent = "Modifier l’opérateur";
+      $("operator_id").value = op.id ?? "";
+      $("operator_id").disabled = true; // PK
+
+      $("operator_name").value = op.name ?? "";
+      $("operator_network_id").value = op.network_id ?? "";
+      $("operator_logo_url").value = op.logo_url ?? "";
+      $("operator_is_active").value = String(!!op.is_active);
+
+      $("operatorMsg").textContent = "";
+      $("btnOperatorDelete").style.display = "inline-flex";
+      $("btnOperatorDelete").onclick = () => deleteOperator(op.id);
+
+      openDrawer("drawerOperator");
+    };
+
+    async function deleteOperator(id) {
+      const ok = confirm("Supprimer cet opérateur ?\nSi des offres le référencent, la suppression peut échouer.\n\n" + id);
+      if (!ok) return;
+
+      const { error } = await supabase.from("operators").delete().eq("id", id);
+      if (error) return alert(error.message);
+
+      closeDrawer("drawerOperator");
+      await refreshOperators();
+      await loadOperatorsSelect(); // refresh offer select
+    }
+
+    $("btnNewOperator").addEventListener("click", () => {
+      $("drawerOperatorTitle").textContent = "Nouvel opérateur";
+      $("operatorForm").reset();
+      $("operator_id").value = "";
+      $("operator_id").disabled = false;
+      $("operator_is_active").value = "true";
+      $("operatorMsg").textContent = "";
+      $("btnOperatorDelete").style.display = "none";
+      openDrawer("drawerOperator");
+    });
+
+    $("btnOperatorCancel").addEventListener("click", () => closeDrawer("drawerOperator"));
+
+    $("operatorForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      $("operatorMsg").textContent = "Enregistrement…";
+
+      const id = $("operator_id").value.trim();
+      const payload = {
+        id,
+        name: $("operator_name").value.trim(),
+        network_id: $("operator_network_id").value,
+        logo_url: textOrNull($("operator_logo_url").value),
+        is_active: $("operator_is_active").value === "true",
+      };
+
+      if (!payload.id) return $("operatorMsg").textContent = "Erreur: id obligatoire";
+      if (!payload.name) return $("operatorMsg").textContent = "Erreur: name obligatoire";
+      if (!payload.network_id) return $("operatorMsg").textContent = "Erreur: network_id obligatoire";
+
+      let res;
+      if ($("operator_id").disabled) {
+        // UPDATE
+        res = await supabase
+          .from("operators")
+          .update({
+            name: payload.name,
+            network_id: payload.network_id,
+            logo_url: payload.logo_url,
+            is_active: payload.is_active
+          })
+          .eq("id", id)
+          .select()
+          .single();
+      } else {
+        // INSERT
+        res = await supabase.from("operators").insert([payload]).select().single();
+      }
+
+      if (res.error) return $("operatorMsg").textContent = res.error.message;
+
+      $("operatorMsg").textContent = "OK ✅";
+      closeDrawer("drawerOperator");
+      await refreshOperators();
+      await loadOperatorsSelect(); // refresh offer select
+    });
+
+    // Buttons refresh
+    $("btnRefreshOffers").addEventListener("click", async () => {
+      try { await refreshOffers(); } catch (e) { alert(e.message); }
+    });
+    $("btnRefreshOperators").addEventListener("click", async () => {
+      try { await refreshOperators(); } catch (e) { alert(e.message); }
+    });
+
+    // AUTH
+    async function setUi(session) {
+      const logged = !!session;
+      $("authCard").style.display = logged ? "none" : "block";
+      $("appCard").style.display = logged ? "block" : "none";
+      $("tabs").style.display = logged ? "inline-flex" : "none";
+      $("btnLogout").style.display = logged ? "inline-flex" : "none";
+      $("userEmail").style.display = logged ? "inline-flex" : "none";
+
+      if (!logged) return;
+
+      $("userEmail").textContent = session.user.email;
+
+      // preload selects + views
+      try {
+        await loadNetworksSelect();
+        await loadOperatorsSelect();
+        await refreshOffers();
+        await refreshOperators();
+        setTab("offers");
+        setDebug({ ok: true, user: session.user.email });
+      } catch (e) {
+        setDebug({ ok: false, error: e });
+        alert(e.message || "Erreur chargement");
+      }
+    }
+
+    $("btnLogin").addEventListener("click", async () => {
+      $("authMsg").textContent = "";
+      const email = $("email").value.trim();
+      const password = $("password").value;
+
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) $("authMsg").textContent = error.message;
+    });
+
+    $("btnLogout").addEventListener("click", async () => {
+      await supabase.auth.signOut();
+    });
+
+    supabase.auth.onAuthStateChange((_event, session) => setUi(session));
+
+    const { data: { session } } = await supabase.auth.getSession();
+    setUi(session);
+  </script>
+</body>
+</html>
+
