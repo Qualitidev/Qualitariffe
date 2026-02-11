@@ -1,0 +1,541 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Qualitariffe — Comparateur mobile (Italie)</title>
+  <meta name="description" content="Comparateur forfaits mobiles Italie : prix, data, roaming UE, activation, appels, SMS." />
+  <style>
+    :root{
+      --bg:#ffffff;
+      --surface:#ffffff;
+      --surface-2:#f7f8fc;
+      --text:#0f172a;
+      --muted:#475569;
+      --accent:#2563eb;
+      --accent-2:#0ea5e9;
+      --ok:#16a34a;
+      --warn:#d97706;
+      --bad:#dc2626;
+      --border: rgba(15, 23, 42, .10);
+      --shadow: 0 10px 30px rgba(2, 6, 23, .08);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      background: linear-gradient(180deg, #ffffff 0%, #fbfcff 60%, #ffffff 100%);
+      color:var(--text);
+      line-height:1.35;
+    }
+    header{
+      padding:22px 18px 10px;
+      max-width:1200px;
+      margin:0 auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+    .brand a{color:var(--text); text-decoration:none; font-weight:800;}
+    .nav a{color:var(--muted); text-decoration:none; font-size:13px; margin-left:14px;}
+    .nav a:hover{color:var(--accent); text-decoration:underline;}
+    .wrap{
+      max-width:1200px;
+      margin:0 auto;
+      padding:10px 18px 28px;
+      display:grid;
+      gap:14px;
+    }
+    .panel{
+      background: var(--surface);
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:14px;
+      box-shadow: var(--shadow);
+    }
+    .title{
+      margin:0 0 4px;
+      font-size: clamp(20px, 2.5vw, 28px);
+    }
+    .subtitle{margin:0; color:var(--muted); font-size:13px;}
+
+    .controls{
+      margin-top:12px;
+      display:grid;
+      grid-template-columns: 1.3fr 1fr 1fr 1fr;
+      gap:10px;
+      align-items:end;
+    }
+    @media (max-width: 900px){ .controls{grid-template-columns:1fr 1fr} }
+    @media (max-width: 520px){ .controls{grid-template-columns:1fr} }
+
+    label{
+      display:block;
+      font-size:12px;
+      color:var(--muted);
+      margin:0 0 6px;
+    }
+    input, select{
+      width:100%;
+      background: var(--surface-2);
+      color:var(--text);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding:10px 10px;
+      outline:none;
+    }
+    input::placeholder{color: rgba(71, 85, 105, .75)}
+
+    .chips{display:flex; flex-wrap:wrap; gap:8px; margin-top:10px}
+    .chip{
+      border:1px solid var(--border);
+      background: var(--surface-2);
+      border-radius:999px;
+      padding:7px 10px;
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    table{
+      width:100%;
+      border-collapse:separate;
+      border-spacing:0;
+      overflow:hidden;
+      border-radius:14px;
+      border:1px solid var(--border);
+      background: var(--surface);
+    }
+    thead th{
+      position:sticky; top:0;
+      background: #ffffff;
+      border-bottom:1px solid var(--border);
+      padding:12px 10px;
+      text-align:left;
+      font-size:12px;
+      color:var(--muted);
+      white-space:nowrap;
+      z-index:2;
+    }
+    tbody td{
+      padding:12px 10px;
+      border-bottom:1px solid rgba(15, 23, 42, .06);
+      vertical-align:top;
+      font-size:13px;
+    }
+    tbody tr:hover{background: rgba(37, 99, 235, .04);}
+
+    .op{display:flex; flex-direction:column; gap:4px; min-width: 240px;}
+    .op strong{font-size:14px}
+    .right{ text-align:right; white-space:nowrap; }
+    .small{ font-size:12px; color:var(--muted); }
+
+    .pill{
+      display:inline-block;
+      padding:4px 8px;
+      border-radius:999px;
+      font-size:12px;
+      border:1px solid var(--border);
+      background: var(--surface-2);
+      color:var(--text);
+    }
+    .pill.ok{border-color: rgba(22,163,74,.25); background: rgba(22,163,74,.08); color:#14532d;}
+    .pill.warn{border-color: rgba(217,119,6,.25); background: rgba(217,119,6,.10); color:#7c2d12;}
+    .pill.bad{border-color: rgba(220,38,38,.25); background: rgba(220,38,38,.08); color:#7f1d1d;}
+
+    a{color:var(--accent); text-decoration:none}
+    a:hover{text-decoration:underline}
+
+    .btn{
+      cursor:pointer;
+      border:1px solid var(--border);
+      background: var(--surface-2);
+      color:var(--text);
+      border-radius: 10px;
+      padding:10px 12px;
+      font-size:13px;
+    }
+    .btn:hover{background: rgba(2, 6, 23, .06);}
+
+    .btn-primary{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:10px 12px;
+      border-radius:12px;
+      border: 1px solid rgba(37,99,235,.20);
+      background: linear-gradient(180deg, rgba(37,99,235,.10), rgba(14,165,233,.10));
+      color: #0b2a6b;
+      font-weight:600;
+      text-decoration:none;
+      white-space:nowrap;
+    }
+    .btn-primary:hover{
+      text-decoration:none;
+      border-color: rgba(37,99,235,.35);
+      background: linear-gradient(180deg, rgba(37,99,235,.14), rgba(14,165,233,.14));
+    }
+
+    footer{
+      max-width:1200px;
+      margin:0 auto;
+      padding:0 18px 30px;
+      color:var(--muted);
+      font-size:12px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand"><a href="index.html">Qualitariffe</a></div>
+    <div class="nav">
+      <a href="index.html">Accueil</a>
+      <a href="#sources">Sources</a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="panel">
+      <h1 class="title">Comparateur mobile — Italie</h1>
+      <p class="subtitle">Compare prix, data, roaming UE, activation, appels et SMS. Ouvre “Site opérateur” pour confirmer.</p>
+
+      <div class="controls">
+        <div>
+          <label>Recherche</label>
+          <input id="q" type="text" placeholder="ex : iliad, start 5g, under 14…" />
+        </div>
+        <div>
+          <label>Budget max (€/mois)</label>
+          <input id="maxPrice" type="number" min="0" step="0.01" placeholder="ex : 10" />
+        </div>
+        <div>
+          <label>Data min Italie (GB)</label>
+          <input id="minItGb" type="number" min="0" step="1" placeholder="ex : 150" />
+        </div>
+        <div>
+          <label>Data min roaming UE (GB)</label>
+          <input id="minEuGb" type="number" min="0" step="1" placeholder="ex : 15" />
+        </div>
+
+        <div>
+          <label>Tri</label>
+          <select id="sortBy">
+            <option value="price">Prix (croissant)</option>
+            <option value="itgb">Data Italie (décroissant)</option>
+            <option value="eugb">Roaming UE (décroissant)</option>
+            <option value="activation">Activation (croissant)</option>
+          </select>
+        </div>
+
+        <div>
+          <label>Opérateur</label>
+          <select id="op">
+            <option value="">Tous</option>
+            <option value="Iliad">Iliad</option>
+            <option value="Vodafone">Vodafone</option>
+            <option value="TIM">TIM</option>
+            <option value="WINDTRE">WINDTRE</option>
+          </select>
+        </div>
+
+        <div>
+          <label>Afficher</label>
+          <select id="view">
+            <option value="all">Toutes les offres</option>
+            <option value="bestvalue">Meilleur €/GB Italie</option>
+            <option value="bestroaming">Meilleur roaming UE</option>
+          </select>
+        </div>
+
+        <div>
+          <button class="btn" id="reset">Réinitialiser</button>
+        </div>
+      </div>
+
+      <div class="chips">
+        <div class="chip">Roaming UE : plafond possible (fair use policy)</div>
+        <div class="chip">Activation/SIM : peut varier selon promo / canal</div>
+        <div class="chip">Prix “—” : parfois rendu via JS sur les pages</div>
+      </div>
+    </section>
+
+    <section class="panel" style="padding:0; overflow:auto; max-height:70vh;">
+      <table id="tbl" aria-label="Table comparateur">
+        <thead>
+          <tr>
+            <th>Offre</th>
+            <th class="right">Prix / mois</th>
+            <th>Data (Italie)</th>
+            <th>Roaming UE</th>
+            <th>Appels</th>
+            <th>SMS</th>
+            <th class="right">Activation / SIM</th>
+            <th>Durée / renouvellement</th>
+            <th id="sources">Sources</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+  </main>
+
+  <footer>
+    Pour chaque offre, utilise les liens “Sources” et “Site opérateur” pour confirmer les détails.
+  </footer>
+
+  <script>
+    const plans = [
+      {
+        operator: "Iliad",
+        name: "Giga 200 (9,99€)",
+        priceMonthly: 9.99,
+        itGB: 200,
+        euGB: 15,
+        calls: "Illimités",
+        sms: "Illimités",
+        activationEUR: 9.99,
+        simEUR: 0,
+        duration: "Contrat sans durée minimale, renouvellement mensuel",
+        operatorSite: "https://www.iliad.it/offerta-iliad-giga200-999.html",
+        sources: [
+          {label:"Offre", url:"https://www.iliad.it/offerta-iliad-giga200-999.html"},
+          {label:"Synthèse contractuelle (PDF)", url:"https://www.iliad.it/docs/sintesi-contrattuale/sintesi-contrattuale-giga200-999_dal_06_05_2025.pdf"}
+        ]
+      },
+      {
+        operator: "Vodafone",
+        name: "Vodafone Start",
+        priceMonthly: 9.95,
+        itGB: 150,
+        euGB: 32,
+        calls: "Illimités",
+        sms: "200",
+        activationEUR: 10.00,
+        simEUR: 0,
+        duration: "Sans durée minimale, renouvellement mensuel",
+        operatorSite: "https://privati.vodafone.it/mobile/telefonia-mobile/mobile-start",
+        sources: [
+          {label:"Page offre", url:"https://privati.vodafone.it/mobile/telefonia-mobile/mobile-start"},
+          {label:"Synthèse (PDF)", url:"https://myvfapp-aem.vodafone.it/content/dam/myvf/mva10/cce-pdf/Vodafone_Mobile_Start.pdf"}
+        ]
+      },
+      {
+        operator: "TIM",
+        name: "TIM Power Special 5G",
+        priceMonthly: 9.99,
+        itGB: 200,
+        euGB: 18,
+        calls: "Illimités",
+        sms: "200",
+        activationEUR: 6.99,
+        simEUR: null,
+        duration: "Mensuel (rechargeable). Conditions selon souscription/portabilité",
+        operatorSite: "https://www.tim.it/fisso-e-mobile/mobile/tim-power-special-5g",
+        sources: [
+          {label:"Prospectus (PDF)", url:"https://risorse.tim.it/content/dam/flytoco-areapubblica-aemfe/tim_it/pdf/fisso-e-mobile/mobile/tim-power-special-5g/prospetto-sintetico.pdf"},
+          {label:"Roaming UE", url:"https://www.tim.it/fisso-e-mobile/estero/all-estero/roaming-europa"}
+        ]
+      },
+      {
+        operator: "WINDTRE",
+        name: "Start 5G (nuovo numero)",
+        priceMonthly: null,
+        itGB: 200,
+        euGB: 14.9,
+        calls: "Illimités",
+        sms: "200",
+        activationEUR: null,
+        simEUR: 0,
+        duration: "Renouvellement mensuel (voir conditions sur la page)",
+        operatorSite: "https://www.windtre.it/all-inclusive/start-5g",
+        sources: [
+          {label:"Page offre", url:"https://www.windtre.it/all-inclusive/start-5g"}
+        ]
+      },
+      {
+        operator: "WINDTRE",
+        name: "GO 200 L",
+        priceMonthly: null,
+        itGB: 200,
+        euGB: 13.4,
+        calls: "Illimités",
+        sms: "50",
+        activationEUR: null,
+        simEUR: 0,
+        duration: "Renouvellement mensuel (voir conditions sur la page)",
+        operatorSite: "https://www.windtre.it/all-inclusive/go-200-l",
+        sources: [
+          {label:"Page offre", url:"https://www.windtre.it/all-inclusive/go-200-l"}
+        ]
+      },
+      {
+        operator: "WINDTRE",
+        name: "Special 5G (nuovi numeri)",
+        priceMonthly: null,
+        itGB: 200,
+        euGB: null,
+        calls: "Illimités",
+        sms: "50",
+        activationEUR: null,
+        simEUR: 0,
+        duration: "Renouvellement mensuel (voir conditions sur la page)",
+        operatorSite: "https://www.windtre.it/all-inclusive/special-5g-nuovi-numeri",
+        sources: [
+          {label:"Page offre", url:"https://www.windtre.it/all-inclusive/special-5g-nuovi-numeri"}
+        ]
+      },
+      {
+        operator: "WINDTRE",
+        name: "Super 5G Under 14",
+        priceMonthly: null,
+        itGB: 150,
+        euGB: 10.5,
+        calls: "Illimités",
+        sms: "200",
+        activationEUR: null,
+        simEUR: null,
+        duration: "Offre dédiée Under 14, voir conditions sur la page",
+        operatorSite: "https://www.windtre.it/all-inclusive/super-5g-under-14",
+        sources: [
+          {label:"Page offre", url:"https://www.windtre.it/all-inclusive/super-5g-under-14"}
+        ]
+      }
+    ];
+
+    const els = {
+      tbody: document.querySelector("#tbl tbody"),
+      q: document.querySelector("#q"),
+      maxPrice: document.querySelector("#maxPrice"),
+      minItGb: document.querySelector("#minItGb"),
+      minEuGb: document.querySelector("#minEuGb"),
+      sortBy: document.querySelector("#sortBy"),
+      op: document.querySelector("#op"),
+      view: document.querySelector("#view"),
+      reset: document.querySelector("#reset")
+    };
+
+    function eur(n){
+      if(n === null || n === undefined) return "—";
+      return new Intl.NumberFormat('fr-FR', {style:'currency', currency:'EUR'}).format(n);
+    }
+    function safeNumber(n){
+      return (typeof n === "number" && Number.isFinite(n)) ? n : null;
+    }
+    function pricePillClass(price){
+      if(price === null) return "warn";
+      if(price <= 10) return "ok";
+      if(price <= 20) return "warn";
+      return "bad";
+    }
+    function euroPerGbText(p){
+      const price = safeNumber(p.priceMonthly);
+      const itGB = safeNumber(p.itGB);
+      if(price === null || itGB === null || itGB === 0) return "—";
+      return (price / itGB).toFixed(3);
+    }
+
+    function render(rows){
+      els.tbody.innerHTML = rows.map(p => {
+        const activation = (p.activationEUR==null && p.simEUR==null)
+          ? "—"
+          : `${eur(p.activationEUR)}${p.simEUR!=null ? " + SIM " + eur(p.simEUR) : ""}`;
+
+        const src = (p.sources || []).map(s => `<a href="${s.url}" target="_blank" rel="noopener">${s.label}</a>`).join("<br/>");
+        const pillClass = pricePillClass(safeNumber(p.priceMonthly));
+
+        return `
+          <tr>
+            <td>
+              <div class="op">
+                <strong>${p.operator} — ${p.name}</strong>
+                <span class="small">€/GB Italie: ${euroPerGbText(p)}</span>
+              </div>
+            </td>
+            <td class="right"><span class="pill ${pillClass}">${eur(p.priceMonthly)}</span></td>
+            <td>${p.itGB ? `${p.itGB} GB` : "—"}</td>
+            <td>${p.euGB ? `${p.euGB} GB` : "—"}</td>
+            <td>${p.calls || "—"}</td>
+            <td>${p.sms || "—"}</td>
+            <td class="right">${activation}</td>
+            <td>${p.duration || "—"}</td>
+            <td style="min-width:240px">${src || "—"}</td>
+            <td>
+              <a class="btn-primary" href="${p.operatorSite}" target="_blank" rel="noopener">Site opérateur</a>
+            </td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    function apply(){
+      const q = (els.q.value || "").toLowerCase().trim();
+      const maxPrice = parseFloat(els.maxPrice.value);
+      const minItGb = parseFloat(els.minItGb.value);
+      const minEuGb = parseFloat(els.minEuGb.value);
+      const op = els.op.value;
+      const view = els.view.value;
+      const sortBy = els.sortBy.value;
+
+      let rows = plans.slice();
+
+      if(op) rows = rows.filter(p => p.operator === op);
+      if(q) rows = rows.filter(p => (p.operator + " " + p.name).toLowerCase().includes(q));
+
+      if(!Number.isNaN(maxPrice)){
+        rows = rows.filter(p => (safeNumber(p.priceMonthly) ?? Infinity) <= maxPrice);
+      }
+      if(!Number.isNaN(minItGb)){
+        rows = rows.filter(p => (safeNumber(p.itGB) ?? 0) >= minItGb);
+      }
+      if(!Number.isNaN(minEuGb)){
+        rows = rows.filter(p => (safeNumber(p.euGB) ?? 0) >= minEuGb);
+      }
+
+      if(view === "bestvalue"){
+        rows = rows
+          .filter(p => safeNumber(p.itGB) && safeNumber(p.priceMonthly))
+          .sort((a,b) => (a.priceMonthly/a.itGB) - (b.priceMonthly/b.itGB))
+          .slice(0,3);
+      } else if(view === "bestroaming"){
+        rows = rows
+          .sort((a,b) => (safeNumber(b.euGB) ?? 0) - (safeNumber(a.euGB) ?? 0))
+          .slice(0,3);
+      }
+
+      rows.sort((a,b) => {
+        if(sortBy === "price") return (safeNumber(a.priceMonthly) ?? 9999) - (safeNumber(b.priceMonthly) ?? 9999);
+        if(sortBy === "itgb") return (safeNumber(b.itGB) ?? -1) - (safeNumber(a.itGB) ?? -1);
+        if(sortBy === "eugb") return (safeNumber(b.euGB) ?? -1) - (safeNumber(a.euGB) ?? -1);
+        if(sortBy === "activation") return (safeNumber(a.activationEUR) ?? 9999) - (safeNumber(b.activationEUR) ?? 9999);
+        return 0;
+      });
+
+      render(rows);
+    }
+
+    ["input","change"].forEach(evt=>{
+      els.q.addEventListener(evt, apply);
+      els.maxPrice.addEventListener(evt, apply);
+      els.minItGb.addEventListener(evt, apply);
+      els.minEuGb.addEventListener(evt, apply);
+      els.sortBy.addEventListener(evt, apply);
+      els.op.addEventListener(evt, apply);
+      els.view.addEventListener(evt, apply);
+    });
+
+    els.reset.addEventListener("click", () => {
+      els.q.value = "";
+      els.maxPrice.value = "";
+      els.minItGb.value = "";
+      els.minEuGb.value = "";
+      els.sortBy.value = "price";
+      els.op.value = "";
+      els.view.value = "all";
+      apply();
+    });
+
+    apply();
+  </script>
+</body>
+</html>
