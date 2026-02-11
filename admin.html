@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Admin — Qualitariffe</title>
+  <style>
+    body { font-family: system-ui, Arial; max-width: 1000px; margin: 24px auto; padding: 0 16px; }
+    header { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+    .card { border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px; margin: 16px 0; }
+    input { width: 100%; padding: 10px; border:1px solid #d1d5db; border-radius: 10px; }
+    button { padding: 10px 12px; border:0; border-radius: 10px; cursor:pointer; }
+    button.primary { background:#111827; color:white; }
+    button.ghost { background:#f3f4f6; }
+    table { width:100%; border-collapse: collapse; }
+    th, td { border-bottom: 1px solid #eee; padding: 10px; text-align:left; vertical-align: middle; }
+    .row { display:flex; gap:12px; }
+    .row > div { flex:1; }
+    .muted { color:#6b7280; font-size: 12px; }
+    .pill { padding: 2px 8px; border-radius: 999px; font-size: 12px; display:inline-block; }
+    .pill.on { background:#dcfce7; color:#166534; }
+    .pill.off { background:#fee2e2; color:#991b1b; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1 style="margin:0;">Admin — Qualitariffe</h1>
+    <div class="muted">Connexion Supabase + gestion des offres</div>
+  </div>
+  <div>
+    <button id="btnLogout" class="ghost" style="display:none;">Logout</button>
+  </div>
+</header>
+
+<div id="authCard" class="card">
+  <h2 style="margin-top:0;">Login</h2>
+  <div class="row">
+    <div>
+      <label class="muted">Email</label>
+      <input id="email" type="email" autocomplete="email" placeholder="admin@domaine.com">
+    </div>
+    <div>
+      <label class="muted">Mot de passe</label>
+      <input id="password" type="password" autocomplete="current-password" placeholder="••••••••">
+    </div>
+  </div>
+  <div style="margin-top:12px; display:flex; gap:10px;">
+    <button id="btnLogin" class="primary">Se connecter</button>
+  </div>
+  <pre id="authMsg" class="muted" style="white-space:pre-wrap; margin-top:12px;"></pre>
+</div>
+
+<div id="appCard" class="card" style="display:none;">
+  <h2 style="margin-top:0;">Offres</h2>
+  <div class="muted" style="margin-bottom:10px;">
+    Astuce: si tu vois des erreurs RLS, c’est que tes policies UPDATE/INSERT ne sont pas encore ouvertes pour l’utilisateur connecté.
+  </div>
+  <div id="tableWrap"></div>
+</div>
+
+<script type="module">
+  import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+  // 1) Mets ici ta publishable key
+  const supabaseUrl = "https://ytlpotajswovxwzxrmvu.supabase.co";
+  const supabaseKey = "COLLE_ICI_TA_PUBLISHABLE_KEY_sb_publishable_...";
+  const supabase = createClient(supabaseUrl, supabaseKey);
+
+  const $ = (id) => document.getElementById(id);
+
+  async function refreshOffers() {
+    const { data, error } = await supabase
+      .from("offers")
+      .select("id,title,price_eur,active,operator_id,created_at")
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      $("tableWrap").innerHTML = `<pre class="muted">${JSON.stringify(error, null, 2)}</pre>`;
+      return;
+    }
+
+    const rows = data.map(o => `
+      <tr>
+        <td><div style="font-weight:600">${o.title ?? ""}</div><div class="muted">${o.id}</div></td>
+        <td>${o.operator_id ?? ""}</td>
+        <td>€ ${Number(o.price_eur).toFixed(2)}</td>
+        <td>${o.active ? `<span class="pill on">ACTIVE</span>` : `<span class="pill off">OFF</span>`}</td>
+        <td>
+          <button class="ghost" data-id="${o.id}" data-active="${o.active}">
+            Basculer
+          </button>
+        </td>
+      </tr>
+    `).join("");
+
+    $("tableWrap").innerHTML = `
+      <table>
+        <thead>
+          <tr>
+            <th>Offre</th>
+            <th>Opérateur</th>
+            <th>Prix</th>
+            <th>Statut</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>
+    `;
+
+    // bind buttons
+    document.querySelectorAll("button[data-id]").forEach(btn => {
+      btn.addEventListener("click", async () => {
+        const id = btn.getAttribute("data-id");
+        const active = btn.getAttribute("data-active") === "true";
+        await toggleActive(id, !active);
+      });
+    });
+  }
+
+  async function toggleActive(id, nextActive) {
+    const { error } = await supabase
+      .from("offers")
+      .update({ active: nextActive })
+      .eq("id", id);
+
+    if (error) {
+      alert("Erreur update (RLS?)\\n" + JSON.stringify(error, null, 2));
+      return;
+    }
+    await refreshOffers();
+  }
+
+  async function setUiForSession(session) {
+    const isLogged = !!session;
+    $("authCard").style.display = isLogged ? "none" : "block";
+    $("appCard").style.display = isLogged ? "block" : "none";
+    $("btnLogout").style.display = isLogged ? "inline-block" : "none";
+    if (isLogged) await refreshOffers();
+  }
+
+  // Login
+  $("btnLogin").addEventListener("click", async () => {
+    $("authMsg").textContent = "Connexion...";
+    const email = $("email").value.trim();
+    const password = $("password").value;
+
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+
+    if (error) {
+      $("authMsg").textContent = "Erreur: " + error.message;
+      return;
+    }
+    $("authMsg").textContent = "OK: " + data.user.email;
+  });
+
+  // Logout
+  $("btnLogout").addEventListener("click", async () => {
+    await supabase.auth.signOut();
+  });
+
+  // Session initiale + écoute des changements
+  const { data: { session } } = await supabase.auth.getSession();
+  await setUiForSession(session);
+
+  supabase.auth.onAuthStateChange(async (_event, sessionNow) => {
+    await setUiForSession(sessionNow);
+  });
+</script>
+
+</body>
+</html>
