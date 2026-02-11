@@ -3,52 +3,101 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Admin — Qualitariffe</title>
   <style>
-    :root { --accent: #111827; --bg: #f9fafb; }
-    body { font-family: system-ui, -apple-system, sans-serif; max-width: 1000px; margin: 24px auto; padding: 0 16px; background: var(--bg); color: #1f2937; }
-    header { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom: 30px; }
-    .card { background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-    input { width: 100%; padding: 10px; border:1px solid #d1d5db; border-radius: 8px; margin-top: 5px; box-sizing: border-box; }
-    button { padding: 10px 16px; border:0; border-radius: 8px; cursor:pointer; font-weight: 600; transition: all 0.2s; }
+    :root { --accent: #7c3aed; --bg: #f8fafc; --text: #1e293b; }
+    body { font-family: system-ui, -apple-system, sans-serif; max-width: 1100px; margin: 24px auto; padding: 0 16px; background: var(--bg); color: var(--text); }
+    header { display:flex; align-items:center; justify-content:space-between; margin-bottom: 30px; }
+    .card { background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+    
+    /* Formulaire & Inputs */
+    label { display: block; font-size: 13px; font-weight: 600; margin-top: 12px; color: #64748b; }
+    input, select { width: 100%; padding: 10px; border:1px solid #cbd5e1; border-radius: 8px; margin-top: 4px; box-sizing: border-box; font-size: 14px; }
+    
+    /* Boutons */
+    button { padding: 10px 18px; border:0; border-radius: 8px; cursor:pointer; font-weight: 600; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; }
     button.primary { background: var(--accent); color:white; }
-    button.ghost { background:#f3f4f6; color: #4b5563; }
-    button:hover { opacity: 0.85; }
+    button.ghost { background:#f1f5f9; color: #475569; }
+    button.outline { background: transparent; border: 1px solid #cbd5e1; color: var(--text); }
+    button:hover { opacity: 0.9; transform: translateY(-1px); }
+
+    /* Table */
     table { width:100%; border-collapse: collapse; margin-top: 15px; }
-    th, td { border-bottom: 1px solid #f3f4f6; padding: 12px; text-align:left; }
-    th { color: #6b7280; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
-    .muted { color:#6b7280; font-size: 13px; }
-    .pill { padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; display:inline-block; }
+    th, td { border-bottom: 1px solid #f1f5f9; padding: 14px; text-align:left; }
+    th { font-size: 11px; text-transform: uppercase; color: #94a3b8; letter-spacing: 0.05em; }
+    .pill { padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; }
     .pill.on { background:#dcfce7; color:#166534; }
     .pill.off { background:#fee2e2; color:#991b1b; }
-  </style></head><body>
+
+    /* Drawer (Panneau Latéral) */
+    #drawer { position: fixed; top: 0; right: -450px; width: 400px; height: 100%; background: white; box-shadow: -5px 0 15px rgba(0,0,0,0.1); transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); z-index: 1000; padding: 30px; overflow-y: auto; }
+    #drawer.open { right: 0; }
+    #overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.3); display:none; z-index: 999; backdrop-filter: blur(2px); }
+  </style>
+</head>
+<body>
+
+<div id="overlay"></div>
+
+<div id="drawer">
+  <h2 id="drawerTitle" style="margin-top:0;">Nouvelle Offre</h2>
+  <form id="offerForm">
+    <input type="hidden" id="f_id">
+    
+    <label>Titre de l'offre (SEO friendly)</label>
+    <input type="text" id="f_title" placeholder="Ex: Giga 150 5G" required>
+
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+      <div>
+        <label>Opérateur ID</label>
+        <input type="text" id="f_operator" placeholder="iliad, ho, etc." required>
+      </div>
+      <div>
+        <label>Prix (€)</label>
+        <input type="number" step="0.01" id="f_price" placeholder="9.99" required>
+      </div>
+    </div>
+
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+      <div>
+        <label>Giga IT</label>
+        <input type="number" id="f_giga_it" placeholder="150">
+      </div>
+      <div>
+        <label>Giga EU</label>
+        <input type="number" id="f_giga_eu" placeholder="10">
+      </div>
+    </div>
+
+    <label>Lien d'affiliation / CTA</label>
+    <input type="url" id="f_link" placeholder="https://...">
+
+    <div style="margin-top: 30px; display: flex; gap: 10px;">
+      <button type="submit" class="primary" style="flex:1">Enregistrer</button>
+      <button type="button" class="outline" onclick="closeDrawer()">Annuler</button>
+    </div>
+  </form>
+</div>
 
 <header>
   <div>
-    <h1 style="margin:0; font-size: 24px;">Console Admin</h1>
-    <div class="muted">Qualitariffe — Gestion des offres</div>
+    <h1 style="margin:0;">Console Admin</h1>
+    <div id="userEmail" class="pill" style="margin-top:5px; font-weight: normal; background: #eee;"></div>
   </div>
-  <button id="btnLogout" class="ghost" style="display:none;">Déconnexion</button>
+  <div style="display:flex; gap:10px;">
+    <button id="btnNew" class="primary" style="display:none;">+ Nouvelle Offre</button>
+    <button id="btnLogout" class="ghost" style="display:none;">Déconnexion</button>
+  </div>
 </header>
 
-<div id="authCard" class="card" style="max-width: 400px; margin: 40px auto;">
+<div id="authCard" class="card" style="max-width: 400px; margin: 60px auto;">
   <h2 style="margin-top:0;">Connexion</h2>
-  <div style="margin-bottom: 15px;">
-    <label class="muted">Email</label>
-    <input id="email" type="email" placeholder="votre@email.com">
-  </div>
-  <div style="margin-bottom: 20px;">
-    <label class="muted">Mot de passe</label>
-    <input id="password" type="password" placeholder="••••••••">
-  </div>
-  <button id="btnLogin" class="primary" style="width: 100%;">Se connecter</button>
-  <p id="authMsg" class="muted" style="text-align: center; margin-top: 15px;"></p>
+  <input id="email" type="email" placeholder="Email">
+  <input id="password" type="password" placeholder="Mot de passe">
+  <button id="btnLogin" class="primary" style="width:100%; margin-top:20px; justify-content:center;">Se connecter</button>
+  <p id="authMsg" style="color:red; font-size:13px; text-align:center;"></p>
 </div>
 
 <div id="appCard" style="display:none;">
   <div class="card">
-    <div style="display:flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-      <h2 style="margin:0;">Offres en base</h2>
-      <div class="muted" id="countInfo">Chargement...</div>
-    </div>
     <div id="tableWrap" style="overflow-x: auto;"></div>
   </div>
 </div>
@@ -62,82 +111,116 @@
 
   const $ = (id) => document.getElementById(id);
 
-  async function refreshOffers() {
-    const { data, error } = await _supabase
-      .from("offers")
-      .select("*")
-      .order("created_at", { ascending: false });
-
-    if (error) {
-      $("tableWrap").innerHTML = `<div class="pill off">Erreur : ${error.message}</div>`;
-      return;
+  // GESTION DRAWER
+  function openDrawer(offer = null) {
+    $("drawer").classList.add("open");
+    $("overlay").style.display = "block";
+    if (offer) {
+      $("drawerTitle").textContent = "Modifier l'offre";
+      $("f_id").value = offer.id;
+      $("f_title").value = offer.title || "";
+      $("f_operator").value = offer.operator_id || "";
+      $("f_price").value = offer.price_eur || "";
+      $("f_giga_it").value = offer.giga_it || "";
+      $("f_giga_eu").value = offer.giga_eu || "";
+      $("f_link").value = offer.link_external || "";
+    } else {
+      $("drawerTitle").textContent = "Nouvelle Offre";
+      $("offerForm").reset();
+      $("f_id").value = "";
     }
+  }
 
-    $("countInfo").textContent = `${data.length} offres`;
+  window.closeDrawer = () => {
+    $("drawer").classList.remove("open");
+    $("overlay").style.display = "none";
+  };
+
+  $("overlay").onclick = closeDrawer;
+  $("btnNew").onclick = () => openDrawer();
+
+  // ACTIONS DATA
+  async function refreshOffers() {
+    const { data, error } = await _supabase.from("offers").select("*").order("created_at", { ascending: false });
+    if (error) return;
 
     const rows = data.map(o => `
       <tr>
-        <td>
-          <div style="font-weight:600">${o.title || 'Sans nom'}</div>
-          <div class="muted" style="font-size:10px;">ID: ${o.id}</div>
-        </td>
-        <td><span class="pill ghost">${o.operator_id}</span></td>
-        <td><strong>${o.price_eur} €</strong></td>
+        <td><strong>${o.title}</strong><br><small class="muted">${o.operator_id}</small></td>
+        <td>${o.price_eur} €</td>
+        <td>${o.giga_it || 0} GB</td>
         <td>${o.active ? '<span class="pill on">ACTIVE</span>' : '<span class="pill off">OFF</span>'}</td>
-        <td>
-          <button class="ghost" onclick="window.toggleActive('${o.id}', ${o.active})">
+        <td style="display:flex; gap:8px;">
+          <button class="outline" style="padding:5px 10px;" onclick="window.editOffer('${o.id}')">✏️</button>
+          <button class="ghost" style="padding:5px 10px;" onclick="window.toggleActive('${o.id}', ${o.active})">
             ${o.active ? 'Désactiver' : 'Activer'}
           </button>
         </td>
       </tr>
     `).join("");
 
-    $("tableWrap").innerHTML = `
-      <table>
-        <thead>
-          <tr>
-            <th>Détails</th>
-            <th>Opérateur</th>
-            <th>Prix</th>
-            <th>Statut</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>${rows}</tbody>
-      </table>`;
+    $("tableWrap").innerHTML = `<table><thead><tr><th>Offre</th><th>Prix</th><th>Data</th><th>Statut</th><th>Actions</th></tr></thead><tbody>${rows}</tbody></table>`;
+    
+    // On expose les données pour l'édition
+    window.currentData = data;
   }
 
-  window.toggleActive = async (id, currentStatus) => {
-    const { error } = await _supabase
-      .from("offers")
-      .update({ active: !currentStatus })
-      .eq("id", id);
-
-    if (error) alert("Erreur RLS : " + error.message);
-    else refreshOffers();
+  window.editOffer = (id) => {
+    const item = window.currentData.find(x => x.id === id);
+    openDrawer(item);
   };
 
-  async function setUiForSession(session) {
+  window.toggleActive = async (id, current) => {
+    await _supabase.from("offers").update({ active: !current }).eq("id", id);
+    refreshOffers();
+  };
+
+  // SOUMISSION DU FORMULAIRE (ADD or UPDATE)
+  $("offerForm").onsubmit = async (e) => {
+    e.preventDefault();
+    const id = $("f_id").value;
+    const payload = {
+      title: $("f_title").value,
+      operator_id: $("f_operator").value,
+      price_eur: parseFloat($("f_price").value),
+      giga_it: parseInt($("f_giga_it").value),
+      giga_eu: parseInt($("f_giga_eu").value),
+      link_external: $("f_link").value,
+    };
+
+    let res;
+    if (id) {
+      res = await _supabase.from("offers").update(payload).eq("id", id);
+    } else {
+      res = await _supabase.from("offers").insert([payload]);
+    }
+
+    if (res.error) alert(res.error.message);
+    else { closeDrawer(); refreshOffers(); }
+  };
+
+  // AUTH LOGIC
+  async function setUi(session) {
     const isLogged = !!session;
     $("authCard").style.display = isLogged ? "none" : "block";
     $("appCard").style.display = isLogged ? "block" : "none";
     $("btnLogout").style.display = isLogged ? "inline-block" : "none";
-    if (isLogged) refreshOffers();
+    $("btnNew").style.display = isLogged ? "inline-flex" : "none";
+    if (isLogged) {
+      $("userEmail").textContent = session.user.email;
+      refreshOffers();
+    }
   }
 
   $("btnLogin").onclick = async () => {
-    const email = $("email").value;
-    const password = $("password").value;
-    $("authMsg").textContent = "Vérification...";
-    const { error } = await _supabase.auth.signInWithPassword({ email, password });
-    if (error) $("authMsg").textContent = "❌ " + error.message;
+    const { error } = await _supabase.auth.signInWithPassword({ email: $("email").value, password: $("password").value });
+    if (error) $("authMsg").textContent = error.message;
   };
 
-  $("btnLogout").onclick = async () => { await _supabase.auth.signOut(); };
-
-  _supabase.auth.onAuthStateChange((_event, session) => setUiForSession(session));
+  $("btnLogout").onclick = async () => await _supabase.auth.signOut();
+  _supabase.auth.onAuthStateChange((_event, session) => setUi(session));
   
   const { data: { session } } = await _supabase.auth.getSession();
-  setUiForSession(session);
+  setUi(session);
 </script>
 </body></html>
