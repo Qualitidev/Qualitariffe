@@ -4,8 +4,8 @@
     "updatedAtUTC": "2026-02-11",
     "currency": "EUR",
     "notes": [
-      "Données de démonstration (5-6 offres) avec logique Operator Attack.",
-      "Certaines offres ont des conditions de provenance (portabilité / nuovo numero / opérateurs exclus)."
+      "Dataset de test (5-6 offres) avec Operator Attack + vitesse quand connue.",
+      "Vitesse affichée en ND si non disponible."
     ]
   },
   "operators": [
@@ -38,11 +38,11 @@
       "dataEuRoamingGB": 12,
       "calls": "Illimitate",
       "sms": "Illimitati",
+      "speedDownMbps": 1000,
+      "speedUpMbps": 100,
       "network": "iliad",
       "paymentNotes": "Rinnovo mensile",
-      "eligibility": {
-        "mode": "any"
-      },
+      "eligibility": { "mode": "any" },
       "badges": ["Prezzo forte"],
       "ctaUrl": "https://www.iliad.it/offerta-iliad-giga150-799.html",
       "sources": [
@@ -64,19 +64,14 @@
       "dataEuRoamingGB": null,
       "calls": "Illimitate",
       "sms": "Illimitati",
+      "speedDownMbps": 30,
+      "speedUpMbps": 30,
       "network": "windtre",
       "paymentNotes": "Rinnovo mensile",
       "eligibility": {
         "mode": "include_only",
-        "fromOperators": [
-          "iliad",
-          "postemobile",
-          "coopvoce",
-          "fastweb",
-          "tiscali",
-          "spusu"
-        ],
-        "note": "Offerta indicata come valida per portabilità da specifici operatori (voir PDF)."
+        "fromOperators": ["iliad", "postemobile", "coopvoce", "fastweb", "tiscali", "spusu"],
+        "note": "Validità per portabilità da operatori specifici (voir PDF)."
       },
       "badges": ["Operator Attack"],
       "ctaUrl": "https://verymobile.it/offerte/very-599",
@@ -99,28 +94,19 @@
       "dataEuRoamingGB": 9,
       "calls": "Illimitate",
       "sms": "200",
+      "speedDownMbps": 250,
+      "speedUpMbps": 75,
       "network": "tim",
-      "paymentNotes": "100GB standard; 200GB si Ricarica Automatica attiva (voir page)",
+      "paymentNotes": "100GB standard; 200GB con Ricarica Automatica attiva (voir page).",
       "eligibility": {
         "mode": "include_only",
-        "fromOperators": [
-          "nuovo_numero",
-          "iliad",
-          "ho",
-          "postemobile",
-          "coopvoce",
-          "fastweb",
-          "spusu"
-        ],
-        "note": "Page officielle liste les opérateurs éligibles + option Nuovo Numero."
+        "fromOperators": ["nuovo_numero", "iliad", "ho", "postemobile", "coopvoce", "fastweb", "spusu"],
+        "note": "Page officielle liste opérateurs éligibles + Nuovo Numero."
       },
       "badges": ["Operator Attack", "5G (limité)"],
       "ctaUrl": "https://www.kenamobile.it/prodotto/599-100gb-5g/",
       "sources": [
-        {
-          "label": "Page officielle Kena",
-          "url": "https://www.kenamobile.it/prodotto/599-100gb-5g/"
-        }
+        { "label": "Page officielle Kena", "url": "https://www.kenamobile.it/prodotto/599-100gb-5g/" }
       ]
     },
 
@@ -136,11 +122,13 @@
       "dataEuRoamingGB": 7.6,
       "calls": "Illimitate",
       "sms": "Illimitati",
+      "speedDownMbps": null,
+      "speedUpMbps": null,
       "network": "vodafone",
       "paymentNotes": "Activation promo 2,99€ selon provenance; sinon 29,90€ (voir PDF).",
       "eligibility": {
         "mode": "any",
-        "note": "Offre dédiée à nouvelles activations et portabilités; conditions spéciales selon opérateur d'origine (autoricarica/activation)."
+        "note": "Conditions selon opérateur d'origine (autoricarica/activation)."
       },
       "badges": ["Operator Attack"],
       "ctaUrl": "https://www.ho-mobile.it/",
@@ -163,20 +151,19 @@
       "dataEuRoamingGB": null,
       "calls": "Illimitate",
       "sms": "Illimitati",
+      "speedDownMbps": null,
+      "speedUpMbps": null,
       "network": "windtre",
-      "paymentNotes": "Offre présente sur site officiel; détails activation/SIM à compléter dans la V2.",
+      "paymentNotes": "Détails activation/SIM à compléter en V2.",
       "eligibility": {
         "mode": "include_only",
         "fromOperators": ["iliad", "postemobile", "coopvoce", "fastweb", "tiscali", "spusu"],
-        "note": "Exemple 'operator attack' plus cher que 5,99, utile pour tester tri/filtre."
+        "note": "Exemple Operator Attack pour tester tri/filtre."
       },
       "badges": ["Operator Attack"],
       "ctaUrl": "https://verymobile.it/offerte/very-699",
       "sources": [
-        {
-          "label": "Page officielle Very 6,99",
-          "url": "https://verymobile.it/offerte/very-699"
-        }
+        { "label": "Page officielle Very 6,99", "url": "https://verymobile.it/offerte/very-699" }
       ]
     },
 
@@ -191,20 +178,17 @@
       "dataEuRoamingGB": null,
       "calls": "Illimitate",
       "sms": "200",
+      "speedDownMbps": null,
+      "speedUpMbps": null,
       "network": "windtre",
-      "paymentNotes": "Offre 'Nuovi numeri' pour tester le cas 'Nuovo Numero' (standard).",
-      "eligibility": {
-        "mode": "include_only",
-        "fromOperators": ["nuovo_numero"]
-      },
+      "paymentNotes": "Offre Nuovi numeri (standard).",
+      "eligibility": { "mode": "include_only", "fromOperators": ["nuovo_numero"] },
       "badges": ["Nuovo Numero"],
       "ctaUrl": "https://verymobile.it/offerte/very-699-nuovi-numeri",
       "sources": [
-        {
-          "label": "Page officielle Very 6,99 Nuovi numeri",
-          "url": "https://verymobile.it/offerte/very-699-nuovi-numeri"
-        }
+        { "label": "Page officielle Very 6,99 Nuovi numeri", "url": "https://verymobile.it/offerte/very-699-nuovi-numeri" }
       ]
     }
   ]
 }
+
