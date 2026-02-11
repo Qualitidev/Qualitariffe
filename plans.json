@@ -1,0 +1,210 @@
+{
+  "meta": {
+    "site": "Qualitariffe.it",
+    "updatedAtUTC": "2026-02-11",
+    "currency": "EUR",
+    "notes": [
+      "Données de démonstration (5-6 offres) avec logique Operator Attack.",
+      "Certaines offres ont des conditions de provenance (portabilité / nuovo numero / opérateurs exclus)."
+    ]
+  },
+  "operators": [
+    { "id": "nuovo_numero", "label": "Nuovo Numero", "type": "special" },
+
+    { "id": "iliad", "label": "Iliad", "type": "mno", "domain": "iliad.it" },
+    { "id": "tim", "label": "TIM", "type": "mno", "domain": "tim.it" },
+    { "id": "vodafone", "label": "Vodafone", "type": "mno", "domain": "vodafone.it" },
+    { "id": "windtre", "label": "WindTre", "type": "mno", "domain": "windtre.it" },
+    { "id": "fastweb", "label": "Fastweb", "type": "mno", "domain": "fastweb.it" },
+
+    { "id": "very", "label": "Very Mobile", "type": "lowcost", "domain": "verymobile.it" },
+    { "id": "ho", "label": "ho. Mobile", "type": "lowcost", "domain": "ho-mobile.it" },
+    { "id": "kena", "label": "Kena Mobile", "type": "lowcost", "domain": "kenamobile.it" },
+
+    { "id": "postemobile", "label": "PosteMobile", "type": "mvno", "domain": "postemobile.it" },
+    { "id": "coopvoce", "label": "CoopVoce", "type": "mvno", "domain": "coopvoce.it" },
+    { "id": "spusu", "label": "Spusu", "type": "mvno", "domain": "spusu.it" },
+    { "id": "tiscali", "label": "Tiscali", "type": "mvno", "domain": "mobile.tiscali.it" }
+  ],
+  "plans": [
+    {
+      "id": "iliad_giga150_799",
+      "targetOperator": "iliad",
+      "name": "GIGA 150",
+      "priceMonthlyEUR": 7.99,
+      "activationEUR": 9.99,
+      "simEUR": 0,
+      "dataItalyGB": 150,
+      "dataEuRoamingGB": 12,
+      "calls": "Illimitate",
+      "sms": "Illimitati",
+      "network": "iliad",
+      "paymentNotes": "Rinnovo mensile",
+      "eligibility": {
+        "mode": "any"
+      },
+      "badges": ["Prezzo forte"],
+      "ctaUrl": "https://www.iliad.it/offerta-iliad-giga150-799.html",
+      "sources": [
+        {
+          "label": "Sintesi contrattuale (PDF)",
+          "url": "https://fibra.iliad.it/docs/sintesi-contrattuale/sintesi-contrattuale-giga150-799_dal_17_07_2025.pdf"
+        }
+      ]
+    },
+
+    {
+      "id": "very_599_mnp_150gb",
+      "targetOperator": "very",
+      "name": "Very 5,99 (MNP da operatori specifici)",
+      "priceMonthlyEUR": 5.99,
+      "activationEUR": 9.99,
+      "simEUR": 10.0,
+      "dataItalyGB": 150,
+      "dataEuRoamingGB": null,
+      "calls": "Illimitate",
+      "sms": "Illimitati",
+      "network": "windtre",
+      "paymentNotes": "Rinnovo mensile",
+      "eligibility": {
+        "mode": "include_only",
+        "fromOperators": [
+          "iliad",
+          "postemobile",
+          "coopvoce",
+          "fastweb",
+          "tiscali",
+          "spusu"
+        ],
+        "note": "Offerta indicata come valida per portabilità da specifici operatori (voir PDF)."
+      },
+      "badges": ["Operator Attack"],
+      "ctaUrl": "https://verymobile.it/offerte/very-599",
+      "sources": [
+        {
+          "label": "Sintesi contrattuale (PDF)",
+          "url": "https://verymobile.it/Document/trasparenza-tariffaria/trasp-0807/20250708_599_SINTESI.pdf.coredownload.inline.pdf"
+        }
+      ]
+    },
+
+    {
+      "id": "kena_599_100gb_5g",
+      "targetOperator": "kena",
+      "name": "5,99 100GB 5G",
+      "priceMonthlyEUR": 5.99,
+      "activationEUR": 4.0,
+      "simEUR": 0,
+      "dataItalyGB": 100,
+      "dataEuRoamingGB": 9,
+      "calls": "Illimitate",
+      "sms": "200",
+      "network": "tim",
+      "paymentNotes": "100GB standard; 200GB si Ricarica Automatica attiva (voir page)",
+      "eligibility": {
+        "mode": "include_only",
+        "fromOperators": [
+          "nuovo_numero",
+          "iliad",
+          "ho",
+          "postemobile",
+          "coopvoce",
+          "fastweb",
+          "spusu"
+        ],
+        "note": "Page officielle liste les opérateurs éligibles + option Nuovo Numero."
+      },
+      "badges": ["Operator Attack", "5G (limité)"],
+      "ctaUrl": "https://www.kenamobile.it/prodotto/599-100gb-5g/",
+      "sources": [
+        {
+          "label": "Page officielle Kena",
+          "url": "https://www.kenamobile.it/prodotto/599-100gb-5g/"
+        }
+      ]
+    },
+
+    {
+      "id": "ho_599_100gb",
+      "targetOperator": "ho",
+      "name": "ho. 5,99 100GB",
+      "priceMonthlyEUR": 5.99,
+      "activationEUR": 2.99,
+      "activationEUR_alt": 29.90,
+      "simEUR": 0,
+      "dataItalyGB": 100,
+      "dataEuRoamingGB": 7.6,
+      "calls": "Illimitate",
+      "sms": "Illimitati",
+      "network": "vodafone",
+      "paymentNotes": "Activation promo 2,99€ selon provenance; sinon 29,90€ (voir PDF).",
+      "eligibility": {
+        "mode": "any",
+        "note": "Offre dédiée à nouvelles activations et portabilités; conditions spéciales selon opérateur d'origine (autoricarica/activation)."
+      },
+      "badges": ["Operator Attack"],
+      "ctaUrl": "https://www.ho-mobile.it/",
+      "sources": [
+        {
+          "label": "Sintesi contrattuale (PDF)",
+          "url": "https://www.ho-mobile.it/content/dam/lean/pdf/offerta-flash/attivabili/sintesi/031224_Sintesi%20Contrattuale_5.99%20100GB_Apertura.pdf"
+        }
+      ]
+    },
+
+    {
+      "id": "very_699_mnp_200gb",
+      "targetOperator": "very",
+      "name": "Very 6,99 (200GB)",
+      "priceMonthlyEUR": 6.99,
+      "activationEUR": null,
+      "simEUR": null,
+      "dataItalyGB": 200,
+      "dataEuRoamingGB": null,
+      "calls": "Illimitate",
+      "sms": "Illimitati",
+      "network": "windtre",
+      "paymentNotes": "Offre présente sur site officiel; détails activation/SIM à compléter dans la V2.",
+      "eligibility": {
+        "mode": "include_only",
+        "fromOperators": ["iliad", "postemobile", "coopvoce", "fastweb", "tiscali", "spusu"],
+        "note": "Exemple 'operator attack' plus cher que 5,99, utile pour tester tri/filtre."
+      },
+      "badges": ["Operator Attack"],
+      "ctaUrl": "https://verymobile.it/offerte/very-699",
+      "sources": [
+        {
+          "label": "Page officielle Very 6,99",
+          "url": "https://verymobile.it/offerte/very-699"
+        }
+      ]
+    },
+
+    {
+      "id": "very_699_nuovo_numero_200gb",
+      "targetOperator": "very",
+      "name": "Very 6,99 (Nuovo numero)",
+      "priceMonthlyEUR": 6.99,
+      "activationEUR": null,
+      "simEUR": null,
+      "dataItalyGB": 200,
+      "dataEuRoamingGB": null,
+      "calls": "Illimitate",
+      "sms": "200",
+      "network": "windtre",
+      "paymentNotes": "Offre 'Nuovi numeri' pour tester le cas 'Nuovo Numero' (standard).",
+      "eligibility": {
+        "mode": "include_only",
+        "fromOperators": ["nuovo_numero"]
+      },
+      "badges": ["Nuovo Numero"],
+      "ctaUrl": "https://verymobile.it/offerte/very-699-nuovi-numeri",
+      "sources": [
+        {
+          "label": "Page officielle Very 6,99 Nuovi numeri",
+          "url": "https://verymobile.it/offerte/very-699-nuovi-numeri"
+        }
+      ]
+    }
+  ]
+}
