@@ -225,3 +225,25 @@
   </div>
 </body>
 </html>
+<script type="module">
+  import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+  const supabaseUrl = "https://ytlpotajswovxwzxrmvu.supabase.co";
+  const supabaseKey = "sb_publishable_64Jrx3q-FGcUhb-j0nvGcA_60dlLnE_";
+
+  const supabase = createClient(supabaseUrl, supabaseKey);
+
+  const { data, error } = await supabase
+    .from("offers")
+    .select("id,title,price_eur,active")
+    .eq("active", true);
+
+  console.log("data:", data);
+  console.log("error:", error);
+
+  document.body.insertAdjacentHTML(
+    "beforeend",
+    `<pre>${JSON.stringify({ data, error }, null, 2)}</pre>`
+  );
+</script>
+
