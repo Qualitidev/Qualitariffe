@@ -3,32 +3,16 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Qualitariffe.it — Comparateur Mobile (Operator Attack)</title>
+  <title>Qualitariffe.it — Comparateur Mobile (Desktop + Tri)</title>
   <style>
     :root{
-      --bg:#ffffff;
-      --panel:#ffffff;
-      --text:#0f172a;
-      --muted:#64748b;
-      --line:#e2e8f0;
-      --brand:#111827;
-      --accent:#7c3aed;
-      --accent2:#06b6d4;
-      --ok:#16a34a;
-      --warn:#f59e0b;
-      --danger:#ef4444;
+      --bg:#ffffff; --panel:#ffffff; --text:#0f172a; --muted:#64748b; --line:#e2e8f0;
+      --accent:#7c3aed; --accent2:#06b6d4;
       --shadow: 0 10px 30px rgba(15, 23, 42, .08);
-      --radius: 16px;
-      --radius2: 12px;
-      --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      --radius: 16px; --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
     }
     *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family:var(--font);
-      color:var(--text);
-      background:var(--bg);
-    }
+    body{margin:0;font-family:var(--font);color:var(--text);background:var(--bg)}
     a{color:inherit}
     .wrap{max-width:1180px;margin:0 auto;padding:24px}
     header{
@@ -39,182 +23,72 @@
     }
     .topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 24px}
     .brand{display:flex;align-items:center;gap:12px;text-decoration:none}
-    .logoMark{
-      width:38px;height:38px;border-radius:12px;
-      background:linear-gradient(135deg,var(--accent),var(--accent2));
-      box-shadow:0 10px 25px rgba(124,58,237,.22);
-    }
+    .logoMark{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:0 10px 25px rgba(124,58,237,.22)}
     .brand strong{font-size:15px;letter-spacing:.2px}
     .brand span{display:block;font-size:12px;color:var(--muted)}
     .nav{display:flex;gap:10px;align-items:center}
-    .nav a{
-      text-decoration:none;
-      padding:8px 10px;border-radius:10px;
-      color:var(--muted);
-    }
+    .nav a{text-decoration:none;padding:8px 10px;border-radius:10px;color:var(--muted)}
     .nav a:hover{background:#f8fafc;color:var(--text)}
-    .hero{
-      padding:28px 0 10px;
-      display:grid;grid-template-columns: 1.25fr .75fr;gap:18px;
-      align-items:stretch;
-    }
-    .heroCard{
-      background:var(--panel);
-      border:1px solid var(--line);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      padding:18px;
-    }
+
+    .hero{padding:28px 0 10px;display:grid;grid-template-columns: 1.25fr .75fr;gap:18px;align-items:stretch}
+    .heroCard{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px}
     h1{margin:0;font-size:22px;letter-spacing:.2px}
     .sub{margin:6px 0 0;color:var(--muted);line-height:1.4}
-    .kbd{
-      font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
-      font-size:12px;padding:2px 6px;border-radius:8px;border:1px solid var(--line);background:#f8fafc;color:#334155
-    }
-    .controls{
-      margin-top:14px;
-      display:grid;
-      grid-template-columns: 1.3fr .9fr .9fr;
-      gap:10px;
-    }
+    .controls{margin-top:14px;display:grid;grid-template-columns: 1.2fr .8fr 1fr;gap:10px}
     .field label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}
-    select, input{
-      width:100%;
-      padding:10px 12px;border-radius:12px;border:1px solid var(--line);
-      background:#fff;color:var(--text);
-      outline:none;
-    }
-    select:focus, input:focus{border-color:#c4b5fd;box-shadow:0 0 0 4px rgba(124,58,237,.12)}
+    select,input{width:100%;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:#fff;color:var(--text);outline:none}
+    select:focus,input:focus{border-color:#c4b5fd;box-shadow:0 0 0 4px rgba(124,58,237,.12)}
     .pillRow{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-    .pill{
-      font-size:12px;
-      padding:7px 10px;border-radius:999px;
-      border:1px solid var(--line);
-      background:#fff;
-      color:#334155;
-      cursor:pointer;
-      user-select:none;
-    }
-    .pill[data-active="true"]{
-      border-color:rgba(124,58,237,.35);
-      background:rgba(124,58,237,.08);
-      color:#4c1d95;
-    }
+    .pill{font-size:12px;padding:7px 10px;border-radius:999px;border:1px solid var(--line);background:#fff;color:#334155;cursor:pointer;user-select:none}
+    .pill[data-active="true"]{border-color:rgba(124,58,237,.35);background:rgba(124,58,237,.08);color:#4c1d95}
+
     .sideStats{display:grid;gap:10px}
-    .stat{
-      border:1px solid var(--line);
-      border-radius:14px;
-      padding:12px;
-      background:#fff;
-    }
+    .stat{border:1px solid var(--line);border-radius:14px;padding:12px;background:#fff}
     .stat .k{font-size:12px;color:var(--muted)}
     .stat .v{font-size:18px;font-weight:700;margin-top:4px}
-    .grid{
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap:14px;
-      margin:18px 0 26px;
-    }
+
+    /* Desktop grid: 3 cartes */
+    .grid{display:grid;grid-template-columns: repeat(3, 1fr);gap:14px;margin:18px 0 26px}
     @media (max-width: 980px){
       .hero{grid-template-columns:1fr}
       .controls{grid-template-columns:1fr}
       .grid{grid-template-columns:1fr}
     }
-    .card{
-      border:1px solid var(--line);
-      border-radius:var(--radius);
-      background:#fff;
-      box-shadow:var(--shadow);
-      overflow:hidden;
-      display:flex;
-      flex-direction:column;
-      min-height: 250px;
-    }
-    .cardHead{
-      padding:14px 14px 10px;
-      display:flex;align-items:flex-start;justify-content:space-between;gap:10px;
-      border-bottom:1px solid var(--line);
-      background:linear-gradient(180deg,#ffffff, #fbfdff);
-    }
-    .op{
-      display:flex;gap:10px;align-items:center;
-    }
-    .opBadge{
-      width:40px;height:40px;border-radius:14px;
-      display:grid;place-items:center;
-      background: #0b1220;
-      color:#fff;font-weight:800;
-      letter-spacing:.6px;
-    }
+
+    .card{border:1px solid var(--line);border-radius:var(--radius);background:#fff;box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column;min-height: 260px}
+    .cardHead{padding:14px 14px 10px;display:flex;align-items:flex-start;justify-content:space-between;gap:10px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#ffffff, #fbfdff)}
+    .op{display:flex;gap:10px;align-items:center}
+    .opBadge{width:40px;height:40px;border-radius:14px;display:grid;place-items:center;background:#0b1220;color:#fff;font-weight:800;letter-spacing:.6px}
     .opMeta .name{font-weight:800}
     .opMeta .plan{font-size:12px;color:var(--muted);margin-top:2px}
-    .price{
-      text-align:right;
-      min-width:100px;
-    }
+    .price{text-align:right;min-width:110px}
     .price .eur{font-size:22px;font-weight:900;letter-spacing:-.3px}
     .price .pm{font-size:12px;color:var(--muted);margin-top:2px}
+
     .cardBody{padding:12px 14px 0;display:grid;gap:10px}
-    .features{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-    .feat{
-      border:1px solid var(--line);
-      border-radius:14px;
-      padding:10px;
-      background:#fff;
+    .features{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+    @media (max-width: 980px){
+      .features{grid-template-columns:repeat(2,1fr)}
     }
+    .feat{border:1px solid var(--line);border-radius:14px;padding:10px;background:#fff}
     .feat .k{font-size:11px;color:var(--muted)}
     .feat .v{font-size:14px;font-weight:800;margin-top:4px}
+
     .badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:2px}
-    .b{
-      font-size:12px;
-      padding:6px 10px;border-radius:999px;
-      border:1px solid var(--line);
-      background:#fff;
-      color:#334155;
-    }
+    .b{font-size:12px;padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:#fff;color:#334155}
     .b.operatorattack{border-color:rgba(245,158,11,.35);background:rgba(245,158,11,.10);color:#92400e}
     .b.nuovonumero{border-color:rgba(6,182,212,.35);background:rgba(6,182,212,.10);color:#155e75}
     .b.prezzo{border-color:rgba(22,163,74,.35);background:rgba(22,163,74,.10);color:#166534}
-    .elig{
-      margin-top:2px;
-      font-size:12px;
-      color:#334155;
-      padding:10px 12px;
-      border-radius:14px;
-      border:1px dashed rgba(124,58,237,.35);
-      background:rgba(124,58,237,.06);
-      line-height:1.35;
-    }
-    .cardFoot{
-      margin-top:auto;
-      padding:12px 14px 14px;
-      display:flex;justify-content:space-between;align-items:center;gap:12px;
-    }
+
+    .elig{margin-top:2px;font-size:12px;color:#334155;padding:10px 12px;border-radius:14px;border:1px dashed rgba(124,58,237,.35);background:rgba(124,58,237,.06);line-height:1.35}
+    .cardFoot{margin-top:auto;padding:12px 14px 14px;display:flex;justify-content:space-between;align-items:center;gap:12px}
     .links{display:flex;gap:10px;flex-wrap:wrap}
-    .link{
-      font-size:12px;color:var(--muted);text-decoration:none;
-      padding:6px 10px;border-radius:10px;border:1px solid var(--line);
-      background:#fff;
-    }
+    .link{font-size:12px;color:var(--muted);text-decoration:none;padding:6px 10px;border-radius:10px;border:1px solid var(--line);background:#fff}
     .link:hover{color:var(--text);border-color:#cbd5e1}
-    .btn{
-      display:inline-flex;align-items:center;justify-content:center;gap:8px;
-      padding:10px 12px;border-radius:12px;
-      border:1px solid rgba(124,58,237,.22);
-      background:linear-gradient(135deg, rgba(124,58,237,.10), rgba(6,182,212,.10));
-      color:#1f2937;
-      font-weight:800;
-      text-decoration:none;
-      white-space:nowrap;
-    }
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 12px;border-radius:12px;border:1px solid rgba(124,58,237,.22);background:linear-gradient(135deg, rgba(124,58,237,.10), rgba(6,182,212,.10));color:#1f2937;font-weight:800;text-decoration:none;white-space:nowrap}
     .btn:hover{border-color:rgba(124,58,237,.35);background:linear-gradient(135deg, rgba(124,58,237,.14), rgba(6,182,212,.14))}
-    .footerNote{
-      border-top:1px solid var(--line);
-      padding:14px 0 6px;
-      color:var(--muted);
-      font-size:12px;
-      line-height:1.4;
-    }
+
+    .footerNote{border-top:1px solid var(--line);padding:14px 0 6px;color:var(--muted);font-size:12px;line-height:1.4}
     .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;}
   </style>
 </head>
@@ -225,7 +99,7 @@
       <div class="logoMark" aria-hidden="true"></div>
       <div>
         <strong>Qualitariffe.it</strong>
-        <span>Comparatore Mobile — Operator Attack</span>
+        <span>Comparatore Mobile — Desktop + Tri</span>
       </div>
     </a>
     <nav class="nav">
@@ -238,10 +112,10 @@
 <main class="wrap">
   <section class="hero">
     <div class="heroCard">
-      <h1>Da quale operatore provieni?</h1>
+      <h1>Comparateur Mobile — tri prix, data, vitesse</h1>
       <p class="sub">
-        Seleziona la <strong>provenienza</strong> e ti mostriamo solo le offerte compatibili (logica <span class="kbd">Operator Attack</span>).
-        Poi puoi filtrare per prezzo e ordinare i risultati.
+        Seleziona la <strong>provenienza</strong> (Operator Attack), poi ordina per prezzo, Giga o velocità.
+        Se la velocità non è disponibile, mostriamo <span class="mono">ND</span>.
       </p>
 
       <div class="controls">
@@ -259,12 +133,17 @@
             <option value="best">Consigliati</option>
             <option value="price_asc">Prezzo (crescente)</option>
             <option value="data_desc">Giga Italia (decrescente)</option>
+            <option value="speed_down_desc">Velocità down (decrescente)</option>
+            <option value="speed_up_desc">Velocità up (decrescente)</option>
+            <option value="speed_sum_desc">Velocità (down+up) (decrescente)</option>
+            <option value="value_data_per_eur_desc">Value: GB/€ (decrescente)</option>
             <option value="activation_asc">Attivazione (crescente)</option>
+            <option value="total12_asc">Costo 12 mesi (crescente)</option>
           </select>
         </div>
       </div>
 
-      <div class="pillRow" aria-label="Filtri rapidi">
+      <div class="pillRow">
         <div class="pill" data-pill="show_ineligible" data-active="false">Mostra non valide (grigio)</div>
         <div class="pill" data-pill="only_operator_attack" data-active="false">Solo Operator Attack</div>
         <div class="pill" data-pill="only_nuovo_numero" data-active="false">Solo Nuovo Numero</div>
@@ -278,11 +157,11 @@
         <div class="v" id="statCount">–</div>
       </div>
       <div class="stat">
-        <div class="k">Provenienza selezionata</div>
+        <div class="k">Provenienza</div>
         <div class="v" id="statFrom">–</div>
       </div>
       <div class="stat">
-        <div class="k">Ultimo aggiornamento dataset</div>
+        <div class="k">Dataset</div>
         <div class="v mono" id="statUpdated">–</div>
       </div>
     </div>
@@ -293,12 +172,10 @@
   </section>
 
   <div class="footerNote">
-    Dati caricati da <span class="mono">plans.json</span>. Se una pagina non mostra (ancora) attivazione/SIM, il valore appare come “ND”.
-    <br/>
-    Fonti ufficiali: iliad (PDF) [Source](https://fibra.iliad.it/docs/sintesi-contrattuale/sintesi-contrattuale-giga150-799_dal_17_07_2025.pdf),
-    Very (PDF) [Source](https://verymobile.it/Document/trasparenza-tariffaria/trasp-0807/20250708_599_SINTESI.pdf.coredownload.inline.pdf),
-    Kena (pagina) [Source](https://www.kenamobile.it/prodotto/599-100gb-5g/),
-    ho. (PDF) [Source](https://www.ho-mobile.it/content/dam/lean/pdf/offerta-flash/attivabili/sintesi/031224_Sintesi%20Contrattuale_5.99%20100GB_Apertura.pdf)
+    Fonti ufficiali: iliad GIGA 150 (velocità max) [Source](https://fibra.iliad.it/docs/sintesi-contrattuale/sintesi-contrattuale-giga150-799_dal_17_07_2025.pdf),
+    Very 5,99 (30/30) [Source](https://verymobile.it/Document/trasparenza-tariffaria/trasp-0807/20250708_599_SINTESI.pdf.coredownload.inline.pdf),
+    Kena 5,99 (250/75) [Source](https://www.kenamobile.it/prodotto/599-100gb-5g/),
+    ho. 5,99 (attivazione variabile) [Source](https://www.ho-mobile.it/content/dam/lean/pdf/offerta-flash/attivabili/sintesi/031224_Sintesi%20Contrattuale_5.99%20100GB_Apertura.pdf)
   </div>
 </main>
 
@@ -315,18 +192,36 @@
 
   const $ = (id) => document.getElementById(id);
 
-  function normMoney(x){
-    if (x === null || x === undefined) return null;
+  function normNum(x){
     const n = Number(x);
     return Number.isFinite(n) ? n : null;
   }
   function fmtEUR(x){
-    const n = normMoney(x);
+    const n = normNum(x);
     return n === null ? "ND" : n.toFixed(2).replace(".", ",") + "€";
   }
   function fmtGB(x){
     if (x === null || x === undefined) return "ND";
-    return (Number(x) % 1 === 0 ? Number(x).toFixed(0) : String(x).replace(".", ",")) + " GB";
+    const n = Number(x);
+    if (!Number.isFinite(n)) return "ND";
+    return (n % 1 === 0 ? n.toFixed(0) : String(n).replace(".", ",")) + " GB";
+  }
+  function fmtMbps(down, up){
+    const dn = normNum(down);
+    const upn = normNum(up);
+    if (dn === null && upn === null) return "ND";
+    if (dn !== null && upn !== null) return `${dn}/${upn} Mbps`;
+    if (dn !== null) return `${dn} Mbps ↓`;
+    return `${upn} Mbps ↑`;
+  }
+
+  function escapeHtml(s){
+    return String(s ?? "")
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;")
+      .replaceAll("\"","&quot;")
+      .replaceAll("'","&#039;");
   }
 
   function getOperatorLabel(id){
@@ -337,51 +232,55 @@
   function isEligible(plan, fromOp){
     const el = plan.eligibility || { mode:"any" };
     if (el.mode === "any") return true;
-    if (el.mode === "include_only"){
-      return (el.fromOperators || []).includes(fromOp);
-    }
-    if (el.mode === "exclude"){
-      return !(el.fromOperators || []).includes(fromOp);
-    }
+    if (el.mode === "include_only") return (el.fromOperators || []).includes(fromOp);
+    if (el.mode === "exclude") return !(el.fromOperators || []).includes(fromOp);
     return true;
   }
 
-  function planCategoryBadges(plan){
-    const badges = [];
-    (plan.badges || []).forEach(b => badges.push(b));
-    // auto-tag
-    if ((plan.badges || []).some(x => (x||"").toLowerCase().includes("operator"))) {
-      // already
+  function computeActivation(plan, fromOp){
+    // ho. activation variable
+    if (plan.activationEUR_alt != null && plan.activationEUR != null){
+      const expensiveFrom = ["tim","vodafone","windtre","very"];
+      return expensiveFrom.includes(fromOp) ? normNum(plan.activationEUR_alt) : normNum(plan.activationEUR);
     }
-    return badges;
+    return normNum(plan.activationEUR);
   }
 
-  function computeActivation(plan, fromOp){
-    // cas ho. avec activation variable (promo vs standard)
-    if (plan.activationEUR_alt != null && plan.activationEUR != null){
-      // règle simple: si provenienza est "tim/vodafone/windtre/very" -> activation alt (29,90€), sinon promo 2,99€
-      const expensiveFrom = ["tim","vodafone","windtre","very"];
-      return expensiveFrom.includes(fromOp) ? normMoney(plan.activationEUR_alt) : normMoney(plan.activationEUR);
-    }
-    return normMoney(plan.activationEUR);
+  function totalCost12(plan, fromOp){
+    const pm = normNum(plan.priceMonthlyEUR);
+    const act = computeActivation(plan, fromOp);
+    const sim = normNum(plan.simEUR);
+    if (pm === null) return null;
+    return (pm * 12) + (act ?? 0) + (sim ?? 0);
+  }
+
+  function dataPerEur(plan){
+    const pm = normNum(plan.priceMonthlyEUR);
+    const d = normNum(plan.dataItalyGB);
+    if (pm === null || d === null || pm === 0) return null;
+    return d / pm;
+  }
+
+  function speedSum(plan){
+    const dn = normNum(plan.speedDownMbps);
+    const up = normNum(plan.speedUpMbps);
+    if (dn === null && up === null) return null;
+    return (dn ?? 0) + (up ?? 0);
   }
 
   function scorePlan(plan, fromOp){
-    // scoring "Consigliati": éligible d'abord, puis prix bas, puis data haute
     const eligible = isEligible(plan, fromOp);
-    const p = normMoney(plan.priceMonthlyEUR);
-    const d = plan.dataItalyGB ?? 0;
+    const p = normNum(plan.priceMonthlyEUR);
+    const d = normNum(plan.dataItalyGB) ?? 0;
     const act = computeActivation(plan, fromOp) ?? 999;
+    const sp = speedSum(plan) ?? 0;
 
     let s = 0;
     if (eligible) s += 1000;
-    // prix
     if (p != null) s += Math.max(0, 300 - (p * 30));
-    // data
-    s += Math.min(200, d);
-    // activation
-    s += Math.max(0, 80 - act);
-    // Operator Attack boost
+    s += Math.min(220, d);
+    s += Math.max(0, 90 - act);
+    s += Math.min(160, sp / 10); // petit bonus vitesse
     if ((plan.badges || []).some(b => (b||"").toLowerCase().includes("operator"))) s += 40;
     return s;
   }
@@ -391,11 +290,11 @@
     const maxPrice = state.maxPrice;
 
     return plans
-      .map(p => {
-        const eligible = isEligible(p, fromOp);
-        const activationEffective = computeActivation(p, fromOp);
-        return { plan:p, eligible, activationEffective };
-      })
+      .map(p => ({
+        plan: p,
+        eligible: isEligible(p, fromOp),
+        activationEffective: computeActivation(p, fromOp)
+      }))
       .filter(x => {
         if (!state.showIneligible && !x.eligible) return false;
 
@@ -404,37 +303,68 @@
           if (!isOA) return false;
         }
         if (state.onlyNuovoNumero){
-          // on garde les plans explicitement limités à nuovo_numero OU badge "Nuovo Numero"
           const el = x.plan.eligibility || {};
           const isNN = (el.mode === "include_only" && (el.fromOperators||[]).length === 1 && (el.fromOperators||[])[0] === "nuovo_numero")
-                       || (x.plan.badges || []).some(b => (b||"").toLowerCase().includes("nuovo"));
+                    || (x.plan.badges || []).some(b => (b||"").toLowerCase().includes("nuovo"));
           if (!isNN) return false;
         }
 
         if (maxPrice != null){
-          const pm = normMoney(x.plan.priceMonthlyEUR);
+          const pm = normNum(x.plan.priceMonthlyEUR);
           if (pm == null) return false;
           if (pm > maxPrice) return false;
         }
         return true;
       })
       .sort((a,b) => {
-        if (state.sortBy === "price_asc"){
-          const ap = normMoney(a.plan.priceMonthlyEUR) ?? 9999;
-          const bp = normMoney(b.plan.priceMonthlyEUR) ?? 9999;
-          return ap - bp;
+        const A = a.plan, B = b.plan;
+
+        switch(state.sortBy){
+          case "price_asc": {
+            const ap = normNum(A.priceMonthlyEUR) ?? 9999;
+            const bp = normNum(B.priceMonthlyEUR) ?? 9999;
+            return ap - bp;
+          }
+          case "data_desc":
+            return (normNum(B.dataItalyGB) ?? 0) - (normNum(A.dataItalyGB) ?? 0);
+
+          case "speed_down_desc":
+            return (normNum(B.speedDownMbps) ?? -1) - (normNum(A.speedDownMbps) ?? -1);
+
+          case "speed_up_desc":
+            return (normNum(B.speedUpMbps) ?? -1) - (normNum(A.speedUpMbps) ?? -1);
+
+          case "speed_sum_desc":
+            return (speedSum(B) ?? -1) - (speedSum(A) ?? -1);
+
+          case "value_data_per_eur_desc":
+            return (dataPerEur(B) ?? -1) - (dataPerEur(A) ?? -1);
+
+          case "activation_asc": {
+            const aa = computeActivation(A, state.fromOperator) ?? 9999;
+            const bb = computeActivation(B, state.fromOperator) ?? 9999;
+            return aa - bb;
+          }
+
+          case "total12_asc": {
+            const ta = totalCost12(A, state.fromOperator) ?? 1e18;
+            const tb = totalCost12(B, state.fromOperator) ?? 1e18;
+            return ta - tb;
+          }
+
+          case "best":
+          default:
+            return scorePlan(B, state.fromOperator) - scorePlan(A, state.fromOperator);
         }
-        if (state.sortBy === "data_desc"){
-          return (b.plan.dataItalyGB ?? 0) - (a.plan.dataItalyGB ?? 0);
-        }
-        if (state.sortBy === "activation_asc"){
-          const aa = a.activationEffective ?? 9999;
-          const bb = b.activationEffective ?? 9999;
-          return aa - bb;
-        }
-        // best
-        return scorePlan(b.plan, state.fromOperator) - scorePlan(a.plan, state.fromOperator);
       });
+  }
+
+  function badgeHtml(plan){
+    return (plan.badges || []).map(b => {
+      const txt = (b||"").toLowerCase();
+      const cls = txt.includes("operator") ? "operatorattack" : txt.includes("nuovo") ? "nuovonumero" : txt.includes("prezzo") ? "prezzo" : "";
+      return `<span class="b ${cls}">${escapeHtml(b)}</span>`;
+    }).join("");
   }
 
   function render(){
@@ -451,22 +381,14 @@
       const opLabel = getOperatorLabel(plan.targetOperator);
       const opInitials = (opLabel || "?").replace(/[^A-Za-z0-9]/g,"").slice(0,2).toUpperCase() || "OP";
 
-      const price = fmtEUR(plan.priceMonthlyEUR);
-      const dataIt = fmtGB(plan.dataItalyGB);
-      const calls = plan.calls || "ND";
-      const sms = plan.sms || "ND";
+      const roam = (plan.dataEuRoamingGB == null) ? "ND" : fmtGB(plan.dataEuRoamingGB);
 
-      const roam = plan.dataEuRoamingGB == null ? "ND" : fmtGB(plan.dataEuRoamingGB);
       const sim = fmtEUR(plan.simEUR);
       const act = (activationEffective == null) ? "ND" : fmtEUR(activationEffective);
 
-      const badgeHtml = (planCategoryBadges(plan) || []).map(b => {
-        const cls = (b||"").toLowerCase().includes("operator") ? "operatorattack"
-                  : (b||"").toLowerCase().includes("nuovo") ? "nuovonumero"
-                  : (b||"").toLowerCase().includes("prezzo") ? "prezzo"
-                  : "";
-        return `<span class="b ${cls}">${escapeHtml(b)}</span>`;
-      }).join("");
+      const speed = fmtMbps(plan.speedDownMbps, plan.speedUpMbps);
+      const cost12 = totalCost12(plan, state.fromOperator);
+      const value = dataPerEur(plan);
 
       const el = plan.eligibility || {mode:"any"};
       let eligText = "Valida per tutti";
@@ -477,7 +399,6 @@
         const labs = (el.fromOperators||[]).map(getOperatorLabel).join(", ");
         eligText = `Non valida se provieni da: <strong>${escapeHtml(labs)}</strong>`;
       }
-
       if (el.note){
         eligText += `<br/><span style="color:var(--muted)">${escapeHtml(el.note)}</span>`;
       }
@@ -502,26 +423,30 @@
             </div>
           </div>
           <div class="price">
-            <div class="eur">${escapeHtml(price)}</div>
+            <div class="eur">${escapeHtml(fmtEUR(plan.priceMonthlyEUR))}</div>
             <div class="pm">al mese</div>
           </div>
         </div>
+
         <div class="cardBody">
           <div class="features">
-            <div class="feat"><div class="k">Giga Italia</div><div class="v">${escapeHtml(dataIt)}</div></div>
-            <div class="feat"><div class="k">Minuti</div><div class="v">${escapeHtml(calls)}</div></div>
-            <div class="feat"><div class="k">SMS</div><div class="v">${escapeHtml(sms)}</div></div>
+            <div class="feat"><div class="k">Giga Italia</div><div class="v">${escapeHtml(fmtGB(plan.dataItalyGB))}</div></div>
+            <div class="feat"><div class="k">Roaming UE</div><div class="v">${escapeHtml(roam)}</div></div>
+            <div class="feat"><div class="k">Vitesse</div><div class="v">${escapeHtml(speed)}</div></div>
+            <div class="feat"><div class="k">Value</div><div class="v">${value==null ? "ND" : (value.toFixed(1).replace(".",",") + " GB/€")}</div></div>
           </div>
 
           <div class="features">
-            <div class="feat"><div class="k">Roaming UE</div><div class="v">${escapeHtml(roam)}</div></div>
+            <div class="feat"><div class="k">Minuti</div><div class="v">${escapeHtml(plan.calls || "ND")}</div></div>
+            <div class="feat"><div class="k">SMS</div><div class="v">${escapeHtml(plan.sms || "ND")}</div></div>
             <div class="feat"><div class="k">Attivazione</div><div class="v">${escapeHtml(act)}</div></div>
-            <div class="feat"><div class="k">SIM</div><div class="v">${escapeHtml(sim)}</div></div>
+            <div class="feat"><div class="k">Costo 12 mesi</div><div class="v">${cost12==null ? "ND" : fmtEUR(cost12)}</div></div>
           </div>
 
-          <div class="badges">${badgeHtml}${warn ? " " + warn : ""}</div>
+          <div class="badges">${badgeHtml(plan)} ${warn}</div>
           <div class="elig">${eligText}</div>
         </div>
+
         <div class="cardFoot">
           <div class="links">${sources}</div>
           <a class="btn" href="${plan.ctaUrl}" target="_blank" rel="noopener">Vai all’offerta →</a>
@@ -529,15 +454,6 @@
       `;
       cards.appendChild(node);
     });
-  }
-
-  function escapeHtml(s){
-    return String(s ?? "")
-      .replaceAll("&","&amp;")
-      .replaceAll("<","&lt;")
-      .replaceAll(">","&gt;")
-      .replaceAll("\"","&quot;")
-      .replaceAll("'","&#039;");
   }
 
   function setupControls(){
@@ -551,10 +467,7 @@
     });
     sel.value = state.fromOperator;
 
-    sel.addEventListener("change", (e) => {
-      state.fromOperator = e.target.value;
-      render();
-    });
+    sel.addEventListener("change", (e) => { state.fromOperator = e.target.value; render(); });
 
     $("maxPrice").addEventListener("input", (e) => {
       const v = e.target.value;
@@ -562,10 +475,7 @@
       render();
     });
 
-    $("sortBy").addEventListener("change", (e) => {
-      state.sortBy = e.target.value;
-      render();
-    });
+    $("sortBy").addEventListener("change", (e) => { state.sortBy = e.target.value; render(); });
 
     document.querySelectorAll(".pill").forEach(p => {
       p.addEventListener("click", () => {
@@ -586,7 +496,6 @@
           render();
           return;
         }
-
         if (key === "show_ineligible"){
           state.showIneligible = !state.showIneligible;
           p.dataset.active = String(state.showIneligible);
@@ -616,14 +525,14 @@
       cards.innerHTML = `
         <div class="heroCard" style="grid-column:1/-1">
           <h1>Erreur de chargement</h1>
-          <p class="sub">Le fichier <span class="kbd">plans.json</span> n’est pas accessible. Vérifie qu’il est bien à la racine du dépôt, au même niveau que <span class="kbd">mobile.html</span>.</p>
+          <p class="sub">Le fichier <span class="mono">plans.json</span> n’est pas accessible (même dossier que <span class="mono">mobile.html</span>).</p>
           <pre class="mono" style="white-space:pre-wrap;color:#991b1b;border:1px solid rgba(239,68,68,.25);background:rgba(239,68,68,.05);padding:12px;border-radius:12px;">${escapeHtml(err.message)}</pre>
         </div>
       `;
     }
   }
-
   init();
 </script>
 </body>
 </html>
+
