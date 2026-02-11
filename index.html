@@ -1,216 +1,227 @@
-<!DOCTYPE html>
-<html lang="it">
+<!doctype html>
+<html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Qualitariffe.it | Il Tuo Comparatore Esperto per Offerte Mobile e Internet Casa</title>
-    <meta name="description" content="Confronta le migliori offerte di telefonia mobile e internet casa in Italia con Qualitariffe.it. Analisi trasparente su costi, promozioni 'Operator Attack' e portabilità. Trova il piano perfetto per te!">
-    <meta name="keywords" content="comparatore, offerte mobile, internet casa, fibra ottica, ADSL, 5G, portabilità, operator attack, TIM, Vodafone, Iliad, WindTre, Ho Mobile">
-    <meta name="author" content="Hubert Laine">
-    
-    <meta property="og:title" content="Qualitariffe.it | Confronta Tariffe Mobile e Internet">
-    <meta property="og:description" content="Trova l'offerta perfetta per il tuo mobile o internet casa in Italia. Confronto trasparente e personalizzato.">
-    <meta property="og:image" content="https://hubertlaine.github.io/Qualitariffe/assets/images/qualitariffe-logo-social.png"> <meta property="og:url" content="https://qualitariffe.it/"> <meta property="og:type" content="website">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Comparez les meilleurs forfaits en Italie — Qualitariffe</title>
+  <meta name="description" content="Comparez les meilleurs forfaits en Italie. Accès rapide : Mobile, Fibre, Contact." />
+  <style>
+    :root{
+      --bg:#ffffff;
+      --surface:#ffffff;
+      --surface-2:#f6f7fb;
+      --text:#0f172a;
+      --muted:#475569;
+      --border: rgba(15, 23, 42, .10);
+      --shadow: 0 12px 30px rgba(2, 6, 23, .08);
 
-    <style>
-        /* Base Reset & Variables */
-        :root {
-            --primary-blue: #0A1931; /* Blu molto scuro */
-            --secondary-blue: #182848; /* Blu più chiaro per lo sfondo */
-            --accent-green: #00BF63; /* Verde brillante per i bottoni */
-            --light-grey: #e0e0e0;
-            --text-color: #f0f0f0;
-            --button-hover-bg: #00994f;
-            --shadow-color: rgba(0, 0, 0, 0.3);
-        }
+      --accent:#2563eb;
+      --accent2:#06b6d4;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      color:var(--text);
+      background:
+        radial-gradient(900px 380px at 20% -10%, rgba(37,99,235,.12), transparent 60%),
+        radial-gradient(800px 380px at 90% 0%, rgba(6,182,212,.10), transparent 55%),
+        linear-gradient(180deg, #fff, #fbfcff 60%, #fff);
+      line-height:1.35;
+    }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    .wrap{
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 28px 18px 42px;
+      display:grid;
+      gap:14px;
+    }
 
-        body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-            background-color: var(--primary-blue);
-            color: var(--text-color);
-            line-height: 1.6;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
 
-        /* Header */
-        header {
-            background-color: var(--secondary-blue);
-            padding: 1.5rem 1rem;
-            text-align: center;
-            box-shadow: 0 4px 8px var(--shadow-color);
-        }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      text-decoration:none;
+      color:inherit;
+    }
+    .mark{
+      width:34px; height:34px;
+      border-radius:10px;
+      border:1px solid rgba(37,99,235,.18);
+      background: linear-gradient(135deg, rgba(37,99,235,.16), rgba(6,182,212,.14));
+      box-shadow: var(--shadow);
+    }
+    .brand strong{font-size:14px; letter-spacing:.2px;}
+    .brand span{display:block; font-size:12px; color:var(--muted); margin-top:1px}
 
-        .logo {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--accent-green);
-            text-decoration: none;
-            display: inline-block;
-            letter-spacing: -1px;
-        }
+    nav a{
+      color:var(--muted);
+      text-decoration:none;
+      font-size:13px;
+      margin-left:14px;
+    }
+    nav a:hover{color:var(--accent); text-decoration:underline;}
 
-        .logo span {
-            color: var(--light-grey);
-            font-size: 1.8rem;
-            vertical-align: middle;
-            margin-left: 5px;
-        }
+    .hero{
+      background: var(--surface);
+      border:1px solid var(--border);
+      border-radius:18px;
+      box-shadow: var(--shadow);
+      padding: 22px;
+      display:grid;
+      gap: 14px;
+    }
 
-        /* Main Content Area */
-        main {
-            flex-grow: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-            text-align: center;
-        }
+    h1{
+      margin: 0;
+      font-size: clamp(22px, 3.2vw, 38px);
+      letter-spacing: .2px;
+    }
+    .lead{
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      max-width: 70ch;
+    }
 
-        .hero-section {
-            max-width: 900px;
-            width: 100%;
-            padding: 3rem;
-            background-color: var(--secondary-blue);
-            border-radius: 15px;
-            box-shadow: 0 8px 25px var(--shadow-color);
-        }
+    .actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top: 6px;
+    }
 
-        h1 {
-            font-size: 2.8rem;
-            margin-bottom: 1.5rem;
-            color: var(--light-grey);
-            line-height: 1.2;
-        }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--surface-2);
+      color: var(--text);
+      font-weight: 650;
+      text-decoration:none;
+      white-space:nowrap;
+      transition: transform .06s ease, background .12s ease, border-color .12s ease;
+    }
+    .btn:hover{
+      background: rgba(2,6,23,.05);
+      border-color: rgba(15,23,42,.16);
+      transform: translateY(-1px);
+    }
 
-        .hero-section p {
-            font-size: 1.2rem;
-            margin-bottom: 2.5rem;
-            color: var(--light-grey);
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-        }
+    .btn-primary{
+      border-color: rgba(37,99,235,.22);
+      background: linear-gradient(180deg, rgba(37,99,235,.12), rgba(6,182,212,.10));
+      color: #0b2a6b;
+    }
 
-        .button-container {
-            display: flex;
-            flex-wrap: wrap; /* Permette aux boutons de passer à la ligne sur mobile */
-            gap: 2rem; /* Espace entre les boutons */
-            justify-content: center;
-        }
+    .mini{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    @media (max-width: 850px){
+      .mini{grid-template-columns:1fr;}
+      nav{display:none;}
+    }
+    .card{
+      background: var(--surface);
+      border:1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      padding: 14px;
+    }
+    .card h2{
+      margin:0 0 6px;
+      font-size: 14px;
+    }
+    .card p{
+      margin:0;
+      color: var(--muted);
+      font-size: 13px;
+    }
 
-        .btn {
-            display: inline-block;
-            background-color: var(--accent-green);
-            color: var(--primary-blue); /* Texte du bouton en bleu foncé */
-            padding: 1.2rem 2.5rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-size: 1.3rem;
-            font-weight: 700;
-            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-            box-shadow: 0 6px 15px rgba(0, 191, 99, 0.4); /* Ombre plus verte */
-            border: none;
-            cursor: pointer;
-        }
+    footer{
+      color: var(--muted);
+      font-size: 12px;
+      padding-top: 4px;
+    }
 
-        .btn:hover {
-            background-color: var(--button-hover-bg);
-            transform: translateY(-3px);
-            box-shadow: 0 9px 20px rgba(0, 191, 99, 0.6);
-        }
-
-        /* Footer */
-        footer {
-            background-color: var(--secondary-blue);
-            color: var(--light-grey);
-            text-align: center;
-            padding: 1.5rem 1rem;
-            margin-top: auto;
-            box-shadow: 0 -4px 8px var(--shadow-color);
-        }
-
-        footer a {
-            color: var(--accent-green);
-            text-decoration: none;
-            margin: 0 0.5rem;
-            transition: color 0.3s ease;
-        }
-
-        footer a:hover {
-            color: var(--button-hover-bg);
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2.2rem;
-            }
-            .hero-section p {
-                font-size: 1rem;
-            }
-            .btn {
-                width: 80%; /* Boutons pleine largeur sur mobile */
-                max-width: 300px;
-                padding: 1rem 1.5rem;
-                font-size: 1.1rem;
-            }
-            .button-container {
-                flex-direction: column; /* Empile les boutons */
-                gap: 1.5rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .logo {
-                font-size: 2rem;
-            }
-            .logo span {
-                font-size: 1.5rem;
-            }
-            h1 {
-                font-size: 1.8rem;
-            }
-            .hero-section {
-                padding: 2rem 1.5rem;
-            }
-        }
-    </style>
+    .pill{
+      display:inline-block;
+      margin-top: 10px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--surface-2);
+      color: var(--muted);
+      font-size: 12px;
+    }
+  </style>
 </head>
-<body>
 
+<body>
+  <div class="wrap">
     <header>
-        <a href="/" class="logo">Qualitariffe<span>.it</span></a>
+      <a class="brand" href="index.html" aria-label="Accueil Qualitariffe">
+        <div class="mark" aria-hidden="true"></div>
+        <div>
+          <strong>Qualitariffe</strong>
+          <span>Comparateurs simples et rapides</span>
+        </div>
+      </a>
+
+      <nav aria-label="Navigation">
+        <a href="mobile.html">Mobile</a>
+        <a href="fibre.html">Fibre</a>
+        <a href="contact.html">Contact</a>
+      </nav>
     </header>
 
-    <main>
-        <section class="hero-section">
-            <h1>Trova l'Offerta Perfetta per Te: Mobile o Internet Casa?</h1>
-            <p>Confronta centinaia di tariffe in Italia. Analisi onesta delle promozioni "Operator Attack", verifica della copertura e consigli esperti per un risparmio garantito. La trasparenza è il nostro valore.</p>
-            <div class="button-container">
-                <a href="/offerte-telefonia-mobile/" class="btn">
-                    Confronta Offerte Mobile
-                </a>
-                <a href="/offerte-internet-casa/" class="btn">
-                    Confronta Offerte Internet Casa
-                </a>
-            </div>
-        </section>
+    <main class="hero">
+      <div>
+        <h1>Comparez les meilleurs forfaits en Italie</h1>
+        <p class="lead">
+          Un accès direct à nos comparateurs, avec des infos clés (prix, data, roaming, activation, etc.) et des liens vers les sites opérateurs.
+        </p>
+        <div class="pill">Site léger, rapide, design épuré</div>
+      </div>
+
+      <div class="actions" aria-label="Accès rapide">
+        <a class="btn btn-primary" href="mobile.html">Mobile</a>
+        <a class="btn" href="fibre.html">Fibre</a>
+        <a class="btn" href="contact.html">Contact</a>
+      </div>
     </main>
 
-    <footer>
-        <p>&copy; 2024 Qualitariffe.it. Tutti i diritti riservati. | 
-            <a href="/privacy-policy/">Privacy Policy</a> | 
-            <a href="/contatti/">Contatti</a>
-        </p>
-    </footer>
+    <section class="mini" aria-label="Aperçu">
+      <div class="card">
+        <h2>Mobile</h2>
+        <p>Compare prix / mois, data Italie, roaming UE, appels, SMS et activation.</p>
+      </div>
+      <div class="card">
+        <h2>Fibre</h2>
+        <p>Page prête à accueillir un comparateur fibre (à venir).</p>
+      </div>
+      <div class="card">
+        <h2>Contact</h2>
+        <p>Une page simple pour être contacté (email, formulaire, réseaux).</p>
+      </div>
+    </section>
 
+    <footer>
+      © Qualitariffe — Tu peux modifier cette page depuis GitHub en éditant <strong>index.html</strong>.
+    </footer>
+  </div>
 </body>
 </html>
