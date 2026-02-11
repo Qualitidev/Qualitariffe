@@ -122,14 +122,7 @@
       console.log("data:", data);
       console.log("error:", error);
 
-      // Affiche le résultat brut en bas de page pour confirmer que ça marche
-      document.body.insertAdjacentHTML(
-        "beforeend",
-        `<div style="padding:20px; background:#eee; font-family:monospace; font-size:12px;">
-          <strong>Debug Supabase :</strong>
-          <pre>${JSON.stringify({ data, error }, null, 2)}</pre>
-        </div>`
-      );
+     
     }
 
     testSupabase();
