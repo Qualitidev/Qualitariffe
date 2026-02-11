@@ -175,7 +175,6 @@
     .drawer .actions { display:flex; gap: 10px; margin-top: 16px; }
     .drawer .actions button { flex: 1; justify-content: center; }
 
-    /* Auth card center */
     #authCard { max-width: 420px; margin: 60px auto; }
 
     @media (max-width: 980px) {
@@ -201,7 +200,6 @@
 <body>
   <div id="overlay"></div>
 
-  <!-- Drawer OFFRE -->
   <div id="drawerOffer" class="drawer">
     <h2 id="drawerOfferTitle">Nouvelle offre</h2>
     <div class="sub">Créer / modifier une offre (table <b>offers</b>)</div>
@@ -222,7 +220,6 @@
         <div>
           <label>Opérateur</label>
           <select id="offer_operator_id" required></select>
-          <div class="muted">Liste chargée depuis <b>operators</b></div>
         </div>
         <div>
           <label>Prix (EUR / mois)</label>
@@ -275,12 +272,12 @@
         </div>
       </div>
 
-      <label>from_operators (IDs séparés par |) — ex: iliad|postemobile|nuovo_numero</label>
+      <label>from_operators (ex: iliad|postemobile)</label>
       <input id="offer_from_operators" placeholder="iliad|postemobile|nuovo_numero" />
 
       <div class="hr"></div>
 
-      <label>CTA URL (bouton “Vai all’offerta”)</label>
+      <label>CTA URL (Lien affiliation)</label>
       <input id="offer_cta_url" type="url" placeholder="https://..." required />
 
       <label>Analysis URL (optionnel)</label>
@@ -299,14 +296,11 @@
     </form>
   </div>
 
-  <!-- Drawer OPERATEUR -->
   <div id="drawerOperator" class="drawer">
     <h2 id="drawerOperatorTitle">Nouvel opérateur</h2>
-    <div class="sub">Créer / modifier un opérateur (table <b>operators</b>)</div>
-
     <form id="operatorForm">
-      <label>Operator ID (slug) — clé primaire</label>
-      <input id="operator_id" placeholder="ex: iliad, very, ho, kena" required />
+      <label>Operator ID (slug)</label>
+      <input id="operator_id" placeholder="ex: iliad" required />
 
       <label>Nom affiché</label>
       <input id="operator_name" placeholder="ex: iliad" required />
@@ -314,8 +308,8 @@
       <label>Réseau hôte (network_id)</label>
       <select id="operator_network_id" required></select>
 
-      <label>Logo URL (temporaire)</label>
-      <input id="operator_logo_url" placeholder="https://...svg (ou vide)" />
+      <label>Logo URL</label>
+      <input id="operator_logo_url" placeholder="https://..." />
 
       <label>Actif</label>
       <select id="operator_is_active">
@@ -327,22 +321,17 @@
         <button class="primary" type="submit">Enregistrer</button>
         <button class="outline" type="button" id="btnOperatorCancel">Annuler</button>
       </div>
-
       <div class="actions" style="margin-top:10px;">
         <button class="danger" type="button" id="btnOperatorDelete" style="display:none;">Supprimer</button>
       </div>
-
       <p id="operatorMsg" class="muted"></p>
-      <p class="muted">
-        Note: si des offres référencent cet opérateur, la suppression peut échouer (FK).
-      </p>
     </form>
   </div>
 
   <header>
     <div class="brand">
       <h1>Console Admin</h1>
-      <div class="sub">CRUD Offres + Opérateurs (Supabase)</div>
+      <div class="sub">Gestion des offres Qualitariffe</div>
     </div>
 
     <div class="toolbar">
@@ -359,53 +348,36 @@
     </div>
   </header>
 
-  <!-- LOGIN -->
   <div id="authCard" class="card">
-    <h2 style="margin:0 0 6px 0;">Connexion</h2>
-    <div class="muted">Email + mot de passe (Supabase Auth)</div>
-
+    <h2>Connexion</h2>
     <label>Email</label>
     <input id="email" type="email" placeholder="Email" />
-
     <label>Mot de passe</label>
     <input id="password" type="password" placeholder="Mot de passe" />
-
     <div class="hr"></div>
-
     <button id="btnLogin" class="primary" style="width:100%; justify-content:center;">Se connecter</button>
     <p id="authMsg" class="muted" style="margin-top:10px; color:#b91c1c;"></p>
   </div>
 
-  <!-- APP -->
   <div id="appCard" style="display:none;">
     <div class="card">
       <div id="offersView">
-        <div class="grid2" style="align-items:end;">
-          <div>
-            <div class="muted">Astuce: clique ✏️ pour éditer. Utilise ACTIVE/OFF pour publier.</div>
-          </div>
-          <div style="text-align:right;">
-            <button class="outline" id="btnRefreshOffers" type="button">Rafraîchir</button>
-          </div>
+        <div style="text-align:right;">
+          <button class="outline" id="btnRefreshOffers" type="button">Rafraîchir</button>
         </div>
         <div id="offersWrap" style="overflow-x:auto;"></div>
       </div>
 
       <div id="operatorsView" style="display:none;">
-        <div class="grid2" style="align-items:end;">
-          <div>
-            <div class="muted">Gère les opérateurs + réseau hôte. Le select des offres se mettra à jour.</div>
-          </div>
-          <div style="text-align:right;">
-            <button class="outline" id="btnRefreshOperators" type="button">Rafraîchir</button>
-          </div>
+        <div style="text-align:right;">
+          <button class="outline" id="btnRefreshOperators" type="button">Rafraîchir</button>
         </div>
         <div id="operatorsWrap" style="overflow-x:auto;"></div>
       </div>
 
       <div class="hr"></div>
       <details>
-        <summary class="muted" style="cursor:pointer; font-weight:700;">Debug</summary>
+        <summary class="muted" style="cursor:pointer;">Debug</summary>
         <pre id="debug"></pre>
       </details>
     </div>
@@ -415,395 +387,99 @@
     import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
     const SUPABASE_URL = "https://ytlpotajswovxwzxrmvu.supabase.co";
-    const SUPABASE_PUBLISHABLE_KEY = "SUPABASE_PUBLISHABLE_KEY_HERE"; // <-- remplace par sb_publishable_...
+    // TA CLÉ API INTÉGRÉE ICI
+    const SUPABASE_PUBLISHABLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl0bHBvdGFqc3dvdnh3enhybXZ1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA4MTU3MDgsImV4cCI6MjA4NjM5MTcwOH0.k02CzC7bj_NlXVZs-jV69djujHqrFm5sCDKWDN-EExA"; 
 
     const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
 
     const $ = (id) => document.getElementById(id);
     const setDebug = (obj) => { $("debug").textContent = JSON.stringify(obj, null, 2); };
-
     const numOrNull = (v) => (v === "" || v === null || v === undefined) ? null : Number(v);
     const textOrNull = (v) => (v && v.trim() !== "") ? v.trim() : null;
 
-    // Overlay + drawers
-    function openOverlay() { $("overlay").style.display = "block"; }
-    function closeOverlay() { $("overlay").style.display = "none"; }
+    function openDrawer(drawerId) { $("overlay").style.display = "block"; $(drawerId).classList.add("open"); }
+    function closeDrawer(drawerId) { $(drawerId).classList.remove("open"); $("overlay").style.display = "none"; }
 
-    function openDrawer(drawerId) { openOverlay(); $(drawerId).classList.add("open"); }
-    function closeDrawer(drawerId) { $(drawerId).classList.remove("open"); closeOverlay(); }
+    $("overlay").onclick = () => { closeDrawer("drawerOffer"); closeDrawer("drawerOperator"); };
 
-    $("overlay").addEventListener("click", () => {
-      closeDrawer("drawerOffer");
-      closeDrawer("drawerOperator");
-    });
-
-    // Tabs
     function setTab(tab) {
-      const isOffers = tab === "offers";
-      $("offersView").style.display = isOffers ? "block" : "none";
-      $("operatorsView").style.display = isOffers ? "none" : "block";
-
-      $("tabOffers").classList.toggle("active", isOffers);
-      $("tabOperators").classList.toggle("active", !isOffers);
-
-      $("btnNewOffer").style.display = isOffers ? "inline-flex" : "none";
-      $("btnNewOperator").style.display = isOffers ? "none" : "inline-flex";
+      const isOff = tab === "offers";
+      $("offersView").style.display = isOff ? "block" : "none";
+      $("operatorsView").style.display = isOff ? "none" : "block";
+      $("tabOffers").classList.toggle("active", isOff);
+      $("tabOperators").classList.toggle("active", !isOff);
+      $("btnNewOffer").style.display = isOff ? "inline-flex" : "none";
+      $("btnNewOperator").style.display = isOff ? "none" : "inline-flex";
     }
 
-    $("tabOffers").addEventListener("click", () => setTab("offers"));
-    $("tabOperators").addEventListener("click", () => setTab("operators"));
+    $("tabOffers").onclick = () => setTab("offers");
+    $("tabOperators").onclick = () => setTab("operators");
 
-    // Load networks (for operator form)
     async function loadNetworksSelect() {
-      const { data, error } = await supabase
-        .from("networks")
-        .select("id,name")
-        .order("name", { ascending: true });
-
-      if (error) throw error;
-
-      $("operator_network_id").innerHTML = data
-        .map(n => `<option value="${n.id}">${n.name} (${n.id})</option>`)
-        .join("");
+      const { data } = await supabase.from("networks").select("id,name").order("name");
+      if (data) $("operator_network_id").innerHTML = data.map(n => `<option value="${n.id}">${n.name}</option>`).join("");
     }
 
-    // Load operators (for offer form)
     async function loadOperatorsSelect() {
-      // on charge même inactifs, sinon tu peux plus éditer une offre liée à un opérateur inactif
-      const { data, error } = await supabase
-        .from("operators")
-        .select("id,name,is_active")
-        .order("name", { ascending: true });
-
-      if (error) throw error;
-
-      $("offer_operator_id").innerHTML = data
-        .map(op => `<option value="${op.id}">${op.name} (${op.id})${op.is_active ? "" : " — OFF"}</option>`)
-        .join("");
+      const { data } = await supabase.from("operators").select("id,name,is_active").order("name");
+      if (data) $("offer_operator_id").innerHTML = data.map(op => `<option value="${op.id}">${op.name}</option>`).join("");
     }
 
-    // OFFERS CRUD
     async function refreshOffers() {
-      const { data, error } = await supabase
-        .from("offers")
-        .select("*")
-        .order("created_at", { ascending: false });
-
-      if (error) throw error;
-
-      window.__offers = data;
-
-      const rows = data.map(o => `
-        <tr>
-          <td>
-            <div style="font-weight:800">${o.title ?? ""}</div>
-            <div class="muted">${o.operator_id ?? ""} • <span style="font-family:ui-monospace;">${o.id}</span></div>
-          </td>
-          <td>€ ${Number(o.price_eur).toFixed(2)}</td>
-          <td>${o.giga_it ?? 0} GB</td>
-          <td>${o.speed_mbps ?? "ND"} Mbps</td>
-          <td>${o.active ? `<span class="status on">ACTIVE</span>` : `<span class="status off">OFF</span>`}</td>
-          <td style="display:flex; gap:8px;">
-            <button class="small outline" onclick="window.__editOffer('${o.id}')">✏️</button>
-            <button class="small ghost" onclick="window.__toggleOffer('${o.id}', ${o.active})">${o.active ? "Désactiver" : "Activer"}</button>
-          </td>
-        </tr>
-      `).join("");
-
-      $("offersWrap").innerHTML = `
-        <table>
-          <thead>
-            <tr>
-              <th>Offre</th><th>Prix</th><th>Giga</th><th>Vitesse</th><th>Statut</th><th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>${rows || `<tr><td colspan="6" class="muted">Aucune offre</td></tr>`}</tbody>
-        </table>
-      `;
+      const { data } = await supabase.from("offers").select("*").order("created_at", { ascending: false });
+      window.__offers = data || [];
+      $("offersWrap").innerHTML = `<table><thead><tr><th>Offre</th><th>Prix</th><th>Data</th><th>Statut</th><th>Action</th></tr></thead><tbody>
+        ${window.__offers.map(o => `<tr><td><strong>${o.title}</strong><br><small>${o.operator_id}</small></td><td>${o.price_eur}€</td><td>${o.giga_it}GB</td><td><span class="status ${o.active?'on':'off'}">${o.active?'ON':'OFF'}</span></td><td><button class="small outline" onclick="window.__editOffer('${o.id}')">✏️</button></td></tr>`).join("")}
+      </tbody></table>`;
     }
 
     window.__editOffer = (id) => {
-      const o = (window.__offers || []).find(x => x.id === id);
-      if (!o) return;
-
-      $("drawerOfferTitle").textContent = "Modifier l’offre";
+      const o = window.__offers.find(x => x.id === id);
       $("offer_id").value = o.id;
-
-      $("offer_active").value = String(!!o.active);
-      $("offer_title").value = o.title ?? "";
-      $("offer_operator_id").value = o.operator_id ?? "";
-      $("offer_price_eur").value = o.price_eur ?? "";
-
-      $("offer_giga_it").value = o.giga_it ?? "";
-      $("offer_giga_eu").value = o.giga_eu ?? "";
-      $("offer_speed_mbps").value = o.speed_mbps ?? "";
-
-      $("offer_minutes").value = o.minutes ?? "";
-      $("offer_sms").value = o.sms ?? "";
-      $("offer_activation_fee_eur").value = o.activation_fee_eur ?? "";
-      $("offer_sim_fee_eur").value = o.sim_fee_eur ?? "";
-
-      $("offer_eligibility_mode").value = o.eligibility_mode ?? "any";
-      $("offer_from_operators").value = o.from_operators ?? "";
-
-      $("offer_cta_url").value = o.cta_url ?? "";
-      $("offer_analysis_url").value = o.analysis_url ?? "";
-
-      $("offerMsg").textContent = "";
+      $("offer_title").value = o.title;
+      $("offer_operator_id").value = o.operator_id;
+      $("offer_price_eur").value = o.price_eur;
+      $("offer_giga_it").value = o.giga_it;
+      $("offer_cta_url").value = o.cta_url;
       $("btnOfferDelete").style.display = "inline-flex";
-      $("btnOfferDelete").onclick = () => deleteOffer(o.id);
-
       openDrawer("drawerOffer");
     };
 
-    window.__toggleOffer = async (id, current) => {
-      const { error } = await supabase.from("offers").update({ active: !current }).eq("id", id);
-      if (error) return alert(error.message);
-      await refreshOffers();
-    };
-
-    async function deleteOffer(id) {
-      const ok = confirm("Supprimer définitivement cette offre ?\n" + id);
-      if (!ok) return;
-      const { error } = await supabase.from("offers").delete().eq("id", id);
-      if (error) return alert(error.message);
-      closeDrawer("drawerOffer");
-      await refreshOffers();
-    }
-
-    $("btnNewOffer").addEventListener("click", () => {
-      $("drawerOfferTitle").textContent = "Nouvelle offre";
-      $("offerForm").reset();
-      $("offer_id").value = "";
-      $("offer_active").value = "true";
-      $("offer_eligibility_mode").value = "any";
-      $("offerMsg").textContent = "";
-      $("btnOfferDelete").style.display = "none";
-      openDrawer("drawerOffer");
-    });
-
-    $("btnOfferCancel").addEventListener("click", () => closeDrawer("drawerOffer"));
-
-    $("offerForm").addEventListener("submit", async (e) => {
+    $("offerForm").onsubmit = async (e) => {
       e.preventDefault();
-      $("offerMsg").textContent = "Enregistrement…";
-
-      const id = textOrNull($("offer_id").value);
-
+      const id = $("offer_id").value;
       const payload = {
-        active: $("offer_active").value === "true",
-        title: $("offer_title").value.trim(),
+        title: $("offer_title").value,
         operator_id: $("offer_operator_id").value,
         price_eur: numOrNull($("offer_price_eur").value),
-
         giga_it: numOrNull($("offer_giga_it").value),
-        giga_eu: numOrNull($("offer_giga_eu").value),
-        speed_mbps: numOrNull($("offer_speed_mbps").value),
-
-        minutes: numOrNull($("offer_minutes").value),
-        sms: numOrNull($("offer_sms").value),
-        activation_fee_eur: numOrNull($("offer_activation_fee_eur").value),
-        sim_fee_eur: numOrNull($("offer_sim_fee_eur").value),
-
-        eligibility_mode: $("offer_eligibility_mode").value,
-        from_operators: textOrNull($("offer_from_operators").value),
-
-        cta_url: $("offer_cta_url").value.trim(),
-        analysis_url: textOrNull($("offer_analysis_url").value),
+        cta_url: $("offer_cta_url").value,
+        active: $("offer_active").value === "true"
       };
-
-      // validations minimales
-      if (!payload.operator_id) return $("offerMsg").textContent = "Erreur: operator_id obligatoire";
-      if (!payload.title) return $("offerMsg").textContent = "Erreur: title obligatoire";
-      if (payload.price_eur === null || Number.isNaN(payload.price_eur)) return $("offerMsg").textContent = "Erreur: price_eur obligatoire";
-      if (!payload.cta_url) return $("offerMsg").textContent = "Erreur: cta_url obligatoire";
-
-      let res;
-      if (id) res = await supabase.from("offers").update(payload).eq("id", id).select().single();
-      else res = await supabase.from("offers").insert([payload]).select().single();
-
-      if (res.error) return $("offerMsg").textContent = res.error.message;
-
-      $("offerMsg").textContent = "OK ✅";
-      closeDrawer("drawerOffer");
-      await refreshOffers();
-    });
-
-    // OPERATORS CRUD
-    async function refreshOperators() {
-      const { data, error } = await supabase
-        .from("operators")
-        .select("*")
-        .order("name", { ascending: true });
-
-      if (error) throw error;
-
-      window.__operators = data;
-
-      const rows = data.map(op => `
-        <tr>
-          <td>
-            <div style="font-weight:800">${op.name ?? ""}</div>
-            <div class="muted">${op.id} • réseau: ${op.network_id ?? "—"}</div>
-          </td>
-          <td>${op.logo_url ? `<a href="${op.logo_url}" target="_blank">logo</a>` : `<span class="muted">—</span>`}</td>
-          <td>${op.is_active ? `<span class="status on">ACTIVE</span>` : `<span class="status off">OFF</span>`}</td>
-          <td><button class="small outline" onclick="window.__editOperator('${op.id}')">✏️</button></td>
-        </tr>
-      `).join("");
-
-      $("operatorsWrap").innerHTML = `
-        <table>
-          <thead>
-            <tr><th>Opérateur</th><th>Logo</th><th>Statut</th><th>Action</th></tr>
-          </thead>
-          <tbody>${rows || `<tr><td colspan="4" class="muted">Aucun opérateur</td></tr>`}</tbody>
-        </table>
-      `;
-    }
-
-    window.__editOperator = (id) => {
-      const op = (window.__operators || []).find(x => x.id === id);
-      if (!op) return;
-
-      $("drawerOperatorTitle").textContent = "Modifier l’opérateur";
-      $("operator_id").value = op.id ?? "";
-      $("operator_id").disabled = true; // PK
-
-      $("operator_name").value = op.name ?? "";
-      $("operator_network_id").value = op.network_id ?? "";
-      $("operator_logo_url").value = op.logo_url ?? "";
-      $("operator_is_active").value = String(!!op.is_active);
-
-      $("operatorMsg").textContent = "";
-      $("btnOperatorDelete").style.display = "inline-flex";
-      $("btnOperatorDelete").onclick = () => deleteOperator(op.id);
-
-      openDrawer("drawerOperator");
+      const res = id ? await supabase.from("offers").update(payload).eq("id", id) : await supabase.from("offers").insert([payload]);
+      if (res.error) alert(res.error.message); else { closeDrawer("drawerOffer"); refreshOffers(); }
     };
 
-    async function deleteOperator(id) {
-      const ok = confirm("Supprimer cet opérateur ?\nSi des offres le référencent, la suppression peut échouer.\n\n" + id);
-      if (!ok) return;
-
-      const { error } = await supabase.from("operators").delete().eq("id", id);
-      if (error) return alert(error.message);
-
-      closeDrawer("drawerOperator");
-      await refreshOperators();
-      await loadOperatorsSelect(); // refresh offer select
-    }
-
-    $("btnNewOperator").addEventListener("click", () => {
-      $("drawerOperatorTitle").textContent = "Nouvel opérateur";
-      $("operatorForm").reset();
-      $("operator_id").value = "";
-      $("operator_id").disabled = false;
-      $("operator_is_active").value = "true";
-      $("operatorMsg").textContent = "";
-      $("btnOperatorDelete").style.display = "none";
-      openDrawer("drawerOperator");
-    });
-
-    $("btnOperatorCancel").addEventListener("click", () => closeDrawer("drawerOperator"));
-
-    $("operatorForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      $("operatorMsg").textContent = "Enregistrement…";
-
-      const id = $("operator_id").value.trim();
-      const payload = {
-        id,
-        name: $("operator_name").value.trim(),
-        network_id: $("operator_network_id").value,
-        logo_url: textOrNull($("operator_logo_url").value),
-        is_active: $("operator_is_active").value === "true",
-      };
-
-      if (!payload.id) return $("operatorMsg").textContent = "Erreur: id obligatoire";
-      if (!payload.name) return $("operatorMsg").textContent = "Erreur: name obligatoire";
-      if (!payload.network_id) return $("operatorMsg").textContent = "Erreur: network_id obligatoire";
-
-      let res;
-      if ($("operator_id").disabled) {
-        // UPDATE
-        res = await supabase
-          .from("operators")
-          .update({
-            name: payload.name,
-            network_id: payload.network_id,
-            logo_url: payload.logo_url,
-            is_active: payload.is_active
-          })
-          .eq("id", id)
-          .select()
-          .single();
-      } else {
-        // INSERT
-        res = await supabase.from("operators").insert([payload]).select().single();
-      }
-
-      if (res.error) return $("operatorMsg").textContent = res.error.message;
-
-      $("operatorMsg").textContent = "OK ✅";
-      closeDrawer("drawerOperator");
-      await refreshOperators();
-      await loadOperatorsSelect(); // refresh offer select
-    });
-
-    // Buttons refresh
-    $("btnRefreshOffers").addEventListener("click", async () => {
-      try { await refreshOffers(); } catch (e) { alert(e.message); }
-    });
-    $("btnRefreshOperators").addEventListener("click", async () => {
-      try { await refreshOperators(); } catch (e) { alert(e.message); }
-    });
-
-    // AUTH
+    // Initialisation Auth
     async function setUi(session) {
       const logged = !!session;
       $("authCard").style.display = logged ? "none" : "block";
       $("appCard").style.display = logged ? "block" : "none";
-      $("tabs").style.display = logged ? "inline-flex" : "none";
-      $("btnLogout").style.display = logged ? "inline-flex" : "none";
-      $("userEmail").style.display = logged ? "inline-flex" : "none";
-
-      if (!logged) return;
-
-      $("userEmail").textContent = session.user.email;
-
-      // preload selects + views
-      try {
-        await loadNetworksSelect();
-        await loadOperatorsSelect();
-        await refreshOffers();
-        await refreshOperators();
-        setTab("offers");
-        setDebug({ ok: true, user: session.user.email });
-      } catch (e) {
-        setDebug({ ok: false, error: e });
-        alert(e.message || "Erreur chargement");
+      $("tabs").style.display = $("btnLogout").style.display = $("userEmail").style.display = logged ? "inline-flex" : "none";
+      if (logged) {
+        $("userEmail").textContent = session.user.email;
+        loadNetworksSelect(); loadOperatorsSelect(); refreshOffers(); setTab("offers");
       }
     }
 
-    $("btnLogin").addEventListener("click", async () => {
-      $("authMsg").textContent = "";
-      const email = $("email").value.trim();
-      const password = $("password").value;
-
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
+    $("btnLogin").onclick = async () => {
+      const { error } = await supabase.auth.signInWithPassword({ email: $("email").value, password: $("password").value });
       if (error) $("authMsg").textContent = error.message;
-    });
-
-    $("btnLogout").addEventListener("click", async () => {
-      await supabase.auth.signOut();
-    });
-
+    };
+    $("btnLogout").onclick = () => supabase.auth.signOut();
     supabase.auth.onAuthStateChange((_event, session) => setUi(session));
-
     const { data: { session } } = await supabase.auth.getSession();
     setUi(session);
   </script>
 </body>
 </html>
-
