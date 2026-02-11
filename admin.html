@@ -1,95 +1,92 @@
-<!doctype html>
-<html lang="fr">
-<head>
+<!doctype html><html lang="fr"><head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Admin — Qualitariffe</title>
   <style>
-    body { font-family: system-ui, Arial; max-width: 1000px; margin: 24px auto; padding: 0 16px; }
-    header { display:flex; align-items:center; justify-content:space-between; gap:12px; }
-    .card { border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px; margin: 16px 0; }
-    input { width: 100%; padding: 10px; border:1px solid #d1d5db; border-radius: 10px; }
-    button { padding: 10px 12px; border:0; border-radius: 10px; cursor:pointer; }
-    button.primary { background:#111827; color:white; }
-    button.ghost { background:#f3f4f6; }
-    table { width:100%; border-collapse: collapse; }
-    th, td { border-bottom: 1px solid #eee; padding: 10px; text-align:left; vertical-align: middle; }
-    .row { display:flex; gap:12px; }
-    .row > div { flex:1; }
-    .muted { color:#6b7280; font-size: 12px; }
-    .pill { padding: 2px 8px; border-radius: 999px; font-size: 12px; display:inline-block; }
+    :root { --accent: #111827; --bg: #f9fafb; }
+    body { font-family: system-ui, -apple-system, sans-serif; max-width: 1000px; margin: 24px auto; padding: 0 16px; background: var(--bg); color: #1f2937; }
+    header { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom: 30px; }
+    .card { background: white; border: 1px solid #e5e7eb; border-radius: 12px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    input { width: 100%; padding: 10px; border:1px solid #d1d5db; border-radius: 8px; margin-top: 5px; box-sizing: border-box; }
+    button { padding: 10px 16px; border:0; border-radius: 8px; cursor:pointer; font-weight: 600; transition: all 0.2s; }
+    button.primary { background: var(--accent); color:white; }
+    button.ghost { background:#f3f4f6; color: #4b5563; }
+    button:hover { opacity: 0.85; }
+    table { width:100%; border-collapse: collapse; margin-top: 15px; }
+    th, td { border-bottom: 1px solid #f3f4f6; padding: 12px; text-align:left; }
+    th { color: #6b7280; font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .muted { color:#6b7280; font-size: 13px; }
+    .pill { padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; display:inline-block; }
     .pill.on { background:#dcfce7; color:#166534; }
     .pill.off { background:#fee2e2; color:#991b1b; }
-  </style>
-</head>
-<body>
+  </style></head><body>
 
 <header>
   <div>
-    <h1 style="margin:0;">Admin — Qualitariffe</h1>
-    <div class="muted">Connexion Supabase + gestion des offres</div>
+    <h1 style="margin:0; font-size: 24px;">Console Admin</h1>
+    <div class="muted">Qualitariffe — Gestion des offres</div>
   </div>
-  <div>
-    <button id="btnLogout" class="ghost" style="display:none;">Logout</button>
-  </div>
+  <button id="btnLogout" class="ghost" style="display:none;">Déconnexion</button>
 </header>
 
-<div id="authCard" class="card">
-  <h2 style="margin-top:0;">Login</h2>
-  <div class="row">
-    <div>
-      <label class="muted">Email</label>
-      <input id="email" type="email" autocomplete="email" placeholder="admin@domaine.com">
-    </div>
-    <div>
-      <label class="muted">Mot de passe</label>
-      <input id="password" type="password" autocomplete="current-password" placeholder="••••••••">
-    </div>
+<div id="authCard" class="card" style="max-width: 400px; margin: 40px auto;">
+  <h2 style="margin-top:0;">Connexion</h2>
+  <div style="margin-bottom: 15px;">
+    <label class="muted">Email</label>
+    <input id="email" type="email" placeholder="votre@email.com">
   </div>
-  <div style="margin-top:12px; display:flex; gap:10px;">
-    <button id="btnLogin" class="primary">Se connecter</button>
+  <div style="margin-bottom: 20px;">
+    <label class="muted">Mot de passe</label>
+    <input id="password" type="password" placeholder="••••••••">
   </div>
-  <pre id="authMsg" class="muted" style="white-space:pre-wrap; margin-top:12px;"></pre>
+  <button id="btnLogin" class="primary" style="width: 100%;">Se connecter</button>
+  <p id="authMsg" class="muted" style="text-align: center; margin-top: 15px;"></p>
 </div>
 
-<div id="appCard" class="card" style="display:none;">
-  <h2 style="margin-top:0;">Offres</h2>
-  <div class="muted" style="margin-bottom:10px;">
-    Astuce: si tu vois des erreurs RLS, c’est que tes policies UPDATE/INSERT ne sont pas encore ouvertes pour l’utilisateur connecté.
+<div id="appCard" style="display:none;">
+  <div class="card">
+    <div style="display:flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+      <h2 style="margin:0;">Offres en base</h2>
+      <div class="muted" id="countInfo">Chargement...</div>
+    </div>
+    <div id="tableWrap" style="overflow-x: auto;"></div>
   </div>
-  <div id="tableWrap"></div>
 </div>
 
 <script type="module">
   import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-  // 1) Mets ici ta publishable key
   const supabaseUrl = "https://ytlpotajswovxwzxrmvu.supabase.co";
-  const supabaseKey = "COLLE_ICI_TA_PUBLISHABLE_KEY_sb_publishable_...";
-  const supabase = createClient(supabaseUrl, supabaseKey);
+  const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl0bHBvdGFqc3dvdnh3enhybXZ1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA4MTU3MDgsImV4cCI6MjA4NjM5MTcwOH0.k02CzC7bj_NlXVZs-jV69djujHqrFm5sCDKWDN-EExA"; 
+  const _supabase = createClient(supabaseUrl, supabaseKey);
 
   const $ = (id) => document.getElementById(id);
 
   async function refreshOffers() {
-    const { data, error } = await supabase
+    const { data, error } = await _supabase
       .from("offers")
-      .select("id,title,price_eur,active,operator_id,created_at")
+      .select("*")
       .order("created_at", { ascending: false });
 
     if (error) {
-      $("tableWrap").innerHTML = `<pre class="muted">${JSON.stringify(error, null, 2)}</pre>`;
+      $("tableWrap").innerHTML = `<div class="pill off">Erreur : ${error.message}</div>`;
       return;
     }
 
+    $("countInfo").textContent = `${data.length} offres`;
+
     const rows = data.map(o => `
       <tr>
-        <td><div style="font-weight:600">${o.title ?? ""}</div><div class="muted">${o.id}</div></td>
-        <td>${o.operator_id ?? ""}</td>
-        <td>€ ${Number(o.price_eur).toFixed(2)}</td>
-        <td>${o.active ? `<span class="pill on">ACTIVE</span>` : `<span class="pill off">OFF</span>`}</td>
         <td>
-          <button class="ghost" data-id="${o.id}" data-active="${o.active}">
-            Basculer
+          <div style="font-weight:600">${o.title || 'Sans nom'}</div>
+          <div class="muted" style="font-size:10px;">ID: ${o.id}</div>
+        </td>
+        <td><span class="pill ghost">${o.operator_id}</span></td>
+        <td><strong>${o.price_eur} €</strong></td>
+        <td>${o.active ? '<span class="pill on">ACTIVE</span>' : '<span class="pill off">OFF</span>'}</td>
+        <td>
+          <button class="ghost" onclick="window.toggleActive('${o.id}', ${o.active})">
+            ${o.active ? 'Désactiver' : 'Activer'}
           </button>
         </td>
       </tr>
@@ -99,7 +96,7 @@
       <table>
         <thead>
           <tr>
-            <th>Offre</th>
+            <th>Détails</th>
             <th>Opérateur</th>
             <th>Prix</th>
             <th>Statut</th>
@@ -107,68 +104,40 @@
           </tr>
         </thead>
         <tbody>${rows}</tbody>
-      </table>
-    `;
-
-    // bind buttons
-    document.querySelectorAll("button[data-id]").forEach(btn => {
-      btn.addEventListener("click", async () => {
-        const id = btn.getAttribute("data-id");
-        const active = btn.getAttribute("data-active") === "true";
-        await toggleActive(id, !active);
-      });
-    });
+      </table>`;
   }
 
-  async function toggleActive(id, nextActive) {
-    const { error } = await supabase
+  window.toggleActive = async (id, currentStatus) => {
+    const { error } = await _supabase
       .from("offers")
-      .update({ active: nextActive })
+      .update({ active: !currentStatus })
       .eq("id", id);
 
-    if (error) {
-      alert("Erreur update (RLS?)\\n" + JSON.stringify(error, null, 2));
-      return;
-    }
-    await refreshOffers();
-  }
+    if (error) alert("Erreur RLS : " + error.message);
+    else refreshOffers();
+  };
 
   async function setUiForSession(session) {
     const isLogged = !!session;
     $("authCard").style.display = isLogged ? "none" : "block";
     $("appCard").style.display = isLogged ? "block" : "none";
     $("btnLogout").style.display = isLogged ? "inline-block" : "none";
-    if (isLogged) await refreshOffers();
+    if (isLogged) refreshOffers();
   }
 
-  // Login
-  $("btnLogin").addEventListener("click", async () => {
-    $("authMsg").textContent = "Connexion...";
-    const email = $("email").value.trim();
+  $("btnLogin").onclick = async () => {
+    const email = $("email").value;
     const password = $("password").value;
+    $("authMsg").textContent = "Vérification...";
+    const { error } = await _supabase.auth.signInWithPassword({ email, password });
+    if (error) $("authMsg").textContent = "❌ " + error.message;
+  };
 
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+  $("btnLogout").onclick = async () => { await _supabase.auth.signOut(); };
 
-    if (error) {
-      $("authMsg").textContent = "Erreur: " + error.message;
-      return;
-    }
-    $("authMsg").textContent = "OK: " + data.user.email;
-  });
-
-  // Logout
-  $("btnLogout").addEventListener("click", async () => {
-    await supabase.auth.signOut();
-  });
-
-  // Session initiale + écoute des changements
-  const { data: { session } } = await supabase.auth.getSession();
-  await setUiForSession(session);
-
-  supabase.auth.onAuthStateChange(async (_event, sessionNow) => {
-    await setUiForSession(sessionNow);
-  });
+  _supabase.auth.onAuthStateChange((_event, session) => setUiForSession(session));
+  
+  const { data: { session } } = await _supabase.auth.getSession();
+  setUiForSession(session);
 </script>
-
-</body>
-</html>
+</body></html>
