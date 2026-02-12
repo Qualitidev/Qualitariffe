@@ -36,122 +36,52 @@
     h1{margin:0;font-size:22px;letter-spacing:.2px}
     .sub{margin:6px 0 0;color:var(--muted);line-height:1.4}
 
-    /* Controls */
     .controls{margin-top:14px;display:grid;grid-template-columns: 1.1fr 1fr;gap:12px}
-    @media (max-width: 980px){ .controls{grid-template-columns:1fr} }
+    @media (max-width: 980px){ .controls{grid-template-columns:1fr} .hero{grid-template-columns:1fr} }
 
     .field label{display:flex;justify-content:space-between;gap:12px;align-items:baseline;font-size:12px;color:var(--muted);margin-bottom:8px}
     .field .val{color:#334155;font-weight:800}
-    select{
-      width:100%;padding:10px 12px;border-radius:12px;border:1px solid var(--line);
-      background:#fff;color:var(--text);outline:none;
-    }
-    select:focus{border-color:#c4b5fd;box-shadow:0 0 0 4px rgba(124,58,237,.12)}
+    select{width:100%;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:#fff;color:var(--text);outline:none;}
 
-    .slider{
-      border:1px solid var(--line);
-      border-radius:14px;
-      padding:12px;
-      background:#fff;
-    }
-    .slider .row{
-      display:flex;justify-content:space-between;align-items:center;gap:10px;
-      margin-bottom:8px;
-      color:var(--muted);
-      font-size:12px;
-    }
-    .slider .row strong{color:#334155}
-    input[type="range"]{
-      width:100%;
-      accent-color: var(--accent);
-    }
+    .slider{border:1px solid var(--line);border-radius:14px;padding:12px;background:#fff;}
+    .slider .row{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px;color:var(--muted);font-size:12px;}
+    input[type="range"]{width:100%;accent-color: var(--accent);}
     .hint{margin-top:6px;font-size:12px;color:var(--muted);line-height:1.3}
-
-    .pillRow{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
-    .pill{font-size:12px;padding:7px 10px;border-radius:999px;border:1px solid var(--line);background:#fff;color:#334155;cursor:pointer;user-select:none}
-    .pill[data-active="true"]{border-color:rgba(124,58,237,.35);background:rgba(124,58,237,.08);color:#4c1d95}
 
     .sideStats{display:grid;gap:10px}
     .stat{border:1px solid var(--line);border-radius:14px;padding:12px;background:#fff}
     .stat .k{font-size:12px;color:var(--muted)}
     .stat .v{font-size:18px;font-weight:700;margin-top:4px}
-    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;}
 
-    /* Cards grid */
     .grid{display:grid;grid-template-columns: repeat(3, 1fr);gap:14px;margin:18px 0 26px}
-    @media (max-width: 980px){ .hero{grid-template-columns:1fr} .grid{grid-template-columns:1fr} }
+    @media (max-width: 980px){ .grid{grid-template-columns:1fr} }
 
-    .card{border:1px solid var(--line);border-radius:var(--radius);background:#fff;box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column;min-height: 250px; transition: all 0.2s ease;}
-    .cardHead{
-      padding:14px 14px 10px;
-      display:flex;align-items:flex-start;justify-content:space-between;gap:10px;
-      border-bottom:1px solid var(--line);
-      background:linear-gradient(180deg,#ffffff, #fbfdff);
-    }
+    .card{border:1px solid var(--line);border-radius:var(--radius);background:#fff;box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column;min-height: 250px;}
+    .cardHead{padding:14px 14px 10px;display:flex;align-items:flex-start;justify-content:space-between;gap:10px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#ffffff, #fbfdff);}
     .op{display:flex;gap:10px;align-items:center}
-    .opBadge{width:40px;height:40px;border-radius:14px;display:grid;place-items:center;background:#0b1220;color:#fff;font-weight:800;letter-spacing:.6px}
-    .opMeta .name{font-weight:800}
-    .opMeta .plan{font-size:12px;color:var(--muted);margin-top:2px}
-    .price{text-align:right;min-width:110px}
-    .price .eur{font-size:22px;font-weight:900;letter-spacing:-.3px}
-    .price .pm{font-size:12px;color:var(--muted);margin-top:2px}
+    .opBadge{width:40px;height:40px;border-radius:14px;display:grid;place-items:center;background:#0b1220;color:#fff;font-weight:800;}
+    .price{text-align:right;}
+    .price .eur{font-size:22px;font-weight:900;}
 
-    .cardBody{padding:12px 14px 0;display:grid;gap:10px}
+    .cardBody{padding:12px 14px 12px;display:grid;gap:10px}
     .row3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-    @media (max-width: 600px){ .row3{grid-template-columns:1fr 1fr} }
-
     .feat{border:1px solid var(--line);border-radius:14px;padding:10px;background:#fff}
     .feat .k{font-size:11px;color:var(--muted)}
     .feat .v{font-size:14px;font-weight:800;margin-top:4px}
 
-    .metaLine{
-      display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;
-      gap:10px;
-      margin-top:2px;
-    }
-    .badges{display:flex;flex-wrap:wrap;gap:8px}
-    .b{font-size:12px;padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:#fff;color:#334155}
-    .b.operatorattack{border-color:rgba(245,158,11,.35);background:rgba(245,158,11,.10);color:#92400e}
-    .b.nuovonumero{border-color:rgba(6,182,212,.35);background:rgba(6,182,212,.10);color:#155e75}
-    .b.prezzo{border-color:rgba(22,163,74,.35);background:rgba(22,163,74,.10);color:#166534}
-    .b.notvalid{border-color:rgba(239,68,68,.35);background:rgba(239,68,68,.08);color:#991b1b}
-    .net{
-      font-size:12px;
-      color:var(--muted);
-      border:1px solid var(--line);
-      background:#fff;
-      padding:6px 10px;
-      border-radius:999px;
-      white-space:nowrap;
-    }
-    .net strong{color:#334155}
-
-    .elig{margin-top:2px;font-size:12px;color:#334155;padding:10px 12px;border-radius:14px;border:1px dashed rgba(124,58,237,.35);background:rgba(124,58,237,.06);line-height:1.35}
-
-    .cardFoot{margin-top:auto;padding:12px 14px 14px;display:flex;justify-content:flex-end;align-items:center}
-    .btn{
-      display:inline-flex;align-items:center;justify-content:center;gap:8px;
-      padding:10px 12px;border-radius:12px;border:1px solid rgba(124,58,237,.22);
-      background:linear-gradient(135deg, rgba(124,58,237,.10), rgba(6,182,212,.10));
-      color:#1f2937;font-weight:800;text-decoration:none;white-space:nowrap
-    }
-    .btn:hover{border-color:rgba(124,58,237,.35);background:linear-gradient(135deg, rgba(124,58,237,.14), rgba(6,182,212,.14))}
+    .cardFoot{margin-top:auto;padding:12px 14px 14px;display:flex;justify-content:flex-end;}
+    .btn{display:inline-flex;align-items:center;justify-content:center;padding:10px 12px;border-radius:12px;background:linear-gradient(135deg, #7c3aed, #06b6d4);color:#fff;font-weight:800;text-decoration:none;}
   </style>
 </head>
 <body>
+
 <header>
   <div class="topbar">
     <a class="brand" href="index.html">
-      <div class="logoMark" aria-hidden="true"></div>
-      <div>
-        <strong>Qualitariffe.it</strong>
-        <span>Comparatore Mobile</span>
-      </div>
+      <div class="logoMark"></div>
+      <div><strong>Qualitariffe.it</strong><span>Comparatore Mobile</span></div>
     </a>
-    <nav class="nav">
-      <a href="index.html">Home</a>
-      <a href="mobile.html" style="color:var(--text);font-weight:800;background:#f8fafc;border:1px solid var(--line);">Mobile</a>
-    </nav>
+    <nav class="nav"><a href="index.html">Home</a><a href="mobile.html">Mobile</a></nav>
   </div>
 </header>
 
@@ -159,248 +89,143 @@
   <section class="hero">
     <div class="heroCard">
       <h1>Filtra le migliori offerte</h1>
-      <p class="sub">Trova la tariffa perfetta regolando gli slider e selezionando la tua provenienza.</p>
-
+      <p class="sub">Trova la tariffa perfetta regolando les sliders.</p>
       <div class="controls">
         <div class="field">
-          <label><span>Provenienza</span><span class="val" id="fromLabel">—</span></label>
-          <select id="fromOperator"></select>
-
-          <div class="pillRow">
-            <div class="pill" data-pill="show_ineligible" data-active="false">Mostra non valide</div>
-            <div class="pill" data-pill="include_nd" data-active="true">Includi ND (velocità)</div>
-            <div class="pill" data-pill="reset" data-active="false">Reset</div>
-          </div>
+          <label><span>Provenienza</span><span class="val" id="fromLabel">Toutes</span></label>
+          <select id="fromOperator">
+            <option value="all">Tutti gli operatori</option>
+          </select>
         </div>
-
         <div class="field">
           <div class="slider">
-            <div class="row">
-              <span>Prezzo max</span>
-              <strong id="priceMaxLabel">—</strong>
-            </div>
-            <input id="priceMax" type="range" min="0" max="30" step="0.5" value="15">
-            <div class="hint">Budget mensile massimo.</div>
-          </div>
-
-          <div style="height:10px"></div>
-
-          <div class="slider">
-            <div class="row">
-              <span>Giga min (Italia)</span>
-              <strong id="dataMinLabel">—</strong>
-            </div>
-            <input id="dataMin" type="range" min="0" max="500" step="10" value="0">
-            <div class="hint">Minimo traffico dati desiderato.</div>
-          </div>
-
-          <div style="height:10px"></div>
-
-          <div class="field" style="margin-top:0">
-            <label><span>Ordina per</span><span class="val" id="sortLabel">—</span></label>
-            <select id="sortBy">
-              <option value="best">Consigliati</option>
-              <option value="price_asc">Prezzo (crescente)</option>
-              <option value="data_desc">Giga (decrescente)</option>
-            </select>
+            <div class="row"><span>Prezzo max</span><strong id="priceMaxLabel">15,00€</strong></div>
+            <input id="priceMax" type="range" min="5" max="30" step="1" value="15">
           </div>
         </div>
       </div>
     </div>
-
     <div class="heroCard sideStats">
-      <div class="stat">
-        <div class="k">Offerte trovate</div>
-        <div class="v" id="statCount">–</div>
-      </div>
-      <div class="stat">
-        <div class="k">Provenienza</div>
-        <div class="v" id="statFrom">–</div>
-      </div>
-      <div class="stat">
-        <div class="k">Ultimo aggiornamento</div>
-        <div class="v mono" id="statUpdated">–</div>
-      </div>
+      <div class="stat"><div class="k">Offerte trovate</div><div class="v" id="statCount">0</div></div>
+      <div class="stat"><div class="k">Aggiornamento</div><div class="v" id="statUpdated">--</div></div>
     </div>
   </section>
 
-  <section>
-    <div class="grid" id="cards"></div>
-  </section>
+  <div class="grid" id="cards">
+    <p style="padding:20px;">Caricamento in corso...</p>
+  </div>
 </main>
 
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 <script>
-  // CONFIGURATION SUPABASE
   const SUPABASE_URL = "https://ytlpotajswovxwzxrmvu.supabase.co";
-  const SUPABASE_KEY = "sb_publishable_64Jrx3q-FGcUhb-j0nvGcA_60dlLnE_"; 
+  const SUPABASE_KEY = "sb_publishable_64Jrx3q-FGcUhb-j0nvGcA_60dlLnE_";
   const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-  const state = {
-    plans: [],
-    operators: [],
-    fromOperator: "nuovo_numero",
-    showIneligible: false,
-    includeND: true,
-    priceMax: 15,
-    dataMin: 0,
-    speedMin: 0,
-    sortBy: "best"
-  };
+  let allPlans = [];
+  let allOperators = [];
 
   const $ = (id) => document.getElementById(id);
 
-  // FORMATTERS
-  function normNum(x){ const n = Number(x); return Number.isFinite(n) ? n : null; }
-  function escapeHtml(s){ return String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
-  function fmtEUR(n){ const x = normNum(n); return x === null ? "ND" : x.toFixed(2).replace(".", ",") + "€"; }
-  function fmtGB(n){ const x = normNum(n); return x === null ? "ND" : (x >= 9999 ? "Illimitati" : x + " GB"); }
-  
-  function getOperatorLabel(id){
-    const op = state.operators.find(o => o.id === id);
-    return op ? op.label : id;
-  }
-
-  // ELIGIBILITY LOGIC
-  function isEligible(plan, fromOp){
-    if (fromOp === "nuovo_numero") return plan.eligibility_mode !== 'exclude' || !(plan.from_operators || "").split(',').includes('nuovo_numero');
+  function render() {
+    const priceMax = Number($("priceMax").value);
+    const fromOp = $("fromOperator").value;
     
-    const mode = plan.eligibility_mode || "any";
-    const ops = (plan.from_operators || "").split(',').map(s => s.trim());
+    // Filtrage
+    const filtered = allPlans.filter(p => {
+      const priceMatch = Number(p.price_eur) <= priceMax;
+      let opMatch = true;
+      if (fromOp !== 'all') {
+         // Logique simplifiée : si l'offre a des 'from_operators', on vérifie si l'opérateur choisi est dedans
+         if (p.from_operators) {
+            opMatch = p.from_operators.includes(fromOp);
+         }
+      }
+      return priceMatch && opMatch;
+    });
 
-    if (mode === "any") return true;
-    if (mode === "include_only") return ops.includes(fromOp);
-    if (mode === "exclude") return !ops.includes(fromOp);
-    return true;
-  }
-
-  function applyFilters(plans){
-    return plans
-      .map(p => ({ plan: p, eligible: isEligible(p, state.fromOperator) }))
-      .filter(x => {
-        if (!state.showIneligible && !x.eligible) return false;
-        if (normNum(x.plan.price_eur) > state.priceMax) return false;
-        if (normNum(x.plan.giga_it) < state.dataMin) return false;
-        return true;
-      })
-      .sort((a,b) => {
-        if (state.sortBy === "price_asc") return a.plan.price_eur - b.plan.price_eur;
-        if (state.sortBy === "data_desc") return b.plan.giga_it - a.plan.giga_it;
-        return (b.eligible ? 100 : 0) - (a.eligible ? 100 : 0) || a.plan.price_eur - b.plan.price_eur;
-      });
-  }
-
-  function refreshLabels(){
-    $("priceMaxLabel").textContent = fmtEUR(state.priceMax);
-    $("dataMinLabel").textContent = fmtGB(state.dataMin);
-    $("fromLabel").textContent = getOperatorLabel(state.fromOperator);
-    $("sortLabel").textContent = $("sortBy").selectedOptions[0]?.textContent || "—";
-  }
-
-  function render(){
-    const list = applyFilters(state.plans);
-    $("statCount").textContent = list.length;
-    $("statFrom").textContent = getOperatorLabel(state.fromOperator);
-    refreshLabels();
+    $("statCount").textContent = filtered.length;
+    $("priceMaxLabel").textContent = priceMax.toFixed(2).replace(".", ",") + "€";
 
     const container = $("cards");
     container.innerHTML = "";
 
-    list.forEach(({plan, eligible}) => {
-      const opLabel = getOperatorLabel(plan.operator_id);
-      const opInitials = opLabel.substring(0,2).toUpperCase();
+    if (filtered.length === 0) {
+      container.innerHTML = "<p style='padding:20px;'>Aucune offre ne correspond à vos critères.</p>";
+      return;
+    }
+
+    filtered.forEach(plan => {
+      const op = allOperators.find(o => o.id === plan.operator_id);
+      const opName = op ? op.name : "Mobile";
       
       const card = document.createElement("div");
       card.className = "card";
-      if(!eligible) card.style.opacity = "0.5";
-
       card.innerHTML = `
         <div class="cardHead">
           <div class="op">
-            <div class="opBadge">${opInitials}</div>
+            <div class="opBadge">${opName.substring(0,2).toUpperCase()}</div>
             <div class="opMeta">
-              <div class="name">${escapeHtml(opLabel)}</div>
-              <div class="plan">${escapeHtml(plan.title)}</div>
+              <div class="name">${opName}</div>
+              <div class="plan">${plan.title}</div>
             </div>
           </div>
           <div class="price">
-            <div class="eur">${fmtEUR(plan.price_eur)}</div>
+            <div class="eur">${Number(plan.price_eur).toFixed(2).replace(".", ",")}€</div>
             <div class="pm">al mese</div>
           </div>
         </div>
         <div class="cardBody">
           <div class="row3">
-            <div class="feat"><div class="k">Giga Italia</div><div class="v">${fmtGB(plan.giga_it)}</div></div>
-            <div class="feat"><div class="k">Giga UE</div><div class="v">${fmtGB(plan.giga_eu)}</div></div>
-            <div class="feat"><div class="k">Vitesse</div><div class="v">${plan.speed_mbps || 'ND'} Mbps</div></div>
+            <div class="feat"><div class="k">Giga IT</div><div class="v">${plan.giga_it} GB</div></div>
+            <div class="feat"><div class="k">Giga UE</div><div class="v">${plan.giga_eu || 'ND'} GB</div></div>
+            <div class="feat"><div class="k">Vitesse</div><div class="v">${plan.speed_mbps || 'ND'}</div></div>
           </div>
-          <div class="row3">
-            <div class="feat"><div class="k">Minuti</div><div class="v">${plan.minutes === 9999 ? 'Illimitati' : plan.minutes}</div></div>
-            <div class="feat"><div class="k">SMS</div><div class="v">${plan.sms === 9999 ? 'Illimitati' : plan.sms}</div></div>
-            <div class="feat"><div class="k">Attivazione</div><div class="v">${fmtEUR(plan.activation_fee_eur)}</div></div>
-          </div>
-          <div class="metaLine">
-            <div class="badges">
-              ${plan.from_operators ? '<span class="b operatorattack">Operator Attack</span>' : '<span class="b nuovonumero">Tutti</span>'}
-              ${!eligible ? '<span class="b notvalid">Non valida per te</span>' : ''}
-            </div>
-          </div>
-          <div class="elig">${plan.eligibility_mode === 'any' ? 'Aperta a tutti' : 'Soggetta a provenienza'}</div>
         </div>
         <div class="cardFoot">
-          <a class="btn" href="${plan.cta_url}" target="_blank">Vai all’offerta →</a>
+          <a class="btn" href="${plan.cta_url}" target="_blank">Voir l'offre</a>
         </div>
       `;
       container.appendChild(card);
     });
   }
 
-  async function init(){
+  async function init() {
     try {
-      // Fetch Operators
-      const { data: ops } = await _supabase.from('operators').select('*');
-      state.operators = ops.map(o => ({ id: o.id, label: o.name }));
-      
-      // Fetch Offers
-      const { data: offers } = await _supabase.from('offers').select('*').eq('active', true);
-      state.plans = offers;
+      // 1. Récupérer les opérateurs
+      const { data: ops, error: e1 } = await _supabase.from('operators').select('*');
+      if (e1) throw e1;
+      allOperators = ops;
 
-      // Fill Select
+      // 2. Remplir le select
       const sel = $("fromOperator");
-      sel.innerHTML = '<option value="nuovo_numero">Nuovo Numero / MNP Standard</option>';
-      state.operators.forEach(op => {
-        sel.innerHTML += `<option value="${op.id}">${op.label}</option>`;
+      ops.forEach(o => {
+        const opt = document.createElement("option");
+        opt.value = o.id;
+        opt.textContent = o.name;
+        sel.appendChild(opt);
       });
 
-      // Events
-      sel.onchange = (e) => { state.fromOperator = e.target.value; render(); };
-      $("priceMax").oninput = (e) => { state.priceMax = Number(e.target.value); render(); };
-      $("dataMin").oninput = (e) => { state.dataMin = Number(e.target.value); render(); };
-      $("sortBy").onchange = (e) => { state.sortBy = e.target.value; render(); };
+      // 3. Récupérer les offres
+      const { data: offers, error: e2 } = await _supabase.from('offers').select('*').eq('active', true);
+      if (e2) throw e2;
+      allPlans = offers;
 
-      // Pills
-      document.querySelectorAll('.pill').forEach(pill => {
-        pill.onclick = () => {
-          const type = pill.dataset.pill;
-          if(type === 'reset') {
-            location.reload();
-          } else if (type === 'show_ineligible') {
-            state.showIneligible = !state.showIneligible;
-            pill.dataset.active = state.showIneligible;
-            render();
-          }
-        };
-      });
+      // 4. Events
+      $("priceMax").oninput = render;
+      $("fromOperator").onchange = render;
 
-      render();
       $("statUpdated").textContent = new Date().toLocaleDateString();
-    } catch (e) {
-      console.error(e);
-      $("cards").innerHTML = "Erreur de connexion à Supabase.";
+      render();
+
+    } catch (err) {
+      console.error(err);
+      $("cards").innerHTML = "<p style='color:red; padding:20px;'>Erreur Supabase : " + err.message + "</p>";
     }
   }
 
-  init();
+  window.onload = init;
 </script>
+
 </body>
 </html>
